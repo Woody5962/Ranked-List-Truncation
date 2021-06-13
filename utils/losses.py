@@ -1,9 +1,10 @@
 import torch as t
-from torch import nn
+from torch import nn, unsqueeze
 import torch.nn.functional as F
 import math
+import random
 
-from .metrics import Metric_for_Loss
+from metrics import Metric_for_Loss
 
 
 class BiCutLoss(nn.Module):
@@ -11,7 +12,7 @@ class BiCutLoss(nn.Module):
     
     """
     def __init__(self, alpha: float=0.65, r: float=0.0971134020, metric: str='nci'):
-        super(BiCutLoss, self).__init__()
+        super().__init__()
         self.alpha = alpha
         self.r = r
 
@@ -47,7 +48,7 @@ class ChoopyLoss(nn.Module):
 
     """
     def __init__(self, metric: str='f1'):
-        super(ChoopyLoss, self).__init__()
+        super().__init__()
         self.metric = metric
     
     def forward(self, output, labels):
@@ -71,7 +72,7 @@ class AttnCutLoss(nn.Module):
 
     """
     def __init__(self, metric: str='f1', tau: float=0.95):
-        super(AttnCutLoss, self).__init__()
+        super().__init__()
         self.metric = metric
         self.tau = tau
     
@@ -109,8 +110,7 @@ class RerankLoss(nn.Module):
 
     __constants__ = ['num_neg', 'margin', 'reduction']
 
-    def __init__(self, num_neg: int = 1, margin: float = 1.,
-                 reduction: str = 'mean'):
+    def __init__(self, margin: float = 1., reduction: str = 'mean'):
         """
         :class:`RankHingeLoss` constructor.
         :param num_neg: Number of negative instances in hinge loss.
@@ -124,31 +124,33 @@ class RerankLoss(nn.Module):
             ``'sum'``: the output will be summed.
         """
         super().__init__()
-        self.num_neg = num_neg
         self.margin = margin
         self.reduction = reduction
 
-    def forward(self, y_pred: t.Tensor, y_true: t.Tensor):
+    def forward(self, output: t.Tensor, labels: t.Tensor):
         """
         Calculate rank hinge loss.
         :param y_pred: Predicted result.
         :param y_true: Label.
         :return: Hinge loss computed by user-defined margin.
         """
-        y_pos = y_pred[::(self.num_neg + 1), :]
-        y_neg = []
-        for neg_idx in range(self.num_neg):
-            neg = y_pred[(neg_idx + 1)::(self.num_neg + 1), :]
-            y_neg.append(neg)
-        y_neg = t.cat(y_neg, dim=-1)
-        y_neg = t.mean(y_neg, dim=-1, keepdim=True)
-        y_true = t.ones_like(y_pos)
-        return F.margin_ranking_loss(
-            y_pos, y_neg, y_true,
-            margin=self.margin,
-            reduction=self.reduction
-        )
-    
+        loss = []
+        for sample_pred, sample_label in zip(output, labels):
+            if t.sum(sample_label) == 0: return loss.append(t.tensor(0))
+            y_pos, y_neg = [], []
+            for i, label in enumerate(sample_label):
+                if label: y_pos.append(sample_pred[i])
+                else: y_neg.append(sample_pred[i])
+            y_pos = t.tensor(y_pos).unsqueeze(-1).expand(-1, len(y_neg)).flatten()
+            y_neg = t.tensor(y_neg).unsqueeze(-1).expand(len(y_pos), -1).flatten()
+            y_true = t.ones_like(y_pos)
+            loss.append(F.margin_ranking_loss(
+                y_pos, y_neg, y_true,
+                margin=self.margin,
+                reduction=self.reduction
+            ))
+        return t.div(t.sum(t.tensor(loss)), output.shape[0])
+
     
 class MTCutLoss(nn.Module):
     """对应于多任务学习的loss
@@ -157,7 +159,7 @@ class MTCutLoss(nn.Module):
         nn ([type]): [description]
     """
     def __init__(self, metric: str='f1', tau: float=0.95):
-        super(MTCutLoss, self).__init__()
+        super().__init__()
         self.cutloss = AttnCutLoss(metric, tau)
         self.rerankloss = RerankLoss()
         
@@ -170,12 +172,17 @@ class MTCutLoss(nn.Module):
         
 if __name__ == '__main__':
     a = t.tensor([[1.0, 2.0, 3.0], [2.0, 3.0, 4.0]]).unsqueeze(dim=2)
-    a_1 = t.tensor([[[0.1, 0.9], [0.2, 0.8], [0.4, 0.6]], [[0.12, 0.88], [0.8, 0.2], [0.4, 0.6]]])
+    # a_1 = t.tensor([[[0.1, 0.9], [0.2, 0.8], [0.4, 0.6]], [[0.12, 0.88], [0.8, 0.2], [0.4, 0.6]]])
     b = t.tensor([[1.0, 0.0, 0.0], [1.0, 0.0, 1.0]])
-    bi_loss = BiCutLoss()
-    ch_loss = ChoopyLoss()
-    at_loss = AttnCutLoss()
-    l1 = bi_loss(a_1, b)
-    l2 = ch_loss(a, b)
-    l3 = at_loss(a, b)
-    print(l1, l2, l3)
+    # bi_loss = BiCutLoss()
+    # ch_loss = ChoopyLoss()
+    # at_loss = AttnCutLoss()
+    # l1 = bi_loss(a_1, b)
+    # l2 = ch_loss(a, b)
+    # l3 = at_loss(a, b)
+    # print(l1, l2, l3)
+    loss_f = RerankLoss()
+    # y_pred = t.tensor([1., 1.2, 3.1, 0.1, 1.1, 4.2, 2.1, 5.1]).unsqueeze(dim=-1)
+    # y_true = t.tensor([0, 1, 1, 0, 1, 0, 1, 0])
+    loss = loss_f(a, b)
+    print(loss)
