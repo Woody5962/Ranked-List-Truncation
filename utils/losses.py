@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import math
 import random
 
-from metrics import Metric_for_Loss
+from .metrics import Metric_for_Loss
 
 
 class BiCutLoss(nn.Module):
@@ -76,7 +76,7 @@ class AttnCutLoss(nn.Module):
         self.metric = metric
         self.tau = tau
     
-    def forward(self, output, labels):
+    def forward(self, output: t.Tensor, labels: t.Tensor):
         r = t.ones_like(output.squeeze(2))
         if self.metric == 'f1':
             for i in range(r.shape[0]):
@@ -90,8 +90,8 @@ class AttnCutLoss(nn.Module):
         norm_factor = t.sum(q, axis=1).unsqueeze(dim=1)
         q = t.div(1, norm_factor)
         
-        output = t.log(output.squeeze())
-        loss_matrix = output.mul(q)
+        output_1 = t.log(output.squeeze())
+        loss_matrix = output_1.mul(q)
         return -t.div(t.sum(loss_matrix), output.shape[0])
     
     
@@ -107,13 +107,9 @@ class RerankLoss(nn.Module):
     .. math::
         loss_{x, y} = max(0, -y * (x1 - x2) + margin)
     """
-
-    __constants__ = ['num_neg', 'margin', 'reduction']
-
     def __init__(self, margin: float = 1., reduction: str = 'mean'):
         """
         :class:`RankHingeLoss` constructor.
-        :param num_neg: Number of negative instances in hinge loss.
         :param margin: Margin between positive and negative scores.
             Float. Has a default value of :math:`0`.
         :param reduction: String. Specifies the reduction to apply to
@@ -136,16 +132,21 @@ class RerankLoss(nn.Module):
         """
         loss = []
         for sample_pred, sample_label in zip(output, labels):
-            if t.sum(sample_label) == 0: return loss.append(t.tensor(0))
+            if t.sum(sample_label) == 0: return t.tensor(0)
             y_pos, y_neg = [], []
+            n_pos, n_neg = 0, 0
             for i, label in enumerate(sample_label):
-                if label: y_pos.append(sample_pred[i])
-                else: y_neg.append(sample_pred[i])
-            y_pos = t.tensor(y_pos).unsqueeze(-1).expand(-1, len(y_neg)).flatten()
-            y_neg = t.tensor(y_neg).unsqueeze(-1).expand(len(y_pos), -1).flatten()
-            y_true = t.ones_like(y_pos)
+                if label: 
+                    y_pos.append(sample_pred[i])
+                    n_pos += 1
+                else: 
+                    y_neg.append(sample_pred[i])
+                    n_neg += 1
+            y_pos_1D = t.tensor(y_pos).unsqueeze(-1).expand(-1, n_neg).flatten()
+            y_neg_1D = t.tensor(y_neg).repeat(n_pos)
+            y_true = t.ones_like(y_pos_1D)
             loss.append(F.margin_ranking_loss(
-                y_pos, y_neg, y_true,
+                y_pos_1D, y_neg_1D, y_true,
                 margin=self.margin,
                 reduction=self.reduction
             ))
@@ -165,21 +166,24 @@ class MTCutLoss(nn.Module):
         
     def forward(self, output, labels):
         rerank_y, cut_y = output
-        rerank_label, cut_label = labels
+        rerank_label, cut_label = labels, labels
         cutloss, rerankloss = self.cutloss(cut_y, cut_label), self.rerankloss(rerank_y, rerank_label)
         return cutloss + rerankloss
         
         
 if __name__ == '__main__':
-    a = t.tensor([[1.0, 2.0, 3.0], [2.0, 3.0, 4.0]]).unsqueeze(dim=2)
+    a = t.tensor([[1.0, 2.0, 3.0], [2.0, 3.0, 4.0]], requires_grad=True).unsqueeze(dim=2)
     # a_1 = t.tensor([[[0.1, 0.9], [0.2, 0.8], [0.4, 0.6]], [[0.12, 0.88], [0.8, 0.2], [0.4, 0.6]]])
     b = t.tensor([[1.0, 0.0, 0.0], [1.0, 0.0, 1.0]])
     # bi_loss = BiCutLoss()
     # ch_loss = ChoopyLoss()
-    # at_loss = AttnCutLoss()
+    at_loss = AttnCutLoss()
     # l1 = bi_loss(a_1, b)
     # l2 = ch_loss(a, b)
-    # l3 = at_loss(a, b)
+    print(a.grad)
+    l3 = at_loss(a, b)
+    l3.backward()
+    print(a.grad)
     # print(l1, l2, l3)
     loss_f = RerankLoss()
     # y_pred = t.tensor([1., 1.2, 3.1, 0.1, 1.1, 4.2, 2.1, 5.1]).unsqueeze(dim=-1)

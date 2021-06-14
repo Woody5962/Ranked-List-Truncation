@@ -7,7 +7,7 @@ import torch as t
 import torch.optim as optim
 
 from dataloader import bc_dataloader, cp_dataloader, at_dataloader
-from models import BiCut, Choopy, AttnCut
+from models import BiCut, Choopy, AttnCut, MTCut
 from utils import losses
 from utils.metrics import Metric
 
@@ -44,6 +44,10 @@ class Trainer:
             self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.dataset_split, args.batch_size)
             self.model = AttnCut()
             self.criterion = losses.AttnCutLoss(metric=args.criterion)
+        elif self.model_name == 'mtcut':
+            self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.dataset_split, args.batch_size)
+            self.model = MTCut()
+            self.criterion = losses.MTCutLoss(metric=args.criterion)
         self.optimizer = optim.Adam(self.model.parameters(), lr=args.lr)
         self.best_test_loss = float('inf')
         
@@ -68,6 +72,7 @@ class Trainer:
 
             output = self.model(X_train)
             loss = self.criterion(output, y_train)
+            print(loss.grad)
 
             loss.backward()
             self.optimizer.step()
@@ -78,6 +83,9 @@ class Trainer:
                 for results in predictions:
                     if np.sum(results) == 300: k_s.append(300)
                     else: k_s.append(np.argmin(results))
+            elif self.model_name == 'mtcut':
+                predictions = output[1].detach().cpu().squeeze().numpy()
+                k_s = np.argmax(predictions, axis=1)
             else: 
                 predictions = output.detach().cpu().squeeze().numpy()
                 k_s = np.argmax(predictions, axis=1)
@@ -116,6 +124,9 @@ class Trainer:
                     for results in predictions:
                         if np.sum(results) == 300: k_s.append(300)
                         else: k_s.append(np.argmin(results))
+                elif self.model_name == 'mtcut':
+                    predictions = output[1].detach().cpu().squeeze().numpy()
+                    k_s = np.argmax(predictions, axis=1)
                 else: 
                     predictions = output.detach().cpu().squeeze().numpy()
                     k_s = np.argmax(predictions, axis=1)
@@ -164,16 +175,16 @@ def main():
     parser = argparse.ArgumentParser(description="Truncation Model Trainer Args")
     parser.add_argument('--dataset-name', type=str, default='bm25')
     parser.add_argument('--dataset-split', type=int, default=1)
-    parser.add_argument('--batch-size', type=int, default=8)
+    parser.add_argument('--batch-size', type=int, default=20)
     parser.add_argument('--workers', type=int, default=4)
     
-    parser.add_argument('--model-name', type=str, default='attncut')
+    parser.add_argument('--model-name', type=str, default='mtcut')
     parser.add_argument('--criterion', type=str, default='f1')
     parser.add_argument('--model-path', type=str, default=None)
     parser.add_argument('--ft', type=bool, default=False)
     parser.add_argument('--save-path', type=str, default='{}/best_model/'.format(RUNNING_PATH))
     parser.add_argument('--epochs', type=int, default=10)
-    parser.add_argument('--lr', type=float, default=0.001)
+    parser.add_argument('--lr', type=float, default=1e-4)
 
     args = parser.parse_args()
     args.cuda = t.cuda.is_available()
