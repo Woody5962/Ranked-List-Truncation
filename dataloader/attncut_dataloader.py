@@ -3,6 +3,10 @@ import torch as t
 import numpy as np
 from torch.utils import data
 
+import sys
+sys.path.append('../')
+from utils.batchnorm import batch_norm
+
 
 BM25_BASE = '/home/LAB/wangd/graduation_project/ranked list truncation/data_prep/my_results/BM25_results'
 DRMM_BASE = '/home/LAB/wangd/graduation_project/ranked list truncation/data_prep/my_results/drmm_results'
@@ -14,6 +18,9 @@ GT_PATH = '/home/LAB/wangd/graduation_project/ranked list truncation/data_prep/r
 class Rank_Dataset(data.Dataset):
     def __init__(self, dataset_name: str, split: int):
         self.X_train, self.X_test, self.y_train, self.y_test = self.data_prepare(dataset_name, split)
+        self.X, train_size = t.cat((self.X_train, self.X_test), dim=0), self.X_train.shape[0]
+        self.X_norm = batch_norm(self.X)
+        self.X_train_norm, self.X_test_norm = self.X_norm[:train_size], self.X_norm[train_size:]
 
     def data_prepare(self, dataset_name: str, split: int):
         if dataset_name == 'bm25':
@@ -101,10 +108,10 @@ class Rank_Dataset(data.Dataset):
         return t.Tensor(X_train), t.Tensor(X_test), t.Tensor(y_train), t.Tensor(y_test)
 
     def getX_train(self):
-        return self.X_train
+        return self.X_train_norm
 
     def getX_test(self):
-        return self.X_test
+        return self.X_test_norm
 
     def gety_train(self):
         return self.y_train
@@ -134,4 +141,8 @@ def dataloader(dataset_name: str, split: int, batch_size: int=20):
 
 if __name__ == '__main__':
     a, b, c = dataloader('bm25', 1)
-    
+    xtr = c.getX_train()
+    xte = c.getX_test()
+    ytr = c.getX_train()
+    yte = c.gety_test()
+    pass

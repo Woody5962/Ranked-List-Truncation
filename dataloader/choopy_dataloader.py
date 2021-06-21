@@ -2,6 +2,10 @@ import pickle
 import torch as t
 from torch.utils import data
 
+import sys
+sys.path.append('../')
+from utils.batchnorm import batch_norm
+
 
 BM25_BASE = '/home/LAB/wangd/graduation_project/ranked list truncation/data_prep/my_results/BM25_results'
 DRMM_BASE = '/home/LAB/wangd/graduation_project/ranked list truncation/data_prep/my_results/drmm_results'
@@ -12,6 +16,9 @@ GT_PATH = '/home/LAB/wangd/graduation_project/ranked list truncation/data_prep/r
 class Rank_Dataset(data.Dataset):
     def __init__(self, dataset_name: str, split: int):
         self.X_train, self.X_test, self.y_train, self.y_test = self.data_prepare(dataset_name, split)
+        self.X, train_size = t.cat((self.X_train, self.X_test), dim=0), self.X_train.shape[0]
+        self.X_norm = batch_norm(self.X)
+        self.X_train_norm, self.X_test_norm = self.X_norm[:train_size], self.X_norm[train_size:]
 
     def data_prepare(self, dataset_name: str, split: int):
         if dataset_name == 'bm25':
@@ -129,4 +136,9 @@ def dataloader(dataset_name: str, split: int, batch_size: int):
 
 
 if __name__ == '__main__':
-    a, b, c = dataloader('bm25', 1)
+    a, b, c = dataloader('drmm_tks', 1, 32)
+    xtr = c.getX_train()
+    xte = c.getX_test()
+    ytr = c.getX_train()
+    yte = c.gety_test()
+    pass

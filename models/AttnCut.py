@@ -5,6 +5,7 @@ import torch.nn as nn
 class AttnCut(nn.Module):
     def __init__(self, input_size: int=5, d_model: int=256, n_head: int=4, num_layers: int=1):
         super(AttnCut, self).__init__()
+        self.bn = nn.BatchNorm1d(300)
         self.encoding_layer = nn.LSTM(input_size=input_size, hidden_size=128, num_layers=2,
                               batch_first=True, bidirectional=True)
         encoder_layer = nn.TransformerEncoderLayer(d_model=d_model, nhead=n_head)
@@ -15,6 +16,7 @@ class AttnCut(nn.Module):
         )
     
     def forward(self, x):
+        x = self.bn(x)
         x = self.encoding_layer(x)[0]
         x = self.attention_layer(x)
         x = self.decison_layer(x)

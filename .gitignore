@@ -2,9 +2,13 @@ data_prep/statics
 
 data_prep/robust04_data
 
+data_prep/wc_results
+
 Tensorboard_summary
 
 best_model
+
+dataset
 
 utils/__pycache__
 

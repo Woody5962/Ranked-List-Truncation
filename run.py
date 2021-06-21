@@ -48,14 +48,14 @@ class Trainer:
             self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.dataset_split, args.batch_size)
             self.model = MTCut()
             self.criterion = losses.MTCutLoss(metric=args.criterion)
-        self.optimizer = optim.Adam(self.model.parameters(), lr=args.lr)
-        self.best_test_loss = float('inf')
+        self.optimizer = optim.Adam(self.model.parameters(), lr=args.lr, weight_decay=0.05)
+        self.best_test_metric = float('inf')
         
         if self.cuda: 
             self.model = self.model.cuda()
             self.criterion = self.criterion.cuda()
         
-        if args.ft and os.path.exists(self.model_path + '{}/model.pkl'.format(self.model_name)): self.load_model()
+        if args.ft and os.path.exists(self.model_path): self.load_model()
         self.writer = SummaryWriter(log_dir=args.Tensorboard_dir)
             
     def train_epoch(self, epoch):
@@ -72,7 +72,6 @@ class Trainer:
 
             output = self.model(X_train)
             loss = self.criterion(output, y_train)
-            print(loss.grad)
 
             loss.backward()
             self.optimizer.step()
@@ -145,8 +144,8 @@ class Trainer:
         self.writer.add_scalar('test/DCG_epoch', test_dcg, epoch)
         print('\tTest: loss = {:.2f}, f1 = {:.4f}, dcg = {:.4f}'.format(test_loss, test_f1, test_dcg))
         
-        if test_loss < self.best_test_loss:
-            self.best_test_loss = test_loss
+        if test_f1 > self.best_test_metric:
+            self.best_test_metric = test_f1
             self.save_model()
 
     def save_model(self):
@@ -173,30 +172,31 @@ class Trainer:
 
 def main():
     parser = argparse.ArgumentParser(description="Truncation Model Trainer Args")
-    parser.add_argument('--dataset-name', type=str, default='bm25')
+    parser.add_argument('--dataset-name', type=str, default='drmm_tks')
     parser.add_argument('--dataset-split', type=int, default=1)
     parser.add_argument('--batch-size', type=int, default=20)
     parser.add_argument('--workers', type=int, default=4)
     
-    parser.add_argument('--model-name', type=str, default='mtcut')
+    parser.add_argument('--model-name', type=str, default='attncut')
     parser.add_argument('--criterion', type=str, default='f1')
     parser.add_argument('--model-path', type=str, default=None)
     parser.add_argument('--ft', type=bool, default=False)
     parser.add_argument('--save-path', type=str, default='{}/best_model/'.format(RUNNING_PATH))
     parser.add_argument('--epochs', type=int, default=10)
-    parser.add_argument('--lr', type=float, default=1e-4)
+    parser.add_argument('--lr', type=float, default=1e-5)
 
     args = parser.parse_args()
     args.cuda = t.cuda.is_available()
-    print(args.cuda)
+    print('Using GPU: {}'.format(args.cuda))
     args.Tensorboard_dir = '{}/Tensorboard_summary/'.format(RUNNING_PATH)
+    args.model_path = args.save_path + '{}.pkl'.format(args.model_name)
     
     if not os.path.exists(args.Tensorboard_dir):
         os.mkdir(args.Tensorboard_dir)
     if args.model_name == 'attncut':
         args.lr, args.batch_size = 3e-5, 20
     elif args.model_name == 'choopy':
-        args.lr, args.batch_size = 1e-3, 64
+        args.lr, args.batch_size = 1e-3, 32
     elif args.model_name == 'bicut':
         args.lr, args.batch_size = 1e-4, 32
 

@@ -10,6 +10,8 @@ class Choopy(nn.Module):
         self.model = nn.Sequential(OrderedDict([
             ('transformer', nn.TransformerEncoder(encoder_layer, num_layers=num_layers)),
             ('fc', nn.Linear(in_features=d_model, out_features=1)),
+            ('activation', nn.LeakyReLU()),
+            ('dropout', nn.Dropout(0.6)),
             ('softmax', nn.Softmax(dim=1))
         ]))
         
