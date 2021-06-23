@@ -1,0 +1,348 @@
+[I 21:25:54.199 NotebookApp] [nb_conda_kernels] enabled, 2 kernels found
+[I 21:26:06.449 NotebookApp] Serving notebooks from local directory: /home/LAB/wangd/graduation_project/ranked list truncation
+[I 21:26:06.491 NotebookApp] The Jupyter Notebook is running at:
+[I 21:26:06.492 NotebookApp] http://192.168.5.93:8888/?token=7914e53e8d5cadce84734ce503c7fcfd4b30a070ec979edf
+[I 21:26:06.492 NotebookApp]  or http://127.0.0.1:8888/?token=7914e53e8d5cadce84734ce503c7fcfd4b30a070ec979edf
+[I 21:26:06.492 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[W 21:26:06.528 NotebookApp] No web browser found: could not locate runnable browser.
+[C 21:26:06.529 NotebookApp] 
+    
+    To access the notebook, open this file in a browser:
+        file:///home/LAB/wangd/.local/share/jupyter/runtime/nbserver-2694205-open.html
+    Or copy and paste one of these URLs:
+        http://192.168.5.93:8888/?token=7914e53e8d5cadce84734ce503c7fcfd4b30a070ec979edf
+     or http://127.0.0.1:8888/?token=7914e53e8d5cadce84734ce503c7fcfd4b30a070ec979edf
+[I 21:26:27.352 NotebookApp] Creating new notebook in /
+[I 21:26:29.623 NotebookApp] Kernel started: 58096b2c-42c1-43cb-b555-9da84960da10
+[W 21:26:29.859 NotebookApp] delete /default-4115e917-99c2-42da-b472-1f4479887284.ipynb
+[I 21:26:46.764 NotebookApp] Kernel shutdown: 58096b2c-42c1-43cb-b555-9da84960da10
+[I 21:28:02.251 NotebookApp] Creating new notebook in /
+[I 21:28:02.665 NotebookApp] Kernel started: e57f33d4-f22d-40d3-8701-e1a10efbf1c6
+[W 21:28:02.687 NotebookApp] delete /Greedy_k-15f3cbf7-92d1-4f8a-b1ca-45510d0071de.ipynb
+[I 21:28:12.782 NotebookApp] Creating new notebook in /
+[I 21:28:13.145 NotebookApp] Kernel started: 4e59f0c2-3a26-4372-8a04-c273c00d8a77
+[W 21:28:13.159 NotebookApp] delete /Greedy_k-9540ac88-772f-4730-8f6d-5f28c1f6a170.ipynb
+[I 21:50:40.660 NotebookApp] 302 GET / (192.168.3.147) 0.84ms
+[I 21:50:40.684 NotebookApp] 302 GET /tree? (192.168.3.147) 1.27ms
+[IPKernelApp] ERROR | Exception in message handler:
+Traceback (most recent call last):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 109, in wrapper
+    return dct[key]
+KeyError: ((), frozenset())
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 109, in wrapper
+    return dct[key]
+KeyError: ((), frozenset())
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/kernelbase.py", line 268, in dispatch_shell
+    yield gen.maybe_future(handler(stream, idents, msg))
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/tornado/gen.py", line 762, in run
+    value = future.result()
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/tornado/gen.py", line 234, in wrapper
+    yielded = ctx_run(next, result)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/tornado/gen.py", line 162, in _fake_ctx_run
+    return f(*args, **kw)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/kernelbase.py", line 583, in complete_request
+    matches = yield gen.maybe_future(self.do_complete(code, cursor_pos))
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/ipkernel.py", line 354, in do_complete
+    return self._experimental_do_complete(code, cursor_pos)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/ipkernel.py", line 379, in _experimental_do_complete
+    completions = list(_rectify_completions(code, raw_completions))
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 484, in rectify_completions
+    completions = list(completions)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 1819, in completions
+    for c in self._completions(text, offset, _timeout=self.jedi_compute_type_timeout/1000):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 1876, in _completions
+    signature = _make_signature(jm)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 991, in _make_signature
+    return '(%s)'% ', '.join([f for f in (_formatparamchildren(p) for p in completion.params) if f])
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 111, in wrapper
+    result = method(self, *args, **kwargs)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/api/classes.py", line 479, in params
+    for signature in self._get_signatures():
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/api/classes.py", line 561, in _get_signatures
+    return [sig for name in names for sig in name.infer().get_signatures()]
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/api/classes.py", line 561, in <listcomp>
+    return [sig for name in names for sig in name.infer().get_signatures()]
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 111, in wrapper
+    result = method(self, *args, **kwargs)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/compiled/mixed.py", line 129, in infer
+    return _create(self._inference_state, compiled_value, module_context)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/cache.py", line 43, in wrapper
+    rv = function(obj, *args, **kwargs)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/compiled/mixed.py", line 257, in _create
+    result = _find_syntax_node_name(inference_state, python_object)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/compiled/mixed.py", line 237, in _find_syntax_node_name
+    code_lines = get_cached_code_lines(inference_state.grammar, path)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/parser_utils.py", line 280, in get_cached_code_lines
+    return parser_cache[grammar._hashed][path].lines
+KeyError: '/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/api/interpreter.py'
+[IPKernelApp] ERROR | Exception in message handler:
+Traceback (most recent call last):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 109, in wrapper
+    return dct[key]
+KeyError: ((), frozenset())
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 109, in wrapper
+    return dct[key]
+KeyError: ((), frozenset())
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/kernelbase.py", line 268, in dispatch_shell
+    yield gen.maybe_future(handler(stream, idents, msg))
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/tornado/gen.py", line 762, in run
+    value = future.result()
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/tornado/gen.py", line 234, in wrapper
+    yielded = ctx_run(next, result)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/tornado/gen.py", line 162, in _fake_ctx_run
+    return f(*args, **kw)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/kernelbase.py", line 583, in complete_request
+    matches = yield gen.maybe_future(self.do_complete(code, cursor_pos))
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/ipkernel.py", line 354, in do_complete
+    return self._experimental_do_complete(code, cursor_pos)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/ipkernel.py", line 379, in _experimental_do_complete
+    completions = list(_rectify_completions(code, raw_completions))
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 484, in rectify_completions
+    completions = list(completions)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 1819, in completions
+    for c in self._completions(text, offset, _timeout=self.jedi_compute_type_timeout/1000):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 1876, in _completions
+    signature = _make_signature(jm)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 991, in _make_signature
+    return '(%s)'% ', '.join([f for f in (_formatparamchildren(p) for p in completion.params) if f])
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 111, in wrapper
+    result = method(self, *args, **kwargs)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/api/classes.py", line 479, in params
+    for signature in self._get_signatures():
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/api/classes.py", line 561, in _get_signatures
+    return [sig for name in names for sig in name.infer().get_signatures()]
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/api/classes.py", line 561, in <listcomp>
+    return [sig for name in names for sig in name.infer().get_signatures()]
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 111, in wrapper
+    result = method(self, *args, **kwargs)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/compiled/mixed.py", line 129, in infer
+    return _create(self._inference_state, compiled_value, module_context)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/cache.py", line 43, in wrapper
+    rv = function(obj, *args, **kwargs)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/compiled/mixed.py", line 257, in _create
+    result = _find_syntax_node_name(inference_state, python_object)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/compiled/mixed.py", line 237, in _find_syntax_node_name
+    code_lines = get_cached_code_lines(inference_state.grammar, path)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/parser_utils.py", line 280, in get_cached_code_lines
+    return parser_cache[grammar._hashed][path].lines
+KeyError: '/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/interactiveshell.py'
+[I 22:51:52.514 NotebookApp] Creating new notebook in /
+[I 22:51:53.151 NotebookApp] Kernel started: e5ae6c18-4902-428b-94d3-3d82029a03be
+[W 22:51:53.166 NotebookApp] delete /Truncation_analysis-c3248a00-f8b6-4e52-8330-455de84dcaf9.ipynb
+[I 22:52:02.379 NotebookApp] Creating new notebook in /
+[I 22:52:03.419 NotebookApp] Kernel started: 79343443-6ccc-438d-bce5-8a8153c0abae
+[W 22:52:03.433 NotebookApp] delete /Truncation_analysis-05815f3f-d600-487a-be10-d972793b97d7.ipynb
+[IPKernelApp] ERROR | Exception in message handler:
+Traceback (most recent call last):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 109, in wrapper
+    return dct[key]
+KeyError: ((), frozenset())
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 109, in wrapper
+    return dct[key]
+KeyError: ((), frozenset())
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/kernelbase.py", line 268, in dispatch_shell
+    yield gen.maybe_future(handler(stream, idents, msg))
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/tornado/gen.py", line 762, in run
+    value = future.result()
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/tornado/gen.py", line 234, in wrapper
+    yielded = ctx_run(next, result)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/tornado/gen.py", line 162, in _fake_ctx_run
+    return f(*args, **kw)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/kernelbase.py", line 583, in complete_request
+    matches = yield gen.maybe_future(self.do_complete(code, cursor_pos))
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/ipkernel.py", line 354, in do_complete
+    return self._experimental_do_complete(code, cursor_pos)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/ipkernel.py", line 379, in _experimental_do_complete
+    completions = list(_rectify_completions(code, raw_completions))
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 484, in rectify_completions
+    completions = list(completions)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 1819, in completions
+    for c in self._completions(text, offset, _timeout=self.jedi_compute_type_timeout/1000):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 1876, in _completions
+    signature = _make_signature(jm)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 991, in _make_signature
+    return '(%s)'% ', '.join([f for f in (_formatparamchildren(p) for p in completion.params) if f])
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 111, in wrapper
+    result = method(self, *args, **kwargs)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/api/classes.py", line 479, in params
+    for signature in self._get_signatures():
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/api/classes.py", line 561, in _get_signatures
+    return [sig for name in names for sig in name.infer().get_signatures()]
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/api/classes.py", line 561, in <listcomp>
+    return [sig for name in names for sig in name.infer().get_signatures()]
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 111, in wrapper
+    result = method(self, *args, **kwargs)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/compiled/mixed.py", line 129, in infer
+    return _create(self._inference_state, compiled_value, module_context)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/cache.py", line 43, in wrapper
+    rv = function(obj, *args, **kwargs)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/compiled/mixed.py", line 257, in _create
+    result = _find_syntax_node_name(inference_state, python_object)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/compiled/mixed.py", line 237, in _find_syntax_node_name
+    code_lines = get_cached_code_lines(inference_state.grammar, path)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/parser_utils.py", line 280, in get_cached_code_lines
+    return parser_cache[grammar._hashed][path].lines
+KeyError: '/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/interactiveshell.py'
+[IPKernelApp] ERROR | Exception in message handler:
+Traceback (most recent call last):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 109, in wrapper
+    return dct[key]
+KeyError: ((), frozenset())
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 109, in wrapper
+    return dct[key]
+KeyError: ((), frozenset())
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/kernelbase.py", line 268, in dispatch_shell
+    yield gen.maybe_future(handler(stream, idents, msg))
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/tornado/gen.py", line 762, in run
+    value = future.result()
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/tornado/gen.py", line 234, in wrapper
+    yielded = ctx_run(next, result)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/tornado/gen.py", line 162, in _fake_ctx_run
+    return f(*args, **kw)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/kernelbase.py", line 583, in complete_request
+    matches = yield gen.maybe_future(self.do_complete(code, cursor_pos))
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/ipkernel.py", line 354, in do_complete
+    return self._experimental_do_complete(code, cursor_pos)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/ipkernel.py", line 379, in _experimental_do_complete
+    completions = list(_rectify_completions(code, raw_completions))
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 484, in rectify_completions
+    completions = list(completions)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 1819, in completions
+    for c in self._completions(text, offset, _timeout=self.jedi_compute_type_timeout/1000):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 1876, in _completions
+    signature = _make_signature(jm)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 991, in _make_signature
+    return '(%s)'% ', '.join([f for f in (_formatparamchildren(p) for p in completion.params) if f])
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 111, in wrapper
+    result = method(self, *args, **kwargs)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/api/classes.py", line 479, in params
+    for signature in self._get_signatures():
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/api/classes.py", line 561, in _get_signatures
+    return [sig for name in names for sig in name.infer().get_signatures()]
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/api/classes.py", line 561, in <listcomp>
+    return [sig for name in names for sig in name.infer().get_signatures()]
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 111, in wrapper
+    result = method(self, *args, **kwargs)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/compiled/mixed.py", line 129, in infer
+    return _create(self._inference_state, compiled_value, module_context)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/cache.py", line 43, in wrapper
+    rv = function(obj, *args, **kwargs)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/compiled/mixed.py", line 257, in _create
+    result = _find_syntax_node_name(inference_state, python_object)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/compiled/mixed.py", line 237, in _find_syntax_node_name
+    code_lines = get_cached_code_lines(inference_state.grammar, path)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/parser_utils.py", line 280, in get_cached_code_lines
+    return parser_cache[grammar._hashed][path].lines
+KeyError: '/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/interactiveshell.py'
+[I 23:17:08.330 NotebookApp] Starting buffering for e5ae6c18-4902-428b-94d3-3d82029a03be:a8abfcf1-7fc1-4a69-b9ae-11e9a38bddf6
+[I 23:17:08.345 NotebookApp] Kernel shutdown: 79343443-6ccc-438d-bce5-8a8153c0abae
+[I 23:20:31.707 NotebookApp] Creating new notebook in /
+[I 23:20:31.995 NotebookApp] Kernel started: b3872021-7af8-41fb-aa92-1818625e172d
+[W 23:20:32.018 NotebookApp] delete /Truncation_analysis-1c7e2278-ad79-48ae-bd71-d769874622c6.ipynb
+[I 23:20:34.008 NotebookApp] Creating new notebook in /
+[I 23:20:34.395 NotebookApp] Kernel started: e8401446-46ea-43a1-a42c-bb06f73552e2
+[W 23:20:34.408 NotebookApp] delete /Truncation_analysis-ca18f13d-997b-4c16-b866-4b3544cc1fc7.ipynb
+[I 23:22:15.880 NotebookApp] Starting buffering for b3872021-7af8-41fb-aa92-1818625e172d:df70c72d-6a07-4cc6-a3f1-8ea1712a50d9
+[I 23:22:15.901 NotebookApp] Kernel shutdown: e8401446-46ea-43a1-a42c-bb06f73552e2
+[I 23:23:22.912 NotebookApp] Creating new notebook in /
+[I 23:23:23.241 NotebookApp] Kernel started: 501288c0-b7de-4c78-a783-95791a3a262d
+[W 23:23:23.257 NotebookApp] delete /Oracle-40a1c654-6158-45ac-a200-878be10ec6ef.ipynb
+[I 23:23:24.524 NotebookApp] Creating new notebook in /
+[I 23:23:24.802 NotebookApp] Kernel started: 60a0d72b-2113-4b12-9667-67ede3d30ac3
+[W 23:23:24.832 NotebookApp] delete /Oracle-c9a6a2f5-f0b4-43b4-bace-642a7eba0a7d.ipynb
+[IPKernelApp] ERROR | Exception in message handler:
+Traceback (most recent call last):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 109, in wrapper
+    return dct[key]
+KeyError: ((), frozenset())
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 109, in wrapper
+    return dct[key]
+KeyError: ((), frozenset())
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/kernelbase.py", line 268, in dispatch_shell
+    yield gen.maybe_future(handler(stream, idents, msg))
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/tornado/gen.py", line 762, in run
+    value = future.result()
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/tornado/gen.py", line 234, in wrapper
+    yielded = ctx_run(next, result)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/tornado/gen.py", line 162, in _fake_ctx_run
+    return f(*args, **kw)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/kernelbase.py", line 583, in complete_request
+    matches = yield gen.maybe_future(self.do_complete(code, cursor_pos))
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/ipkernel.py", line 354, in do_complete
+    return self._experimental_do_complete(code, cursor_pos)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/ipykernel/ipkernel.py", line 379, in _experimental_do_complete
+    completions = list(_rectify_completions(code, raw_completions))
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 484, in rectify_completions
+    completions = list(completions)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 1819, in completions
+    for c in self._completions(text, offset, _timeout=self.jedi_compute_type_timeout/1000):
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 1876, in _completions
+    signature = _make_signature(jm)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/completer.py", line 991, in _make_signature
+    return '(%s)'% ', '.join([f for f in (_formatparamchildren(p) for p in completion.params) if f])
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 111, in wrapper
+    result = method(self, *args, **kwargs)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/api/classes.py", line 479, in params
+    for signature in self._get_signatures():
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/api/classes.py", line 561, in _get_signatures
+    return [sig for name in names for sig in name.infer().get_signatures()]
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/api/classes.py", line 561, in <listcomp>
+    return [sig for name in names for sig in name.infer().get_signatures()]
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/cache.py", line 111, in wrapper
+    result = method(self, *args, **kwargs)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/compiled/mixed.py", line 129, in infer
+    return _create(self._inference_state, compiled_value, module_context)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/cache.py", line 43, in wrapper
+    rv = function(obj, *args, **kwargs)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/compiled/mixed.py", line 257, in _create
+    result = _find_syntax_node_name(inference_state, python_object)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/inference/compiled/mixed.py", line 237, in _find_syntax_node_name
+    code_lines = get_cached_code_lines(inference_state.grammar, path)
+  File "/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/jedi/parser_utils.py", line 280, in get_cached_code_lines
+    return parser_cache[grammar._hashed][path].lines
+KeyError: '/home/LAB/wangd/anaconda3/envs/ML/lib/python3.6/site-packages/IPython/core/interactiveshell.py'
+[I 23:37:04.369 NotebookApp] Starting buffering for 501288c0-b7de-4c78-a783-95791a3a262d:ff2892f3-3b21-4ca8-bec9-b4453bdb2ced
+[I 23:37:04.379 NotebookApp] Kernel shutdown: 60a0d72b-2113-4b12-9667-67ede3d30ac3
+[I 23:37:05.627 NotebookApp] Starting buffering for e57f33d4-f22d-40d3-8701-e1a10efbf1c6:ec00ccf6-657b-465b-b5b4-d2f4c30c92f8
+[I 23:37:05.637 NotebookApp] Kernel shutdown: 4e59f0c2-3a26-4372-8a04-c273c00d8a77
+[W 23:37:06.048 NotebookApp] Got events for closed stream None

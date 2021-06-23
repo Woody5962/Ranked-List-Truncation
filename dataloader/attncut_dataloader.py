@@ -7,103 +7,53 @@ import sys
 sys.path.append('../')
 from utils.batchnorm import batch_norm
 
-
-BM25_BASE = '/home/LAB/wangd/graduation_project/ranked list truncation/data_prep/my_results/BM25_results'
-DRMM_BASE = '/home/LAB/wangd/graduation_project/ranked list truncation/data_prep/my_results/drmm_results'
-DRMM_TKS_BASE = '/home/LAB/wangd/graduation_project/ranked list truncation/data_prep/my_results/drmm_tks_results'
-STATS_BASE = '/home/LAB/wangd/graduation_project/ranked list truncation/data_prep/statics'
-GT_PATH = '/home/LAB/wangd/graduation_project/ranked list truncation/data_prep/robust04_data/robust04_gt.pkl'
+DATASET_BASE = '/home/LAB/wangd/graduation_project/ranked list truncation/dataset'
 
 
 class Rank_Dataset(data.Dataset):
-    def __init__(self, dataset_name: str, split: int):
-        self.X_train, self.X_test, self.y_train, self.y_test = self.data_prepare(dataset_name, split)
+    def __init__(self, dataset_name: str):
+        self.X_train, self.X_test, self.y_train, self.y_test = self.data_prepare(dataset_name)
         self.X, train_size = t.cat((self.X_train, self.X_test), dim=0), self.X_train.shape[0]
         self.X_norm = batch_norm(self.X)
         self.X_train_norm, self.X_test_norm = self.X_norm[:train_size], self.X_norm[train_size:]
 
-    def data_prepare(self, dataset_name: str, split: int):
-        if dataset_name == 'bm25':
-            with open('{}/split_{}/BM25_train_s{}.pkl'.format(BM25_BASE, split, split), 'rb') as f:
-                train_data_raw = pickle.load(f)
-            with open('{}/split_{}/BM25_test_s{}.pkl'.format(BM25_BASE, split, split), 'rb') as f:
-                test_data_raw = pickle.load(f)
-            with open('{}/attncut_bm25_input.pkl'.format(STATS_BASE), 'rb') as f:
-                stats_bm25 = pickle.load(f)
+    def data_prepare(self, dataset_name: str):
+        """根据dataset name制作数据集
 
-            X_train, X_test, y_train, y_test = [], [], [], []
-            for key in train_data_raw:
-                scores = np.array([train_data_raw[key]['retrieved_documents'][i]['norm_bm25_score'] 
-                          for i in range(300)])
-                stats = np.array(stats_bm25[key])
-                input_features = np.column_stack((scores, stats))
-                is_rel = [1 if train_data_raw[key]['retrieved_documents'][i]['is_relevant'] else 0 
-                          for i in range(300)]
-                X_train.append(input_features.tolist())
-                y_train.append(is_rel)
-            for key in test_data_raw:
-                scores = np.array([test_data_raw[key]['retrieved_documents'][i]['norm_bm25_score'] 
-                          for i in range(300)])
-                stats = np.array(stats_bm25[key])
-                input_features = np.column_stack((scores, stats))
-                is_rel = [1 if test_data_raw[key]['retrieved_documents'][i]['is_relevant'] else 0 
-                          for i in range(300)]
-                X_test.append(input_features.tolist())
-                y_test.append(is_rel)
+        Args:
+            dataset_name (str): bm25, drmm, drmm_tks
 
-        elif dataset_name == 'drmm':
-            with open('{}/split_{}/drmm_train_s{}.pkl'.format(DRMM_BASE, split, split), 'rb') as f:
-                train_data_raw = pickle.load(f)
-            with open('{}/split_{}/drmm_test_s{}.pkl'.format(DRMM_BASE, split, split), 'rb') as f:
-                test_data_raw = pickle.load(f)
-            with open('{}/attncut_drmm_input.pkl'.format(STATS_BASE), 'rb') as f:
-                stats_drmm = pickle.load(f)
-            with open(GT_PATH, 'rb') as f:
-                gt = pickle.load(f)
-                for key in gt: gt[key] = set(gt[key])
+        Returns:
+            [type]: [description]
+        """
+        with open('{}/{}_train.pkl'.format(DATASET_BASE, dataset_name), 'rb') as f:
+            train_data_raw = pickle.load(f)
+        with open('{}/{}_test.pkl'.format(DATASET_BASE, dataset_name), 'rb') as f:
+            test_data_raw = pickle.load(f)
+        with open('{}/attncut/{}_train.pkl'.format(DATASET_BASE, dataset_name), 'rb') as f:
+            stats_train = pickle.load(f)
+        with open('{}/attncut/{}_test.pkl'.format(DATASET_BASE, dataset_name), 'rb') as f:
+            stats_test = pickle.load(f)
+        with open('{}/robust04_gt.pkl'.format(DATASET_BASE), 'rb') as f:
+            gt = pickle.load(f)
+            for key in gt: gt[key] = set(gt[key])
 
-            X_train, X_test, y_train, y_test = [], [], [], []
-            for key in train_data_raw:
-                scores = np.array([train_data_raw[key][i]['score'] for i in range(300)])
-                stats = np.array(stats_drmm[key])
-                input_features = np.column_stack((scores, stats))
-                is_rel = [1 if train_data_raw[key][i]['doc_id'] in gt[key] else 0 
-                          for i in range(300)]
-                X_train.append(input_features.tolist())
-                y_train.append(is_rel)
-            for key in test_data_raw:
-                scores = np.array([test_data_raw[key][i]['score'] for i in range(300)])
-                stats = np.array(stats_drmm[key])
-                input_features = np.column_stack((scores, stats))
-                is_rel = [1 if test_data_raw[key][i]['doc_id'] in gt[key] else 0 
-                          for i in range(300)]
-                X_test.append(input_features.tolist())
-                y_test.append(is_rel)
+        X_train, X_test, y_train, y_test = [], [], [], []
+        for key in train_data_raw:
+            scores = np.array(list(train_data_raw[key].values()))
+            stats = np.array(stats_train[key])
+            input_features = np.column_stack((scores, stats))
+            is_rel = list(map(lambda x: 1 if x in gt[key] else 0, train_data_raw[key].keys()))
+            X_train.append(input_features.tolist())
+            y_train.append(is_rel)
 
-        elif dataset_name == 'drmm_tks':
-            with open('{}/split_{}/drmm_tks_train_s{}.pkl'.format(DRMM_TKS_BASE, split, split), 'rb') as f:
-                train_data_raw = pickle.load(f)
-            with open('{}/split_{}/drmm_tks_test_s{}.pkl'.format(DRMM_TKS_BASE, split, split), 'rb') as f:
-                test_data_raw = pickle.load(f)
-            with open(GT_PATH, 'rb') as f:
-                gt = pickle.load(f)
-                for key in gt: gt[key] = set(gt[key])
-
-            X_train, X_test, y_train, y_test = [], [], [], []
-            for key in train_data_raw:
-                scores = [train_data_raw[key][i]['score'] 
-                          for i in range(300)]
-                is_rel = [1 if train_data_raw[key][i]['doc_id'] in gt[key] else 0 
-                          for i in range(300)]
-                X_train.append(scores)
-                y_train.append(is_rel)
-            for key in test_data_raw:
-                scores = [test_data_raw[key][i]['score'] 
-                          for i in range(300)]
-                is_rel = [1 if test_data_raw[key][i]['doc_id'] in gt[key] else 0 
-                          for i in range(300)]
-                X_test.append(scores)
-                y_test.append(is_rel)
+        for key in test_data_raw:
+            scores = np.array(list(test_data_raw[key].values()))
+            stats = np.array(stats_test[key])
+            input_features = np.column_stack((scores, stats))
+            is_rel = list(map(lambda x: 1 if x in gt[key] else 0, test_data_raw[key].keys()))
+            X_test.append(input_features.tolist())
+            y_test.append(is_rel)
 
         return t.Tensor(X_train), t.Tensor(X_test), t.Tensor(y_train), t.Tensor(y_test)
 
@@ -120,11 +70,11 @@ class Rank_Dataset(data.Dataset):
         return self.y_test
 
 
-def dataloader(dataset_name: str, split: int, batch_size: int=20):
+def dataloader(dataset_name: str, batch_size: int=20):
 	"""
 	batch_ratio: batchsize / datasize
 	"""
-	rank_data = Rank_Dataset(dataset_name=dataset_name, split=split)
+	rank_data = Rank_Dataset(dataset_name)
 
 	X_train = rank_data.getX_train()
 	X_test = rank_data.getX_test()
@@ -140,7 +90,7 @@ def dataloader(dataset_name: str, split: int, batch_size: int=20):
 
 
 if __name__ == '__main__':
-    a, b, c = dataloader('bm25', 1)
+    a, b, c = dataloader('bm25')
     xtr = c.getX_train()
     xte = c.getX_test()
     ytr = c.getX_train()

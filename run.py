@@ -30,25 +30,26 @@ class Trainer:
         self.epochs = args.epochs
         self.lr = args.lr
         self.cuda = args.cuda
+        self.weight_decay = args.weight_decay
 
         if self.model_name == 'bicut':
-            self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.dataset_split, args.batch_size)
-            # self.train_loader, self.test_loader = bc_dataloader(args.dataset_name, args.dataset_split, args.batch_size)
+            self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
+            # self.train_loader, self.test_loader = bc_dataloader(args.dataset_name, args.batch_size)
             self.model = BiCut(input_size=5)
             self.criterion = losses.BiCutLoss(args.criterion)
         elif self.model_name == 'choopy':
-            self.train_loader, self.test_loader, _ = cp_dataloader(args.dataset_name, args.dataset_split, args.batch_size)
+            self.train_loader, self.test_loader, _ = cp_dataloader(args.dataset_name, args.batch_size)
             self.model = Choopy()
             self.criterion = losses.ChoopyLoss(metric=args.criterion)
         elif self.model_name == 'attncut':
-            self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.dataset_split, args.batch_size)
+            self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
             self.model = AttnCut()
             self.criterion = losses.AttnCutLoss(metric=args.criterion)
         elif self.model_name == 'mtcut':
-            self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.dataset_split, args.batch_size)
+            self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
             self.model = MTCut()
             self.criterion = losses.MTCutLoss(metric=args.criterion)
-        self.optimizer = optim.Adam(self.model.parameters(), lr=args.lr, weight_decay=0.05)
+        self.optimizer = optim.Adam(self.model.parameters(), lr=args.lr, weight_decay=self.weight_decay)
         self.best_test_metric = float('inf')
         
         if self.cuda: 
@@ -65,7 +66,7 @@ class Trainer:
         epoch_loss, epoch_f1, epoch_dcg = 0, 0, 0
         step, num_itr = 0, len(self.train_loader)
         print('-' * 100)
-        for X_train, y_train in tqdm(self.train_loader, desc='Training for epoch_{}:'.format(epoch)):
+        for X_train, y_train in tqdm(self.train_loader, desc='Training for epoch_{}'.format(epoch)):
             self.model.train()
             self.optimizer.zero_grad()
             if self.cuda: X_train, y_train = X_train.cuda(), y_train.cuda()
@@ -110,7 +111,7 @@ class Trainer:
         """
         epoch_loss, epoch_f1, epoch_dcg = 0, 0, 0
         step = 0
-        for X_test, y_test in tqdm(self.test_loader, desc='Test after epoch_{}:'.format(epoch)):
+        for X_test, y_test in tqdm(self.test_loader, desc='Test after epoch_{}'.format(epoch)):
             self.model.eval()
             with t.no_grad():
                 if self.cuda: X_test, y_test = X_test.cuda(), y_test.cuda()
@@ -172,18 +173,17 @@ class Trainer:
 
 def main():
     parser = argparse.ArgumentParser(description="Truncation Model Trainer Args")
-    parser.add_argument('--dataset-name', type=str, default='drmm_tks')
-    parser.add_argument('--dataset-split', type=int, default=1)
+    parser.add_argument('--dataset-name', type=str, default='drmm')
     parser.add_argument('--batch-size', type=int, default=20)
     parser.add_argument('--workers', type=int, default=4)
-    
-    parser.add_argument('--model-name', type=str, default='attncut')
+    parser.add_argument('--model-name', type=str, default='choopy')
     parser.add_argument('--criterion', type=str, default='f1')
     parser.add_argument('--model-path', type=str, default=None)
     parser.add_argument('--ft', type=bool, default=False)
     parser.add_argument('--save-path', type=str, default='{}/best_model/'.format(RUNNING_PATH))
     parser.add_argument('--epochs', type=int, default=10)
     parser.add_argument('--lr', type=float, default=1e-5)
+    parser.add_argument('--weight-decay', type=float, default=0.015)
 
     args = parser.parse_args()
     args.cuda = t.cuda.is_available()
@@ -196,7 +196,7 @@ def main():
     if args.model_name == 'attncut':
         args.lr, args.batch_size = 3e-5, 20
     elif args.model_name == 'choopy':
-        args.lr, args.batch_size = 1e-3, 32
+        args.lr, args.batch_size = 1e-3, 63
     elif args.model_name == 'bicut':
         args.lr, args.batch_size = 1e-4, 32
 

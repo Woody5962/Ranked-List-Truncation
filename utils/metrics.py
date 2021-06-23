@@ -10,11 +10,11 @@ class Metric:
     @classmethod
     def f1(cls, labels: np.array, k_s: list):
         N_D = np.sum(labels, axis=1)
-        count, p_k, r_k, results = [], [], [], []
+        p_k, r_k, results = [], [], []
         for i in range(len(labels)): 
-            count.append(np.sum(labels[i, :k_s[i]]))
-            p_k.append((count[-1] / k_s[i]) if k_s[i] != 0 else 0)
-            r_k.append((count[-1] / N_D[i]) if N_D[i] != 0 else 0)
+            count = np.sum(labels[i, :k_s[i]])
+            p_k.append((count / k_s[i]) if k_s[i] != 0 else 0)
+            r_k.append((count / N_D[i]) if N_D[i] != 0 else 0)
             results.append((2 * p_k[-1] * r_k[-1] / (p_k[-1] + r_k[-1])) if p_k[-1] + r_k[-1] != 0 else 0)
         return sum(results) / len(results)
     
@@ -53,7 +53,6 @@ class Metric_for_Loss:
     
     @classmethod
     def dcg(cls, label: t.Tensor, k: int, penalty: int=-1):
-        N_D = t.sum(label)
         value = t.tensor(0)
         for i in range(k):
             value = t.add(value, (1 / math.log(i+2, 2)) if label[i] == 1 else (penalty / math.log(i+2, 2)))
