@@ -4,14 +4,14 @@ from collections import OrderedDict
 
 
 class Choopy(nn.Module):
-    def __init__(self, d_model: int=128, n_head: int=8, num_layers: int=3):
+    def __init__(self, d_model: int=128, n_head: int=8, num_layers: int=3, dropout: float=0.6):
         super(Choopy, self).__init__()
         encoder_layer = nn.TransformerEncoderLayer(d_model=d_model, nhead=n_head)
         self.model = nn.Sequential(OrderedDict([
             ('transformer', nn.TransformerEncoder(encoder_layer, num_layers=num_layers)),
             ('fc', nn.Linear(in_features=d_model, out_features=1)),
             ('activation', nn.LeakyReLU()),
-            ('dropout', nn.Dropout(0.6)),
+            ('dropout', nn.Dropout(dropout)),
             ('softmax', nn.Softmax(dim=1))
         ]))
         

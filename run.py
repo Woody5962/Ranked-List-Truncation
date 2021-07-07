@@ -5,6 +5,9 @@ import numpy as np
 from tqdm import tqdm
 import torch as t
 import torch.optim as optim
+import logging
+import configparser
+import random
 
 from dataloader import bc_dataloader, cp_dataloader, at_dataloader
 from models import BiCut, Choopy, AttnCut, MTCut
@@ -15,6 +18,7 @@ from tensorboardX import SummaryWriter
 
 
 RUNNING_PATH = '/home/LAB/wangd/graduation_project/ranked list truncation'
+logging.basicConfig(level=logging.INFO)
 
 
 class Trainer:
@@ -30,7 +34,9 @@ class Trainer:
         self.epochs = args.epochs
         self.lr = args.lr
         self.cuda = args.cuda
+        self.dropout = args.dropout
         self.weight_decay = args.weight_decay
+        self.parameter_record = args.parameter_record
 
         if self.model_name == 'bicut':
             self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
@@ -39,18 +45,18 @@ class Trainer:
             self.criterion = losses.BiCutLoss(args.criterion)
         elif self.model_name == 'choopy':
             self.train_loader, self.test_loader, _ = cp_dataloader(args.dataset_name, args.batch_size)
-            self.model = Choopy()
+            self.model = Choopy(dropout=self.dropout)
             self.criterion = losses.ChoopyLoss(metric=args.criterion)
         elif self.model_name == 'attncut':
             self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
-            self.model = AttnCut()
+            self.model = AttnCut(dropout=self.dropout)
             self.criterion = losses.AttnCutLoss(metric=args.criterion)
         elif self.model_name == 'mtcut':
-            self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
-            self.model = MTCut()
+            self.train_loader, self.test_loader, _ = cp_dataloader(args.dataset_name, args.batch_size)
+            self.model = MTCut(dropout=self.dropout)
             self.criterion = losses.MTCutLoss(metric=args.criterion)
         self.optimizer = optim.Adam(self.model.parameters(), lr=args.lr, weight_decay=self.weight_decay)
-        self.best_test_metric = float('inf')
+        self.best_test_metric = -float('inf')
         
         if self.cuda: 
             self.model = self.model.cuda()
@@ -65,7 +71,7 @@ class Trainer:
         start_time = time.time()
         epoch_loss, epoch_f1, epoch_dcg = 0, 0, 0
         step, num_itr = 0, len(self.train_loader)
-        print('-' * 100)
+        logging.info('-' * 100)
         for X_train, y_train in tqdm(self.train_loader, desc='Training for epoch_{}'.format(epoch)):
             self.model.train()
             self.optimizer.zero_grad()
@@ -103,8 +109,8 @@ class Trainer:
         self.writer.add_scalar('train/loss_epoch', train_loss, epoch)
         self.writer.add_scalar('train/F1_epoch', train_f1, epoch)
         self.writer.add_scalar('train/DCG_epoch', train_dcg, epoch)
-        print('\nEpoch: {} | Epoch Time: {:.2f} s'.format(epoch, time.time() - start_time))
-        print('\tTrain: loss = {:.2f}, f1 = {:.4f}, dcg = {:.4f}\n'.format(train_loss, train_f1, train_dcg))
+        logging.info('\nEpoch: {} | Epoch Time: {:.2f} s'.format(epoch, time.time() - start_time))
+        logging.info('\tTrain: loss = {:.2f}, f1 = {:.4f}, dcg = {:.4f}\n'.format(train_loss, train_f1, train_dcg))
 
     def test(self, epoch):
         """test stage for every epoch
@@ -143,7 +149,7 @@ class Trainer:
         self.writer.add_scalar('test/loss_epoch', test_loss, epoch)
         self.writer.add_scalar('test/F1_epoch', test_f1, epoch)
         self.writer.add_scalar('test/DCG_epoch', test_dcg, epoch)
-        print('\tTest: loss = {:.2f}, f1 = {:.4f}, dcg = {:.4f}'.format(test_loss, test_f1, test_dcg))
+        logging.info('\tTest: loss = {:.2f}, f1 = {:.4f}, dcg = {:.4f}'.format(test_loss, test_f1, test_dcg))
         
         if test_f1 > self.best_test_metric:
             self.best_test_metric = test_f1
@@ -155,25 +161,32 @@ class Trainer:
         if not os.path.exists(self.save_path):
             os.mkdir(self.save_path)
         t.save(self.model.state_dict(), self.save_path + '{}.pkl'.format(self.model_name))
-        print('The best model has beed updated and saved in {}\n'.format(self.save_path))
+        logging.info('The best model has beed updated and saved in {}\n'.format(self.save_path))
 
     def load_model(self):
         """load the saved model
         """
         self.model.load_state_dict(t.load(self.model_path))
-        print('The best model has beed loaded from {}\n'.format(self.model_path))
+        logging.info('The best model has beed loaded from {}\n'.format(self.model_path))
 
     def run(self):
         """run the model
         """
-        print('\nTrain the {} model: \n'.format(self.model_name))
+        logging.info('\nTrain the {} model: \n'.format(self.model_name))
         for epoch in range(self.epochs):
             self.train_epoch(epoch)
             self.test(epoch)
+        logging.info('the best F1 of this model: {}'.format(self.best_test_metric))
+        search_log = 'dropout: {}, L2_weight: {}, best_f1: {}'.format(self.dropout, self.weight_decay, self.best_test_metric)
+        with open(self.parameter_record, 'a+') as f:
+            f.write('\n' + search_log)
+
 
 def main():
+    """训练过程的主函数，用于接收训练参数等
+    """
     parser = argparse.ArgumentParser(description="Truncation Model Trainer Args")
-    parser.add_argument('--dataset-name', type=str, default='drmm')
+    parser.add_argument('--dataset-name', type=str, default='drmm_tks')
     parser.add_argument('--batch-size', type=int, default=20)
     parser.add_argument('--workers', type=int, default=4)
     parser.add_argument('--model-name', type=str, default='choopy')
@@ -181,29 +194,43 @@ def main():
     parser.add_argument('--model-path', type=str, default=None)
     parser.add_argument('--ft', type=bool, default=False)
     parser.add_argument('--save-path', type=str, default='{}/best_model/'.format(RUNNING_PATH))
-    parser.add_argument('--epochs', type=int, default=10)
+    parser.add_argument('--epochs', type=int, default=20)
     parser.add_argument('--lr', type=float, default=1e-5)
-    parser.add_argument('--weight-decay', type=float, default=0.015)
+    parser.add_argument('--weight-decay', type=float, default=0.005)
+    parser.add_argument('--dropout', type=float, default=0.2)
+    parser.add_argument('--parameter-record', type=str, default='{}/parameters.log'.format(RUNNING_PATH))
+    parser.add_argument('--parameter-search', type=bool, default=True)
+    parser.add_argument('--search-times', type=int, default=100)
 
     args = parser.parse_args()
     args.cuda = t.cuda.is_available()
-    print('Using GPU: {}'.format(args.cuda))
     args.Tensorboard_dir = '{}/Tensorboard_summary/'.format(RUNNING_PATH)
     args.model_path = args.save_path + '{}.pkl'.format(args.model_name)
     
     if not os.path.exists(args.Tensorboard_dir):
         os.mkdir(args.Tensorboard_dir)
-    if args.model_name == 'attncut':
-        args.lr, args.batch_size = 3e-5, 20
-    elif args.model_name == 'choopy':
-        args.lr, args.batch_size = 1e-3, 63
-    elif args.model_name == 'bicut':
-        args.lr, args.batch_size = 1e-4, 32
-
-    trainer = Trainer(args)
-    trainer.run()
-    trainer.writer.close()
     
+    config = configparser.ConfigParser()
+    config.read('{}/hyper_parameter.conf'.format(RUNNING_PATH))
+    args.lr = config.getfloat('{}_conf'.format(args.model_name), 'lr')
+    args.batch_size = config.getint('{}_conf'.format(args.model_name), 'batch_size')
+    args.dropout = config.getfloat('{}_conf'.format(args.model_name), 'dropout')
+    args.weight_decay = config.getfloat('{}_conf'.format(args.model_name), 'weight_decay')
+
+    if args.parameter_search:
+        args.parameter_record = '{}/{}_params.log'.format(RUNNING_PATH, args.model_name)
+        for i in range(args.search_times):
+            random.seed(i)
+            args.dropout, args.weight_decay = random.uniform(0.1, 0.6), random.uniform(0.001, 0.06)
+            logging.info('{}'.format(vars(args)))
+            trainer = Trainer(args)
+            trainer.run()
+            trainer.writer.close()
+    else:
+            logging.info('{}'.format(vars(args)))
+            trainer = Trainer(args)
+            trainer.run()
+            trainer.writer.close()
 
 if __name__ == '__main__':
     main()

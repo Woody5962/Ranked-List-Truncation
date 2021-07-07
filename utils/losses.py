@@ -88,7 +88,7 @@ class AttnCutLoss(nn.Module):
                     r[i][j] = Metric_for_Loss.dcg(labels[i], j)
         q = t.exp(t.div(r, self.tau))
         norm_factor = t.sum(q, axis=1).unsqueeze(dim=1)
-        q = t.div(1, norm_factor)
+        q = t.div(q, norm_factor)
         
         output_1 = t.log(output.squeeze())
         loss_matrix = output_1.mul(q)
@@ -107,7 +107,7 @@ class RerankLoss(nn.Module):
     .. math::
         loss_{x, y} = max(0, -y * (x1 - x2) + margin)
     """
-    def __init__(self, margin: float = 1., reduction: str = 'mean'):
+    def __init__(self, margin: float = 1., reduction: str = 'mean', weight: float = 0.01):
         """
         :class:`RankHingeLoss` constructor.
         :param margin: Margin between positive and negative scores.
@@ -122,6 +122,7 @@ class RerankLoss(nn.Module):
         super().__init__()
         self.margin = margin
         self.reduction = reduction
+        self.weight = weight
 
     def forward(self, output: t.Tensor, labels: t.Tensor):
         """
@@ -150,7 +151,7 @@ class RerankLoss(nn.Module):
                 margin=self.margin,
                 reduction=self.reduction
             ))
-        return t.div(t.sum(t.tensor(loss)), output.shape[0])
+        return t.div(t.sum(t.tensor(loss)), output.shape[0]) * self.weight
 
     
 class MTCutLoss(nn.Module):
@@ -159,10 +160,10 @@ class MTCutLoss(nn.Module):
     Args:
         nn ([type]): [description]
     """
-    def __init__(self, metric: str='f1', tau: float=0.95):
+    def __init__(self, metric: str='f1', weight: float=0.1):
         super().__init__()
-        self.cutloss = AttnCutLoss(metric, tau)
-        self.rerankloss = RerankLoss()
+        self.cutloss = ChoopyLoss(metric=metric)
+        self.rerankloss = RerankLoss(weight=weight)
         
     def forward(self, output, labels):
         rerank_y, cut_y = output
@@ -185,8 +186,8 @@ if __name__ == '__main__':
     l3.backward()
     print(a.grad)
     # print(l1, l2, l3)
-    loss_f = RerankLoss()
+    # loss_f = RerankLoss()
     # y_pred = t.tensor([1., 1.2, 3.1, 0.1, 1.1, 4.2, 2.1, 5.1]).unsqueeze(dim=-1)
     # y_true = t.tensor([0, 1, 1, 0, 1, 0, 1, 0])
-    loss = loss_f(a, b)
-    print(loss)
+    # loss = loss_f(a, b)
+    # print(loss)

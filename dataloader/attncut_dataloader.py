@@ -58,10 +58,10 @@ class Rank_Dataset(data.Dataset):
         return t.Tensor(X_train), t.Tensor(X_test), t.Tensor(y_train), t.Tensor(y_test)
 
     def getX_train(self):
-        return self.X_train_norm
+        return self.X_train
 
     def getX_test(self):
-        return self.X_test_norm
+        return self.X_test
 
     def gety_train(self):
         return self.y_train
