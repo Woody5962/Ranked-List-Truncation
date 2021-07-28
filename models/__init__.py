@@ -1,4 +1,6 @@
 from .Bicut import BiCut
 from .Choopy import Choopy
 from .AttnCut import AttnCut
-from .MTCut import MTCut
+from .MtChoopy import MtChoopy
+from .MtAttnCut import MtAttnCut
+from .MMOECut import MMOECut

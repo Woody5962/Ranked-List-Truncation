@@ -29,3 +29,5 @@ data_prep/.*
 *pyc*
 
 search.log
+
+attncut.log
