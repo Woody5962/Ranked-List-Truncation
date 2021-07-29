@@ -1,6 +1,6 @@
 # Ranked-List-Truncation 
 
-We propose a Ranked list truncation framework,including the complement of multiple existing deep models and the multi-task model modified on these models. We also propose MMOECut for this problem, which achieves the SOTA results, 3.58% higher than the existing SOTA (Attncut).
+We propose a Ranked list truncation framework,including the implementation of multiple existing deep models and the multi-task model modified on these models. We also propose MMOECut for this problem, which achieves the SOTA results, 3.58% higher than the existing SOTA (Attncut).
 
 Since there is still no open source work in this field, we start from the data preprocessing stage and make the whole process code open-source, hoping to avoid researchers from recreating wheels.
 
@@ -32,7 +32,7 @@ In dataset/, we show the three datasets used by the framework, that is, the rank
 
 Among them, the features used by AttnCut and BiCut are listed separately in the folder, and the .pkl files in the root directory of the dataset/ only contain the relevance scores obtained by the retrieval model.
 
-## Complement of some deep models
+## Implementation of some deep models
 
 We first reproduced the three existing models of BiCut, Choopy and Attncut according to the settings of those papers.
 
