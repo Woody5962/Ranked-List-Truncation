@@ -2,8 +2,9 @@ import torch as t
 import torch.nn as nn
 
 class MtAttnCut(nn.Module):
-    def __init__(self, input_size: int=3, d_model: int=256, n_head: int=4, num_layers: int=1):
+    def __init__(self, input_size: int=3, d_model: int=256, n_head: int=4, num_layers: int=1, num_tasks: float=3):
         super(MtAttnCut, self).__init__()
+        self.num_tasks = num_tasks
         self.pre_encoding = nn.LSTM(input_size=input_size, hidden_size=128, num_layers=2, batch_first=True, bidirectional=True)
         encoder_layer = nn.TransformerEncoderLayer(d_model=d_model, nhead=n_head)
         self.encoding_layer = nn.TransformerEncoder(encoder_layer, num_layers=num_layers)
@@ -23,7 +24,9 @@ class MtAttnCut(nn.Module):
         y0 = self.classi(x)
         y1 = self.rerank(x)
         y2 = self.decison_layer(x)
-        return y0, y1, y2
+        if self.num_tasks == 3: return [y0, y1, y2]
+        elif self.num_tasks == 2.1: return [y0, y2]
+        else: return [y1, y2]
 
 
 if __name__ == '__main__':

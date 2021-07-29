@@ -31,14 +31,6 @@ class Metric:
         return sum(results) / len(results)
 
 
-if __name__ == '__main__':
-    x = np.array([[1, 0, 1], [0, 0, 1], [1, 0, 0]])
-    k_s = np.array([1, 2, 1])
-    r1 = Metric.f1(x, k_s)
-    r2 = Metric.dcg(x, k_s)
-    print(r1, r2)
-
-
 class Metric_for_Loss:
     def __init__(self) -> None:
         pass
@@ -57,3 +49,11 @@ class Metric_for_Loss:
         for i in range(k):
             value = t.add(value, (1 / math.log(i+2, 2)) if label[i] == 1 else (penalty / math.log(i+2, 2)))
         return value
+
+
+if __name__ == '__main__':
+    x = np.array([[1, 0, 1], [0, 0, 1], [1, 0, 0]])
+    k_s = np.array([1, 2, 1])
+    r1 = Metric.f1(x, k_s)
+    r2 = Metric.dcg(x, k_s)
+    print(r1, r2)

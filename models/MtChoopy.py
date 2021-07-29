@@ -3,8 +3,9 @@ import torch.nn as nn
 
 
 class MtChoopy(nn.Module):
-    def __init__(self, d_model: int=128, n_head: int=8, num_layers: int=3):
+    def __init__(self, d_model: int=128, n_head: int=8, num_layers: int=3, num_tasks: float=3):
         super(MtChoopy, self).__init__()
+        self.num_tasks = num_tasks
         encoder_layer = nn.TransformerEncoderLayer(d_model=d_model, nhead=n_head)
         self.encoding_layer = nn.TransformerEncoder(encoder_layer, num_layers=num_layers)
         self.classi = nn.Sequential(
@@ -22,7 +23,9 @@ class MtChoopy(nn.Module):
         y0 = self.classi(x)
         y1 = self.rerank(x)
         y2 = self.decison_layer(x)
-        return y0, y1, y2
+        if self.num_tasks == 3: return [y0, y1, y2]
+        elif self.num_tasks == 2.1: return [y0, y2]
+        else: return [y1, y2]
 
 
 if __name__ == '__main__':

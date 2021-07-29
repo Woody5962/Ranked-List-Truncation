@@ -1,7 +1,6 @@
 import pickle
 import os
 import torch as t
-import numpy as np
 from torch.utils import data
 
 
@@ -24,12 +23,12 @@ class Rank_Dataset(data.Dataset):
         qid = self.index_list[index].split('.')[0]
         with open(_sample_dir, 'rb') as f: _sample = pickle.load(f)
         _label = list(map(lambda x: 1 if x in self.gt[qid] else 0, self.data_raw[qid].keys()))
-        return t.from_numpy(_sample[0]).float(), t.Tensor(_label)
+        return t.tensor(_sample).float(), t.Tensor(_label)
 
     def __len__(self):
         return len(self.index_list)
 
-def dataloader(dataset_name: str, batch_size: int=20):
+def dataloader(dataset_name: str, batch_size: int=20, num_workers: int=8):
     """dataloader for bicut
 
     Args:
@@ -43,10 +42,8 @@ def dataloader(dataset_name: str, batch_size: int=20):
     train_dataset = Rank_Dataset(dataset_name=dataset_name, stage='train') 
     test_dataset = Rank_Dataset(dataset_name=dataset_name, stage='test')
 
-    train_loader = data.DataLoader(dataset=train_dataset,
-            batch_size=batch_size, shuffle=True, pin_memory=True, num_workers=4)
-    test_loader = data.DataLoader(dataset=test_dataset, batch_size=batch_size,
-            shuffle=True, pin_memory=True, num_workers=4)
+    train_loader = data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True, pin_memory=True, num_workers=num_workers)
+    test_loader = data.DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=True, pin_memory=True, num_workers=num_workers)
 
     return train_loader, test_loader 
 

@@ -12,6 +12,7 @@ class BiCutLoss(nn.Module):
     """
     def __init__(self, alpha: float=0.65, r: float=0.0971134020, metric: str='nci'):
         super(BiCutLoss, self).__init__()
+        self.metric = metric
         self.alpha = alpha
         self.r = r
 
@@ -33,7 +34,7 @@ class BiCutLoss(nn.Module):
         for i in range(labels.shape[0]):
             for j in range(labels.shape[1]):
                 if self.metric == 'nci': 
-                    r[i][j] = t.tensor([0, -3.6 / math.log2(j+2)]) if labels[i][j] == 1 else t.tensor([0, self.alpha * 0.1])
+                    r[i][j] = t.tensor([0, -1 / math.log2(j+2)]) if labels[i][j] == 1 else t.tensor([0, (j+1) / self.alpha])
                 else: 
                     r[i][j] = t.tensor([(1 - self.alpha) / self.r, 0]) if labels[i][j] == 1 else t.tensor([0, self.alpha / (1 - self.r)])
         
@@ -157,21 +158,26 @@ class MtCutLoss(nn.Module):
     Args:
         nn ([type]): [description]
     """
-    def __init__(self, metric: str='f1', rerank_weight: float=0.5, classi_weight: float=0.5):
+    def __init__(self, metric: str='f1', rerank_weight: float=0.5, classi_weight: float=0.5, num_tasks: float=3):
         super(MtCutLoss, self).__init__()
         self.rerank_weight, self.classi_loss = rerank_weight, classi_weight
         self.cutloss = AttnCutLoss(metric=metric)
         self.rerankloss = RerankLoss()
         self.classiloss = nn.BCELoss()
+        self.num_tasks = num_tasks
         
     def forward(self, output, labels):
-        pred_y, rerank_y, cut_y = output
+        if self.num_tasks == 3: pred_y, rerank_y, cut_y = output
+        elif self.num_tasks == 2.1: pred_y, cut_y = output
+        else: rerank_y, cut_y = output
         class_label = rerank_label = cut_label = labels
         cutloss = self.cutloss(cut_y, cut_label)
-        rerankloss = self.rerankloss(rerank_y, rerank_label).mul(self.rerank_weight)
-        classiloss = self.classiloss(pred_y.squeeze(), class_label).mul(self.classi_loss)
+        if self.num_tasks == 3 or self.num_tasks == 2.2: rerankloss = self.rerankloss(rerank_y, rerank_label).mul(self.rerank_weight)
+        if self.num_tasks == 3 or self.num_tasks == 2.1: classiloss = self.classiloss(pred_y.squeeze(), class_label).mul(self.classi_loss)
         # print('cutloss: {} | rerankloss: {} | classify_loss: {}'.format(cutloss, rerankloss, classiloss))
-        return cutloss.add(rerankloss).add(classiloss)
+        if self.num_tasks == 3: return cutloss.add(rerankloss).add(classiloss)
+        elif self.num_tasks == 2.1: return cutloss.add(classiloss)
+        else: return cutloss.add(rerankloss)
 
         
 if __name__ == '__main__':

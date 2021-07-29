@@ -67,12 +67,23 @@ class MMOECut(torch.nn.Module):
         self.softmax = nn.Softmax(dim=1)
         # model
         self.experts = nn.ModuleList([Expert(self.expert_hidden, self.expert_head, self.expert_layers) for _ in range(self.num_experts)])
-        self.w_gates = nn.ParameterList([nn.Parameter(torch.randn(self.encoding_size * 300 * 2, self.num_experts), requires_grad=True) for _ in range(self.tasks)])
-        self.towers = nn.ModuleList([
-            TowerClass(self.expert_hidden),
-            TowerRerank(self.expert_hidden),
-            TowerCut(self.expert_hidden)
-        ])
+        self.w_gates = nn.ParameterList([nn.Parameter(torch.randn(self.encoding_size * 300 * 2, self.num_experts), requires_grad=True) for _ in range(int(self.tasks))])
+        if self.tasks == 3:
+            self.towers = nn.ModuleList([
+                TowerClass(self.expert_hidden),
+                TowerRerank(self.expert_hidden),
+                TowerCut(self.expert_hidden)
+            ])
+        elif self.tasks == 2.1:
+            self.towers = nn.ModuleList([
+                TowerClass(self.expert_hidden),
+                TowerCut(self.expert_hidden)
+            ])
+        elif self.tasks == 2.2:
+            self.towers = nn.ModuleList([
+                TowerRerank(self.expert_hidden),
+                TowerCut(self.expert_hidden)
+            ])
 
     def forward(self, x):
         # get the experts output

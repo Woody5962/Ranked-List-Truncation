@@ -3,7 +3,6 @@ from pickle import TRUE
 import time
 import argparse
 import numpy as np
-from numpy.lib.function_base import average
 from tqdm import tqdm
 import torch as t
 import torch.optim as optim
@@ -44,9 +43,9 @@ class Trainer:
         self.metric_record = []
 
         if self.model_name == 'bicut':
-            self.train_loader, self.test_loader = bc_dataloader(args.dataset_name, args.batch_size)
+            self.train_loader, self.test_loader = bc_dataloader(args.dataset_name, args.batch_size, args.num_workers)
             self.model = BiCut()
-            self.criterion = losses.BiCutLoss(args.criterion)
+            self.criterion = losses.BiCutLoss(metric=args.criterion)
         elif self.model_name == 'choopy':
             self.train_loader, self.test_loader, _ = cp_dataloader(args.dataset_name, args.batch_size)
             self.model = Choopy()
@@ -57,16 +56,16 @@ class Trainer:
             self.criterion = losses.AttnCutLoss(metric=args.criterion)
         elif self.model_name == 'mtchoopy':
             self.train_loader, self.test_loader, _ = cp_dataloader(args.dataset_name, args.batch_size)
-            self.model = MtChoopy()
-            self.criterion = losses.MtCutLoss(metric=args.criterion, rerank_weight=args.rerank_weight, classi_weight=args.class_weight)
+            self.model = MtChoopy(num_tasks=args.num_tasks)
+            self.criterion = losses.MtCutLoss(metric=args.criterion, rerank_weight=args.rerank_weight, classi_weight=args.class_weight, num_tasks=args.num_tasks)
         elif self.model_name == 'mtattncut':
             self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
-            self.model = MtAttnCut()
-            self.criterion = losses.MtCutLoss(metric=args.criterion, rerank_weight=args.rerank_weight, classi_weight=args.class_weight)
+            self.model = MtAttnCut(num_tasks=args.num_tasks)
+            self.criterion = losses.MtCutLoss(metric=args.criterion, rerank_weight=args.rerank_weight, classi_weight=args.class_weight, num_tasks=args.num_tasks)
         elif self.model_name == 'mmoecut':
             self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
-            self.model = MMOECut()
-            self.criterion = losses.MtCutLoss(metric=args.criterion, rerank_weight=args.rerank_weight, classi_weight=args.class_weight)
+            self.model = MMOECut(num_tasks=args.num_tasks)
+            self.criterion = losses.MtCutLoss(metric=args.criterion, rerank_weight=args.rerank_weight, classi_weight=args.class_weight, num_tasks=args.num_tasks)
         
         self.optimizer = optim.Adam(self.model.parameters(), lr=args.lr, weight_decay=self.weight_decay)
         self.best_test_metric = -float('inf')
@@ -209,7 +208,7 @@ def main():
     parser = argparse.ArgumentParser(description="Truncation Model Trainer Args")
     parser.add_argument('--dataset-name', type=str, default='drmm_tks')
     parser.add_argument('--batch-size', type=int, default=20)
-    parser.add_argument('--workers', type=int, default=4)
+    parser.add_argument('--num-workers', type=int, default=8)
     parser.add_argument('--model-name', type=str, default='attncut')
     parser.add_argument('--criterion', type=str, default='f1')
     parser.add_argument('--model-path', type=str, default=None)
@@ -224,6 +223,7 @@ def main():
     parser.add_argument('--regularizer-search', type=bool, default=False)
     parser.add_argument('--mt-search', type=bool, default=False)
     parser.add_argument('--search-times', type=int, default=100)
+    parser.add_argument('--num-tasks', type=float, default=3)  # 2.1:classification + truncation | 2.2: rerank + truncation
     parser.add_argument('--rerank-weight', type=float, default=0.5)
     parser.add_argument('--class-weight', type=float, default=0.5)
 

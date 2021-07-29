@@ -6,9 +6,7 @@ data_prep/wc_results
 
 Tensorboard_summary
 
-best_model
-
-dataset/attncut
+best_model/bicut.pkl
 
 dataset/bicut
 
@@ -29,5 +27,3 @@ data_prep/.*
 *pyc*
 
 search.log
-
-attncut.log
