@@ -25,5 +25,3 @@ data_prep/.*
 .ipynb*
 
 *pyc*
-
-*.log

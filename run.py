@@ -105,7 +105,7 @@ class Trainer:
                 for results in predictions:
                     if np.sum(results) == 300: k_s.append(300)
                     else: k_s.append(np.argmin(results))
-            elif len(output) > 1:
+            elif 'm' in self.model_name:
                 predictions = output[-1].detach().cpu().squeeze().numpy()
                 k_s = np.argmax(predictions, axis=1)
             else: 
@@ -146,7 +146,7 @@ class Trainer:
                     for results in predictions:
                         if np.sum(results) == 300: k_s.append(300)
                         else: k_s.append(np.argmin(results))
-                elif len(output) > 1:
+                elif 'm' in self.model_name:
                     predictions = output[-1].detach().cpu().squeeze().numpy()
                     k_s = np.argmax(predictions, axis=1)
                 else: 
@@ -221,7 +221,7 @@ def main():
     parser.add_argument('--epochs', type=int, default=60)
     parser.add_argument('--lr', type=float, default=1e-5)
     parser.add_argument('--weight-decay', type=float, default=0.005)
-    parser.add_argument('--dropout', type=float, default=0.2)
+    parser.add_argument('--dropout', type=float, default=0.1)
     parser.add_argument('--parameter-record', type=str, default='{}/parameters.log'.format(RUNNING_PATH))
     parser.add_argument('--parameter-search', type=bool, default=False)
     parser.add_argument('--regularizer-search', type=bool, default=False)
@@ -245,7 +245,7 @@ def main():
     args.batch_size = config.getint('{}_conf'.format(args.model_name), 'batch_size')
     args.dropout = config.getfloat('{}_conf'.format(args.model_name), 'dropout')
     args.weight_decay = config.getfloat('{}_conf'.format(args.model_name), 'weight_decay')
-    if 'moe' in args.model_name or 'mt' in args.model_name:
+    if 'm' in args.model_name:
         args.rerank_weight = config.getfloat('{}_conf'.format(args.model_name), 'rerank_weight')
         args.class_weight = config.getfloat('{}_conf'.format(args.model_name), 'class_weight')
 
