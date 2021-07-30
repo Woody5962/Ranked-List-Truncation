@@ -65,7 +65,11 @@ class Trainer:
         elif self.model_name == 'mmoecut':
             self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
             self.model = MMOECut(num_tasks=args.num_tasks)
-            self.criterion = losses.MtCutLoss(metric=args.criterion, rerank_weight=args.rerank_weight, classi_weight=args.class_weight, num_tasks=args.num_tasks)
+            self.criterion = losses.MtCutLoss(metric=args.criterion, num_tasks=args.num_tasks)
+        elif self.model_name == 'moecut':
+            self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
+            self.model = MOECut(num_tasks=args.num_tasks)
+            self.criterion = losses.MtCutLoss(metric=args.criterion, num_tasks=args.num_tasks)
         
         self.optimizer = optim.Adam(self.model.parameters(), lr=args.lr, weight_decay=self.weight_decay)
         self.best_test_metric = -float('inf')
@@ -101,7 +105,7 @@ class Trainer:
                 for results in predictions:
                     if np.sum(results) == 300: k_s.append(300)
                     else: k_s.append(np.argmin(results))
-            elif 'mt' in self.model_name or self.model_name == 'mmoecut':
+            elif len(output) > 1:
                 predictions = output[-1].detach().cpu().squeeze().numpy()
                 k_s = np.argmax(predictions, axis=1)
             else: 
@@ -142,7 +146,7 @@ class Trainer:
                     for results in predictions:
                         if np.sum(results) == 300: k_s.append(300)
                         else: k_s.append(np.argmin(results))
-                elif 'mt' in self.model_name or self.model_name == 'mmoecut':
+                elif len(output) > 1:
                     predictions = output[-1].detach().cpu().squeeze().numpy()
                     k_s = np.argmax(predictions, axis=1)
                 else: 
@@ -241,7 +245,7 @@ def main():
     args.batch_size = config.getint('{}_conf'.format(args.model_name), 'batch_size')
     args.dropout = config.getfloat('{}_conf'.format(args.model_name), 'dropout')
     args.weight_decay = config.getfloat('{}_conf'.format(args.model_name), 'weight_decay')
-    if args.model_name == 'mmoecut' or 'mt' in args.model_name:
+    if 'moe' in args.model_name or 'mt' in args.model_name:
         args.rerank_weight = config.getfloat('{}_conf'.format(args.model_name), 'rerank_weight')
         args.class_weight = config.getfloat('{}_conf'.format(args.model_name), 'class_weight')
 

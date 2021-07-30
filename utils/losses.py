@@ -161,6 +161,7 @@ class MtCutLoss(nn.Module):
     def __init__(self, metric: str='f1', rerank_weight: float=0.5, classi_weight: float=0.5, num_tasks: float=3):
         super(MtCutLoss, self).__init__()
         self.rerank_weight, self.classi_loss = rerank_weight, classi_weight
+        self.weights = nn.Parameter(t.randn(int(num_tasks)), requires_grad=True)
         self.cutloss = AttnCutLoss(metric=metric)
         self.rerankloss = RerankLoss()
         self.classiloss = nn.BCELoss()
@@ -178,6 +179,34 @@ class MtCutLoss(nn.Module):
         if self.num_tasks == 3: return cutloss.add(rerankloss).add(classiloss)
         elif self.num_tasks == 2.1: return cutloss.add(classiloss)
         else: return cutloss.add(rerankloss)
+
+
+class MtCutLoss1(nn.Module):
+    """MtCut的loss，尝试加入分类loss
+
+    Args:
+        nn ([type]): [description]
+    """
+    def __init__(self, metric: str='f1', num_tasks: float=3):
+        super(MtCutLoss1, self).__init__()
+        self.weights = nn.Parameter(t.randn(int(num_tasks)), requires_grad=True)
+        self.cutloss = AttnCutLoss(metric=metric)
+        self.rerankloss = RerankLoss()
+        self.classiloss = nn.BCELoss()
+        self.num_tasks = num_tasks
+        
+    def forward(self, output, labels):
+        if self.num_tasks == 3: pred_y, rerank_y, cut_y = output
+        elif self.num_tasks == 2.1: pred_y, cut_y = output
+        else: rerank_y, cut_y = output
+        class_label = rerank_label = cut_label = labels
+        cutloss = self.cutloss(cut_y, cut_label)
+        if self.num_tasks == 3 or self.num_tasks == 2.2: rerankloss = self.rerankloss(rerank_y, rerank_label)
+        if self.num_tasks == 3 or self.num_tasks == 2.1: classiloss = self.classiloss(pred_y.squeeze(), class_label)
+        # print('cutloss: {} | rerankloss: {} | classify_loss: {}'.format(cutloss, rerankloss, classiloss))
+        if self.num_tasks == 3: return t.stack((classiloss, rerankloss, cutloss)) @ self.weights
+        elif self.num_tasks == 2.1: return t.stack((classiloss, cutloss)) @ self.weights
+        else: return t.stack((rerankloss, cutloss)) @ self.weights
 
         
 if __name__ == '__main__':

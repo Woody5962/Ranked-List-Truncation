@@ -1,935 +1,0 @@
-nohup: ignoring input
-INFO:root:{'dataset_name': 'drmm_tks', 'batch_size': 63, 'workers': 4, 'model_name': 'mtchoopy', 'criterion': 'f1', 'model_path': '/home/LAB/wangd/graduation_project/ranked list truncation/best_model/mtchoopy.pkl', 'ft': False, 'save_path': '/home/LAB/wangd/graduation_project/ranked list truncation/best_model/', 'epochs': 100, 'lr': 0.001, 'weight_decay': 0.0024756345581373493, 'dropout': 0.0, 'parameter_record': '/home/LAB/wangd/graduation_project/ranked list truncation/parameters.log', 'parameter_search': False, 'regularizer_search': False, 'mt_search': False, 'search_times': 100, 'rerank_weight': 0.5, 'class_weight': 0.5, 'cuda': False, 'Tensorboard_dir': '/home/LAB/wangd/graduation_project/ranked list truncation/Tensorboard_summary/'}
-INFO:root:
-Train the mtchoopy model: 
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_0:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_0:  25%|██▌       | 1/4 [00:04<00:14,  4.70s/it]Training for epoch_0:  50%|█████     | 2/4 [00:08<00:09,  4.58s/it]Training for epoch_0:  75%|███████▌  | 3/4 [00:13<00:04,  4.43s/it]Training for epoch_0: 100%|██████████| 4/4 [00:13<00:00,  3.22s/it]Training for epoch_0: 100%|██████████| 4/4 [00:13<00:00,  3.38s/it]
-INFO:root:
-Epoch: 0 | Epoch Time: 13.63 s
-INFO:root:	Train: loss = 6.438845157623291 | f1 = 0.433185 | dcg = -1.837530
-
-Test after epoch_0:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_0: 100%|██████████| 1/1 [00:01<00:00,  1.52s/it]Test after epoch_0: 100%|██████████| 1/1 [00:01<00:00,  1.55s/it]
-INFO:root:	Test: loss = 6.434476375579834 | f1 = 0.454729 | dcg = 5.272327
-
-INFO:root:The best model has beed updated and saved in /home/LAB/wangd/graduation_project/ranked list truncation/best_model/
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_1:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_1:  25%|██▌       | 1/4 [00:04<00:13,  4.56s/it]Training for epoch_1:  50%|█████     | 2/4 [00:09<00:09,  4.71s/it]Training for epoch_1:  75%|███████▌  | 3/4 [00:13<00:04,  4.48s/it]Training for epoch_1: 100%|██████████| 4/4 [00:13<00:00,  3.24s/it]Training for epoch_1: 100%|██████████| 4/4 [00:13<00:00,  3.49s/it]
-INFO:root:
-Epoch: 1 | Epoch Time: 14.02 s
-INFO:root:	Train: loss = 6.287522673606873 | f1 = 0.476207 | dcg = 3.987212
-
-Test after epoch_1:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_1: 100%|██████████| 1/1 [00:02<00:00,  2.11s/it]Test after epoch_1: 100%|██████████| 1/1 [00:02<00:00,  2.14s/it]
-INFO:root:	Test: loss = 6.417593955993652 | f1 = 0.165678 | dcg = 2.355744
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_2:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_2:  25%|██▌       | 1/4 [00:03<00:11,  3.86s/it]Training for epoch_2:  50%|█████     | 2/4 [00:08<00:08,  4.10s/it]Training for epoch_2:  75%|███████▌  | 3/4 [00:12<00:04,  4.02s/it]Training for epoch_2: 100%|██████████| 4/4 [00:12<00:00,  2.93s/it]Training for epoch_2: 100%|██████████| 4/4 [00:12<00:00,  3.19s/it]
-INFO:root:
-Epoch: 2 | Epoch Time: 12.83 s
-INFO:root:	Train: loss = 6.319385766983032 | f1 = 0.437847 | dcg = 5.112890
-
-Test after epoch_2:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_2: 100%|██████████| 1/1 [00:01<00:00,  1.51s/it]Test after epoch_2: 100%|██████████| 1/1 [00:01<00:00,  1.53s/it]
-INFO:root:	Test: loss = 6.388877868652344 | f1 = 0.579340 | dcg = 4.626171
-
-INFO:root:The best model has beed updated and saved in /home/LAB/wangd/graduation_project/ranked list truncation/best_model/
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_3:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_3:  25%|██▌       | 1/4 [00:03<00:10,  3.67s/it]Training for epoch_3:  50%|█████     | 2/4 [00:08<00:07,  3.91s/it]Training for epoch_3:  75%|███████▌  | 3/4 [00:12<00:04,  4.10s/it]Training for epoch_3: 100%|██████████| 4/4 [00:13<00:00,  2.98s/it]Training for epoch_3: 100%|██████████| 4/4 [00:13<00:00,  3.28s/it]
-INFO:root:
-Epoch: 3 | Epoch Time: 13.20 s
-INFO:root:	Train: loss = 6.247037410736084 | f1 = 0.533599 | dcg = 0.532772
-
-Test after epoch_3:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_3: 100%|██████████| 1/1 [00:01<00:00,  1.60s/it]Test after epoch_3: 100%|██████████| 1/1 [00:01<00:00,  1.63s/it]
-INFO:root:	Test: loss = 6.427158355712891 | f1 = 0.645249 | dcg = 7.693367
-
-INFO:root:The best model has beed updated and saved in /home/LAB/wangd/graduation_project/ranked list truncation/best_model/
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_4:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_4:  25%|██▌       | 1/4 [00:04<00:12,  4.11s/it]Training for epoch_4:  50%|█████     | 2/4 [00:08<00:08,  4.29s/it]Training for epoch_4:  75%|███████▌  | 3/4 [00:13<00:04,  4.48s/it]Training for epoch_4: 100%|██████████| 4/4 [00:14<00:00,  3.23s/it]Training for epoch_4: 100%|██████████| 4/4 [00:14<00:00,  3.52s/it]
-INFO:root:
-Epoch: 4 | Epoch Time: 14.17 s
-INFO:root:	Train: loss = 6.291631817817688 | f1 = 0.600741 | dcg = 6.473242
-
-Test after epoch_4:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_4: 100%|██████████| 1/1 [00:02<00:00,  2.10s/it]Test after epoch_4: 100%|██████████| 1/1 [00:02<00:00,  2.13s/it]
-INFO:root:	Test: loss = 6.418592929840088 | f1 = 0.627083 | dcg = 6.885259
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_5:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_5:  25%|██▌       | 1/4 [00:04<00:14,  4.82s/it]Training for epoch_5:  50%|█████     | 2/4 [00:08<00:09,  4.52s/it]Training for epoch_5:  75%|███████▌  | 3/4 [00:12<00:04,  4.42s/it]Training for epoch_5: 100%|██████████| 4/4 [00:13<00:00,  3.20s/it]Training for epoch_5: 100%|██████████| 4/4 [00:13<00:00,  3.30s/it]
-INFO:root:
-Epoch: 5 | Epoch Time: 13.28 s
-INFO:root:	Train: loss = 6.269978404045105 | f1 = 0.565580 | dcg = 3.812256
-
-Test after epoch_5:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_5: 100%|██████████| 1/1 [00:02<00:00,  2.10s/it]Test after epoch_5: 100%|██████████| 1/1 [00:02<00:00,  2.13s/it]
-INFO:root:	Test: loss = 6.433216571807861 | f1 = 0.723306 | dcg = 9.878626
-
-INFO:root:The best model has beed updated and saved in /home/LAB/wangd/graduation_project/ranked list truncation/best_model/
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_6:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_6:  25%|██▌       | 1/4 [00:04<00:13,  4.66s/it]Training for epoch_6:  50%|█████     | 2/4 [00:08<00:08,  4.44s/it]Training for epoch_6:  75%|███████▌  | 3/4 [00:13<00:04,  4.49s/it]Training for epoch_6: 100%|██████████| 4/4 [00:13<00:00,  3.26s/it]Training for epoch_6: 100%|██████████| 4/4 [00:13<00:00,  3.40s/it]
-INFO:root:
-Epoch: 6 | Epoch Time: 13.68 s
-INFO:root:	Train: loss = 6.280107736587524 | f1 = 0.655754 | dcg = 7.004021
-
-Test after epoch_6:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_6: 100%|██████████| 1/1 [00:02<00:00,  2.07s/it]Test after epoch_6: 100%|██████████| 1/1 [00:02<00:00,  2.10s/it]
-INFO:root:	Test: loss = 6.440216064453125 | f1 = 0.730074 | dcg = 10.032302
-
-INFO:root:The best model has beed updated and saved in /home/LAB/wangd/graduation_project/ranked list truncation/best_model/
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_7:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_7:  25%|██▌       | 1/4 [00:04<00:13,  4.41s/it]Training for epoch_7:  50%|█████     | 2/4 [00:09<00:08,  4.49s/it]Training for epoch_7:  75%|███████▌  | 3/4 [00:13<00:04,  4.54s/it]Training for epoch_7: 100%|██████████| 4/4 [00:14<00:00,  3.29s/it]Training for epoch_7: 100%|██████████| 4/4 [00:14<00:00,  3.53s/it]
-INFO:root:
-Epoch: 7 | Epoch Time: 14.27 s
-INFO:root:	Train: loss = 6.281238675117493 | f1 = 0.609753 | dcg = 5.677841
-
-Test after epoch_7:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_7: 100%|██████████| 1/1 [00:01<00:00,  1.49s/it]Test after epoch_7: 100%|██████████| 1/1 [00:01<00:00,  1.52s/it]
-INFO:root:	Test: loss = 6.449231147766113 | f1 = 0.739346 | dcg = 10.007193
-
-INFO:root:The best model has beed updated and saved in /home/LAB/wangd/graduation_project/ranked list truncation/best_model/
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_8:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_8:  25%|██▌       | 1/4 [00:04<00:14,  4.80s/it]Training for epoch_8:  50%|█████     | 2/4 [00:08<00:08,  4.48s/it]Training for epoch_8:  75%|███████▌  | 3/4 [00:13<00:04,  4.56s/it]Training for epoch_8: 100%|██████████| 4/4 [00:13<00:00,  3.31s/it]Training for epoch_8: 100%|██████████| 4/4 [00:13<00:00,  3.43s/it]
-INFO:root:
-Epoch: 8 | Epoch Time: 13.80 s
-INFO:root:	Train: loss = 6.284388422966003 | f1 = 0.657867 | dcg = 6.240909
-
-Test after epoch_8:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_8: 100%|██████████| 1/1 [00:02<00:00,  2.10s/it]Test after epoch_8: 100%|██████████| 1/1 [00:02<00:00,  2.13s/it]
-INFO:root:	Test: loss = 6.479620933532715 | f1 = 0.737254 | dcg = 10.244313
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_9:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_9:  25%|██▌       | 1/4 [00:04<00:14,  4.76s/it]Training for epoch_9:  50%|█████     | 2/4 [00:09<00:09,  4.76s/it]Training for epoch_9:  75%|███████▌  | 3/4 [00:13<00:04,  4.53s/it]Training for epoch_9: 100%|██████████| 4/4 [00:13<00:00,  3.28s/it]Training for epoch_9: 100%|██████████| 4/4 [00:13<00:00,  3.48s/it]
-INFO:root:
-Epoch: 9 | Epoch Time: 13.99 s
-INFO:root:	Train: loss = 6.307042956352234 | f1 = 0.666769 | dcg = 7.499784
-
-Test after epoch_9:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_9: 100%|██████████| 1/1 [00:01<00:00,  1.53s/it]Test after epoch_9: 100%|██████████| 1/1 [00:01<00:00,  1.56s/it]
-INFO:root:	Test: loss = 6.483227252960205 | f1 = 0.750571 | dcg = 10.777289
-
-INFO:root:The best model has beed updated and saved in /home/LAB/wangd/graduation_project/ranked list truncation/best_model/
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_10:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_10:  25%|██▌       | 1/4 [00:03<00:11,  3.95s/it]Training for epoch_10:  50%|█████     | 2/4 [00:08<00:08,  4.19s/it]Training for epoch_10:  75%|███████▌  | 3/4 [00:13<00:04,  4.29s/it]Training for epoch_10: 100%|██████████| 4/4 [00:13<00:00,  3.10s/it]Training for epoch_10: 100%|██████████| 4/4 [00:13<00:00,  3.40s/it]
-INFO:root:
-Epoch: 10 | Epoch Time: 13.69 s
-INFO:root:	Train: loss = 6.285928964614868 | f1 = 0.708530 | dcg = 8.015309
-
-Test after epoch_10:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_10: 100%|██████████| 1/1 [00:01<00:00,  1.53s/it]Test after epoch_10: 100%|██████████| 1/1 [00:01<00:00,  1.56s/it]
-INFO:root:	Test: loss = 6.476670742034912 | f1 = 0.748285 | dcg = 10.670994
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_11:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_11:  25%|██▌       | 1/4 [00:03<00:11,  3.98s/it]Training for epoch_11:  50%|█████     | 2/4 [00:08<00:08,  4.02s/it]Training for epoch_11:  75%|███████▌  | 3/4 [00:12<00:04,  4.27s/it]Training for epoch_11: 100%|██████████| 4/4 [00:13<00:00,  3.10s/it]Training for epoch_11: 100%|██████████| 4/4 [00:13<00:00,  3.33s/it]
-INFO:root:
-Epoch: 11 | Epoch Time: 13.44 s
-INFO:root:	Train: loss = 6.296895742416382 | f1 = 0.713430 | dcg = 10.338574
-
-Test after epoch_11:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_11: 100%|██████████| 1/1 [00:01<00:00,  1.60s/it]Test after epoch_11: 100%|██████████| 1/1 [00:01<00:00,  1.63s/it]
-INFO:root:	Test: loss = 6.453758239746094 | f1 = 0.742097 | dcg = 10.026380
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_12:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_12:  25%|██▌       | 1/4 [00:03<00:11,  3.94s/it]Training for epoch_12:  50%|█████     | 2/4 [00:08<00:08,  4.13s/it]Training for epoch_12:  75%|███████▌  | 3/4 [00:12<00:04,  4.07s/it]Training for epoch_12: 100%|██████████| 4/4 [00:12<00:00,  2.99s/it]Training for epoch_12: 100%|██████████| 4/4 [00:12<00:00,  3.23s/it]
-INFO:root:
-Epoch: 12 | Epoch Time: 13.03 s
-INFO:root:	Train: loss = 6.266615152359009 | f1 = 0.682806 | dcg = 7.864026
-
-Test after epoch_12:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_12: 100%|██████████| 1/1 [00:01<00:00,  1.67s/it]Test after epoch_12: 100%|██████████| 1/1 [00:01<00:00,  1.70s/it]
-INFO:root:	Test: loss = 6.430784225463867 | f1 = 0.747398 | dcg = 10.331859
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_13:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_13:  25%|██▌       | 1/4 [00:03<00:11,  3.99s/it]Training for epoch_13:  50%|█████     | 2/4 [00:08<00:08,  4.22s/it]Training for epoch_13:  75%|███████▌  | 3/4 [00:12<00:04,  4.10s/it]Training for epoch_13: 100%|██████████| 4/4 [00:12<00:00,  2.99s/it]Training for epoch_13: 100%|██████████| 4/4 [00:13<00:00,  3.26s/it]
-INFO:root:
-Epoch: 13 | Epoch Time: 13.10 s
-INFO:root:	Train: loss = 6.251210451126099 | f1 = 0.624990 | dcg = 5.878937
-
-Test after epoch_13:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_13: 100%|██████████| 1/1 [00:02<00:00,  2.20s/it]Test after epoch_13: 100%|██████████| 1/1 [00:02<00:00,  2.24s/it]
-INFO:root:	Test: loss = 6.406101703643799 | f1 = 0.744537 | dcg = 10.340848
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_14:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_14:  25%|██▌       | 1/4 [00:04<00:13,  4.64s/it]Training for epoch_14:  50%|█████     | 2/4 [00:08<00:08,  4.39s/it]Training for epoch_14:  75%|███████▌  | 3/4 [00:12<00:04,  4.25s/it]Training for epoch_14: 100%|██████████| 4/4 [00:12<00:00,  3.12s/it]Training for epoch_14: 100%|██████████| 4/4 [00:12<00:00,  3.23s/it]
-INFO:root:
-Epoch: 14 | Epoch Time: 12.98 s
-INFO:root:	Train: loss = 6.227762460708618 | f1 = 0.685847 | dcg = 7.656894
-
-Test after epoch_14:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_14: 100%|██████████| 1/1 [00:01<00:00,  1.55s/it]Test after epoch_14: 100%|██████████| 1/1 [00:01<00:00,  1.58s/it]
-INFO:root:	Test: loss = 6.388800144195557 | f1 = 0.746484 | dcg = 10.334601
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_15:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_15:  25%|██▌       | 1/4 [00:03<00:11,  3.95s/it]Training for epoch_15:  50%|█████     | 2/4 [00:08<00:08,  4.01s/it]Training for epoch_15:  75%|███████▌  | 3/4 [00:12<00:04,  4.24s/it]Training for epoch_15: 100%|██████████| 4/4 [00:13<00:00,  3.09s/it]Training for epoch_15: 100%|██████████| 4/4 [00:13<00:00,  3.33s/it]
-INFO:root:
-Epoch: 15 | Epoch Time: 13.40 s
-INFO:root:	Train: loss = 6.224441409111023 | f1 = 0.710669 | dcg = 10.073522
-
-Test after epoch_15:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_15: 100%|██████████| 1/1 [00:02<00:00,  2.11s/it]Test after epoch_15: 100%|██████████| 1/1 [00:02<00:00,  2.14s/it]
-INFO:root:	Test: loss = 6.386724472045898 | f1 = 0.741517 | dcg = 10.007052
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_16:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_16:  25%|██▌       | 1/4 [00:04<00:13,  4.58s/it]Training for epoch_16:  50%|█████     | 2/4 [00:08<00:08,  4.42s/it]Training for epoch_16:  75%|███████▌  | 3/4 [00:13<00:04,  4.64s/it]Training for epoch_16: 100%|██████████| 4/4 [00:14<00:00,  3.37s/it]Training for epoch_16: 100%|██████████| 4/4 [00:14<00:00,  3.56s/it]
-INFO:root:
-Epoch: 16 | Epoch Time: 14.32 s
-INFO:root:	Train: loss = 6.246379733085632 | f1 = 0.582372 | dcg = 5.017069
-
-Test after epoch_16:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_16: 100%|██████████| 1/1 [00:02<00:00,  2.14s/it]Test after epoch_16: 100%|██████████| 1/1 [00:02<00:00,  2.17s/it]
-INFO:root:	Test: loss = 6.396121025085449 | f1 = 0.745024 | dcg = 10.845848
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_17:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_17:  25%|██▌       | 1/4 [00:04<00:14,  4.84s/it]Training for epoch_17:  50%|█████     | 2/4 [00:08<00:09,  4.56s/it]Training for epoch_17:  75%|███████▌  | 3/4 [00:13<00:04,  4.65s/it]Training for epoch_17: 100%|██████████| 4/4 [00:14<00:00,  3.38s/it]Training for epoch_17: 100%|██████████| 4/4 [00:14<00:00,  3.52s/it]
-INFO:root:
-Epoch: 17 | Epoch Time: 14.14 s
-INFO:root:	Train: loss = 6.232607960700989 | f1 = 0.695174 | dcg = 9.036658
-
-Test after epoch_17:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_17: 100%|██████████| 1/1 [00:01<00:00,  1.52s/it]Test after epoch_17: 100%|██████████| 1/1 [00:01<00:00,  1.54s/it]
-INFO:root:	Test: loss = 6.3536176681518555 | f1 = 0.727100 | dcg = 9.616462
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_18:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_18:  25%|██▌       | 1/4 [00:04<00:13,  4.63s/it]Training for epoch_18:  50%|█████     | 2/4 [00:08<00:08,  4.40s/it]Training for epoch_18:  75%|███████▌  | 3/4 [00:13<00:04,  4.47s/it]Training for epoch_18: 100%|██████████| 4/4 [00:13<00:00,  3.24s/it]Training for epoch_18: 100%|██████████| 4/4 [00:13<00:00,  3.38s/it]
-INFO:root:
-Epoch: 18 | Epoch Time: 13.61 s
-INFO:root:	Train: loss = 6.239127993583679 | f1 = 0.665061 | dcg = 9.225465
-
-Test after epoch_18:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_18: 100%|██████████| 1/1 [00:02<00:00,  2.17s/it]Test after epoch_18: 100%|██████████| 1/1 [00:02<00:00,  2.20s/it]
-INFO:root:	Test: loss = 6.346360206604004 | f1 = 0.739510 | dcg = 10.168283
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_19:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_19:  25%|██▌       | 1/4 [00:04<00:13,  4.59s/it]Training for epoch_19:  50%|█████     | 2/4 [00:09<00:09,  4.66s/it]Training for epoch_19:  75%|███████▌  | 3/4 [00:14<00:04,  4.64s/it]Training for epoch_19: 100%|██████████| 4/4 [00:14<00:00,  3.40s/it]Training for epoch_19: 100%|██████████| 4/4 [00:14<00:00,  3.64s/it]
-INFO:root:
-Epoch: 19 | Epoch Time: 14.63 s
-INFO:root:	Train: loss = 6.21261465549469 | f1 = 0.657707 | dcg = 6.716451
-
-Test after epoch_19:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_19: 100%|██████████| 1/1 [00:02<00:00,  2.15s/it]Test after epoch_19: 100%|██████████| 1/1 [00:02<00:00,  2.18s/it]
-INFO:root:	Test: loss = 6.357082366943359 | f1 = 0.748232 | dcg = 10.524278
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_20:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_20:  25%|██▌       | 1/4 [00:04<00:13,  4.42s/it]Training for epoch_20:  50%|█████     | 2/4 [00:08<00:08,  4.21s/it]Training for epoch_20:  75%|███████▌  | 3/4 [00:12<00:04,  4.40s/it]Training for epoch_20: 100%|██████████| 4/4 [00:13<00:00,  3.20s/it]Training for epoch_20: 100%|██████████| 4/4 [00:13<00:00,  3.35s/it]
-INFO:root:
-Epoch: 20 | Epoch Time: 13.48 s
-INFO:root:	Train: loss = 6.195468783378601 | f1 = 0.677133 | dcg = 7.469104
-
-Test after epoch_20:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_20: 100%|██████████| 1/1 [00:01<00:00,  1.56s/it]Test after epoch_20: 100%|██████████| 1/1 [00:01<00:00,  1.59s/it]
-INFO:root:	Test: loss = 6.328874111175537 | f1 = 0.744336 | dcg = 10.116839
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_21:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_21:  25%|██▌       | 1/4 [00:04<00:14,  4.91s/it]Training for epoch_21:  50%|█████     | 2/4 [00:08<00:09,  4.61s/it]Training for epoch_21:  75%|███████▌  | 3/4 [00:12<00:04,  4.43s/it]Training for epoch_21: 100%|██████████| 4/4 [00:13<00:00,  3.26s/it]Training for epoch_21: 100%|██████████| 4/4 [00:13<00:00,  3.35s/it]
-INFO:root:
-Epoch: 21 | Epoch Time: 13.48 s
-INFO:root:	Train: loss = 6.186641097068787 | f1 = 0.703199 | dcg = 9.794241
-
-Test after epoch_21:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_21: 100%|██████████| 1/1 [00:02<00:00,  2.10s/it]Test after epoch_21: 100%|██████████| 1/1 [00:02<00:00,  2.13s/it]
-INFO:root:	Test: loss = 6.325563907623291 | f1 = 0.744267 | dcg = 10.092511
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_22:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_22:  25%|██▌       | 1/4 [00:04<00:14,  4.95s/it]Training for epoch_22:  50%|█████     | 2/4 [00:09<00:09,  4.96s/it]Training for epoch_22:  75%|███████▌  | 3/4 [00:13<00:04,  4.63s/it]Training for epoch_22: 100%|██████████| 4/4 [00:14<00:00,  3.35s/it]Training for epoch_22: 100%|██████████| 4/4 [00:14<00:00,  3.54s/it]
-INFO:root:
-Epoch: 22 | Epoch Time: 14.25 s
-INFO:root:	Train: loss = 6.204590439796448 | f1 = 0.677224 | dcg = 8.690763
-
-Test after epoch_22:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_22: 100%|██████████| 1/1 [00:02<00:00,  2.20s/it]Test after epoch_22: 100%|██████████| 1/1 [00:02<00:00,  2.23s/it]
-INFO:root:	Test: loss = 6.337759971618652 | f1 = 0.749536 | dcg = 10.586018
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_23:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_23:  25%|██▌       | 1/4 [00:04<00:14,  4.92s/it]Training for epoch_23:  50%|█████     | 2/4 [00:08<00:09,  4.66s/it]Training for epoch_23:  75%|███████▌  | 3/4 [00:13<00:04,  4.67s/it]Training for epoch_23: 100%|██████████| 4/4 [00:14<00:00,  3.39s/it]Training for epoch_23: 100%|██████████| 4/4 [00:14<00:00,  3.53s/it]
-INFO:root:
-Epoch: 23 | Epoch Time: 14.20 s
-INFO:root:	Train: loss = 6.185396313667297 | f1 = 0.673549 | dcg = 8.184755
-
-Test after epoch_23:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_23: 100%|██████████| 1/1 [00:02<00:00,  2.14s/it]Test after epoch_23: 100%|██████████| 1/1 [00:02<00:00,  2.17s/it]
-INFO:root:	Test: loss = 6.343235969543457 | f1 = 0.751107 | dcg = 10.404024
-
-INFO:root:The best model has beed updated and saved in /home/LAB/wangd/graduation_project/ranked list truncation/best_model/
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_24:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_24:  25%|██▌       | 1/4 [00:03<00:11,  3.97s/it]Training for epoch_24:  50%|█████     | 2/4 [00:07<00:07,  3.95s/it]Training for epoch_24:  75%|███████▌  | 3/4 [00:11<00:03,  4.00s/it]Training for epoch_24: 100%|██████████| 4/4 [00:12<00:00,  2.94s/it]Training for epoch_24: 100%|██████████| 4/4 [00:12<00:00,  3.12s/it]
-INFO:root:
-Epoch: 24 | Epoch Time: 12.56 s
-INFO:root:	Train: loss = 6.198280215263367 | f1 = 0.698586 | dcg = 8.467336
-
-Test after epoch_24:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_24: 100%|██████████| 1/1 [00:02<00:00,  2.15s/it]Test after epoch_24: 100%|██████████| 1/1 [00:02<00:00,  2.18s/it]
-INFO:root:	Test: loss = 6.3375372886657715 | f1 = 0.747562 | dcg = 10.175748
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_25:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_25:  25%|██▌       | 1/4 [00:04<00:12,  4.08s/it]Training for epoch_25:  50%|█████     | 2/4 [00:08<00:08,  4.07s/it]Training for epoch_25:  75%|███████▌  | 3/4 [00:12<00:04,  4.18s/it]Training for epoch_25: 100%|██████████| 4/4 [00:13<00:00,  3.06s/it]Training for epoch_25: 100%|██████████| 4/4 [00:13<00:00,  3.26s/it]
-INFO:root:
-Epoch: 25 | Epoch Time: 13.11 s
-INFO:root:	Train: loss = 6.1816136837005615 | f1 = 0.661890 | dcg = 6.534221
-
-Test after epoch_25:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_25: 100%|██████████| 1/1 [00:01<00:00,  1.55s/it]Test after epoch_25: 100%|██████████| 1/1 [00:01<00:00,  1.58s/it]
-INFO:root:	Test: loss = 6.342288970947266 | f1 = 0.750061 | dcg = 10.930672
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_26:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_26:  25%|██▌       | 1/4 [00:04<00:14,  4.72s/it]Training for epoch_26:  50%|█████     | 2/4 [00:09<00:09,  4.69s/it]Training for epoch_26:  75%|███████▌  | 3/4 [00:13<00:04,  4.43s/it]Training for epoch_26: 100%|██████████| 4/4 [00:13<00:00,  3.20s/it]Training for epoch_26: 100%|██████████| 4/4 [00:13<00:00,  3.38s/it]
-INFO:root:
-Epoch: 26 | Epoch Time: 13.60 s
-INFO:root:	Train: loss = 6.188343405723572 | f1 = 0.724400 | dcg = 9.387904
-
-Test after epoch_26:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_26: 100%|██████████| 1/1 [00:01<00:00,  1.56s/it]Test after epoch_26: 100%|██████████| 1/1 [00:01<00:00,  1.58s/it]
-INFO:root:	Test: loss = 6.330389976501465 | f1 = 0.755060 | dcg = 10.578125
-
-INFO:root:The best model has beed updated and saved in /home/LAB/wangd/graduation_project/ranked list truncation/best_model/
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_27:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_27:  25%|██▌       | 1/4 [00:04<00:12,  4.09s/it]Training for epoch_27:  50%|█████     | 2/4 [00:08<00:08,  4.08s/it]Training for epoch_27:  75%|███████▌  | 3/4 [00:11<00:03,  3.99s/it]Training for epoch_27: 100%|██████████| 4/4 [00:12<00:00,  2.90s/it]Training for epoch_27: 100%|██████████| 4/4 [00:12<00:00,  3.08s/it]
-INFO:root:
-Epoch: 27 | Epoch Time: 12.40 s
-INFO:root:	Train: loss = 6.175809264183044 | f1 = 0.674995 | dcg = 6.464618
-
-Test after epoch_27:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_27: 100%|██████████| 1/1 [00:02<00:00,  2.14s/it]Test after epoch_27: 100%|██████████| 1/1 [00:02<00:00,  2.17s/it]
-INFO:root:	Test: loss = 6.340463638305664 | f1 = 0.756832 | dcg = 10.769182
-
-INFO:root:The best model has beed updated and saved in /home/LAB/wangd/graduation_project/ranked list truncation/best_model/
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_28:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_28:  25%|██▌       | 1/4 [00:03<00:11,  3.89s/it]Training for epoch_28:  50%|█████     | 2/4 [00:07<00:07,  3.90s/it]Training for epoch_28:  75%|███████▌  | 3/4 [00:12<00:04,  4.14s/it]Training for epoch_28: 100%|██████████| 4/4 [00:12<00:00,  3.02s/it]Training for epoch_28: 100%|██████████| 4/4 [00:12<00:00,  3.24s/it]
-INFO:root:
-Epoch: 28 | Epoch Time: 13.03 s
-INFO:root:	Train: loss = 6.200778126716614 | f1 = 0.698430 | dcg = 8.682128
-
-Test after epoch_28:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_28: 100%|██████████| 1/1 [00:02<00:00,  2.12s/it]Test after epoch_28: 100%|██████████| 1/1 [00:02<00:00,  2.15s/it]
-INFO:root:	Test: loss = 6.3207244873046875 | f1 = 0.750365 | dcg = 10.389107
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_29:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_29:  25%|██▌       | 1/4 [00:04<00:14,  4.83s/it]Training for epoch_29:  50%|█████     | 2/4 [00:08<00:09,  4.60s/it]Training for epoch_29:  75%|███████▌  | 3/4 [00:13<00:04,  4.45s/it]Training for epoch_29: 100%|██████████| 4/4 [00:13<00:00,  3.25s/it]Training for epoch_29: 100%|██████████| 4/4 [00:13<00:00,  3.36s/it]
-INFO:root:
-Epoch: 29 | Epoch Time: 13.56 s
-INFO:root:	Train: loss = 6.164967060089111 | f1 = 0.715804 | dcg = 10.049368
-
-Test after epoch_29:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_29: 100%|██████████| 1/1 [00:02<00:00,  2.16s/it]Test after epoch_29: 100%|██████████| 1/1 [00:02<00:00,  2.19s/it]
-INFO:root:	Test: loss = 6.317724227905273 | f1 = 0.764937 | dcg = 11.187823
-
-INFO:root:The best model has beed updated and saved in /home/LAB/wangd/graduation_project/ranked list truncation/best_model/
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_30:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_30:  25%|██▌       | 1/4 [00:04<00:14,  4.77s/it]Training for epoch_30:  50%|█████     | 2/4 [00:08<00:09,  4.52s/it]Training for epoch_30:  75%|███████▌  | 3/4 [00:12<00:04,  4.45s/it]Training for epoch_30: 100%|██████████| 4/4 [00:13<00:00,  3.22s/it]Training for epoch_30: 100%|██████████| 4/4 [00:13<00:00,  3.34s/it]
-INFO:root:
-Epoch: 30 | Epoch Time: 13.45 s
-INFO:root:	Train: loss = 6.191870212554932 | f1 = 0.686510 | dcg = 8.596136
-
-Test after epoch_30:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_30: 100%|██████████| 1/1 [00:02<00:00,  2.17s/it]Test after epoch_30: 100%|██████████| 1/1 [00:02<00:00,  2.20s/it]
-INFO:root:	Test: loss = 6.311563491821289 | f1 = 0.742655 | dcg = 10.147537
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_31:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_31:  25%|██▌       | 1/4 [00:04<00:14,  4.89s/it]Training for epoch_31:  50%|█████     | 2/4 [00:08<00:09,  4.63s/it]Training for epoch_31:  75%|███████▌  | 3/4 [00:12<00:04,  4.44s/it]Training for epoch_31: 100%|██████████| 4/4 [00:13<00:00,  3.25s/it]Training for epoch_31: 100%|██████████| 4/4 [00:13<00:00,  3.36s/it]
-INFO:root:
-Epoch: 31 | Epoch Time: 13.50 s
-INFO:root:	Train: loss = 6.182817816734314 | f1 = 0.685083 | dcg = 7.458204
-
-Test after epoch_31:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_31: 100%|██████████| 1/1 [00:02<00:00,  2.12s/it]Test after epoch_31: 100%|██████████| 1/1 [00:02<00:00,  2.16s/it]
-INFO:root:	Test: loss = 6.314465045928955 | f1 = 0.735051 | dcg = 10.821258
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_32:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_32:  25%|██▌       | 1/4 [00:04<00:12,  4.07s/it]Training for epoch_32:  50%|█████     | 2/4 [00:07<00:07,  3.98s/it]Training for epoch_32:  75%|███████▌  | 3/4 [00:12<00:04,  4.06s/it]Training for epoch_32: 100%|██████████| 4/4 [00:12<00:00,  3.03s/it]Training for epoch_32: 100%|██████████| 4/4 [00:12<00:00,  3.19s/it]
-INFO:root:
-Epoch: 32 | Epoch Time: 12.85 s
-INFO:root:	Train: loss = 6.158483982086182 | f1 = 0.690567 | dcg = 7.535182
-
-Test after epoch_32:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_32: 100%|██████████| 1/1 [00:01<00:00,  1.52s/it]Test after epoch_32: 100%|██████████| 1/1 [00:01<00:00,  1.58s/it]
-INFO:root:	Test: loss = 6.310953140258789 | f1 = 0.743522 | dcg = 10.835280
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_33:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_33:  25%|██▌       | 1/4 [00:03<00:11,  3.94s/it]Training for epoch_33:  50%|█████     | 2/4 [00:07<00:07,  3.97s/it]Training for epoch_33:  75%|███████▌  | 3/4 [00:11<00:03,  3.95s/it]Training for epoch_33: 100%|██████████| 4/4 [00:12<00:00,  2.90s/it]Training for epoch_33: 100%|██████████| 4/4 [00:12<00:00,  3.09s/it]
-INFO:root:
-Epoch: 33 | Epoch Time: 12.48 s
-INFO:root:	Train: loss = 6.1734923124313354 | f1 = 0.722710 | dcg = 8.303213
-
-Test after epoch_33:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_33: 100%|██████████| 1/1 [00:02<00:00,  2.15s/it]Test after epoch_33: 100%|██████████| 1/1 [00:02<00:00,  2.18s/it]
-INFO:root:	Test: loss = 6.317296981811523 | f1 = 0.755579 | dcg = 10.844250
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_34:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_34:  25%|██▌       | 1/4 [00:04<00:14,  4.85s/it]Training for epoch_34:  50%|█████     | 2/4 [00:08<00:09,  4.63s/it]Training for epoch_34:  75%|███████▌  | 3/4 [00:13<00:04,  4.60s/it]Training for epoch_34: 100%|██████████| 4/4 [00:13<00:00,  3.35s/it]Training for epoch_34: 100%|██████████| 4/4 [00:13<00:00,  3.49s/it]
-INFO:root:
-Epoch: 34 | Epoch Time: 14.10 s
-INFO:root:	Train: loss = 6.193217873573303 | f1 = 0.744972 | dcg = 11.086042
-
-Test after epoch_34:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_34: 100%|██████████| 1/1 [00:02<00:00,  2.15s/it]Test after epoch_34: 100%|██████████| 1/1 [00:02<00:00,  2.17s/it]
-INFO:root:	Test: loss = 6.313470840454102 | f1 = 0.755071 | dcg = 10.448845
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_35:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_35:  25%|██▌       | 1/4 [00:03<00:11,  3.97s/it]Training for epoch_35:  50%|█████     | 2/4 [00:08<00:08,  4.24s/it]Training for epoch_35:  75%|███████▌  | 3/4 [00:13<00:04,  4.40s/it]Training for epoch_35: 100%|██████████| 4/4 [00:14<00:00,  3.23s/it]Training for epoch_35: 100%|██████████| 4/4 [00:14<00:00,  3.54s/it]
-INFO:root:
-Epoch: 35 | Epoch Time: 14.27 s
-INFO:root:	Train: loss = 6.199331879615784 | f1 = 0.701141 | dcg = 9.944939
-
-Test after epoch_35:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_35: 100%|██████████| 1/1 [00:01<00:00,  1.83s/it]Test after epoch_35: 100%|██████████| 1/1 [00:01<00:00,  1.85s/it]
-INFO:root:	Test: loss = 6.308916091918945 | f1 = 0.742311 | dcg = 10.079335
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_36:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_36:  25%|██▌       | 1/4 [00:05<00:15,  5.08s/it]Training for epoch_36:  50%|█████     | 2/4 [00:08<00:09,  4.73s/it]Training for epoch_36:  75%|███████▌  | 3/4 [00:12<00:04,  4.50s/it]Training for epoch_36: 100%|██████████| 4/4 [00:13<00:00,  3.27s/it]Training for epoch_36: 100%|██████████| 4/4 [00:13<00:00,  3.34s/it]
-INFO:root:
-Epoch: 36 | Epoch Time: 13.45 s
-INFO:root:	Train: loss = 6.177937984466553 | f1 = 0.660883 | dcg = 6.188510
-
-Test after epoch_36:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_36: 100%|██████████| 1/1 [00:02<00:00,  2.09s/it]Test after epoch_36: 100%|██████████| 1/1 [00:02<00:00,  2.12s/it]
-INFO:root:	Test: loss = 6.297202110290527 | f1 = 0.744264 | dcg = 10.653638
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_37:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_37:  25%|██▌       | 1/4 [00:03<00:11,  3.97s/it]Training for epoch_37:  50%|█████     | 2/4 [00:07<00:07,  3.99s/it]Training for epoch_37:  75%|███████▌  | 3/4 [00:11<00:03,  3.97s/it]Training for epoch_37: 100%|██████████| 4/4 [00:12<00:00,  2.90s/it]Training for epoch_37: 100%|██████████| 4/4 [00:12<00:00,  3.09s/it]
-INFO:root:
-Epoch: 37 | Epoch Time: 12.42 s
-INFO:root:	Train: loss = 6.1364219188690186 | f1 = 0.672450 | dcg = 8.213701
-
-Test after epoch_37:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_37: 100%|██████████| 1/1 [00:02<00:00,  2.14s/it]Test after epoch_37: 100%|██████████| 1/1 [00:02<00:00,  2.17s/it]
-INFO:root:	Test: loss = 6.271378993988037 | f1 = 0.725059 | dcg = 10.041290
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_38:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_38:  25%|██▌       | 1/4 [00:04<00:14,  4.87s/it]Training for epoch_38:  50%|█████     | 2/4 [00:08<00:09,  4.58s/it]Training for epoch_38:  75%|███████▌  | 3/4 [00:13<00:04,  4.71s/it]Training for epoch_38: 100%|██████████| 4/4 [00:14<00:00,  3.41s/it]Training for epoch_38: 100%|██████████| 4/4 [00:14<00:00,  3.55s/it]
-INFO:root:
-Epoch: 38 | Epoch Time: 14.28 s
-INFO:root:	Train: loss = 6.13313090801239 | f1 = 0.662140 | dcg = 7.086660
-
-Test after epoch_38:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_38: 100%|██████████| 1/1 [00:01<00:00,  1.54s/it]Test after epoch_38: 100%|██████████| 1/1 [00:01<00:00,  1.57s/it]
-INFO:root:	Test: loss = 6.280083656311035 | f1 = 0.735959 | dcg = 11.071404
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_39:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_39:  25%|██▌       | 1/4 [00:03<00:11,  3.92s/it]Training for epoch_39:  50%|█████     | 2/4 [00:07<00:07,  3.91s/it]Training for epoch_39:  75%|███████▌  | 3/4 [00:12<00:04,  4.19s/it]Training for epoch_39: 100%|██████████| 4/4 [00:13<00:00,  3.06s/it]Training for epoch_39: 100%|██████████| 4/4 [00:13<00:00,  3.28s/it]
-INFO:root:
-Epoch: 39 | Epoch Time: 13.20 s
-INFO:root:	Train: loss = 6.138254165649414 | f1 = 0.684593 | dcg = 7.486851
-
-Test after epoch_39:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_39: 100%|██████████| 1/1 [00:01<00:00,  1.57s/it]Test after epoch_39: 100%|██████████| 1/1 [00:01<00:00,  1.59s/it]
-INFO:root:	Test: loss = 6.2795820236206055 | f1 = 0.750136 | dcg = 10.646687
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_40:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_40:  25%|██▌       | 1/4 [00:04<00:12,  4.08s/it]Training for epoch_40:  50%|█████     | 2/4 [00:08<00:08,  4.06s/it]Training for epoch_40:  75%|███████▌  | 3/4 [00:12<00:04,  4.10s/it]Training for epoch_40: 100%|██████████| 4/4 [00:12<00:00,  3.00s/it]Training for epoch_40: 100%|██████████| 4/4 [00:12<00:00,  3.18s/it]
-INFO:root:
-Epoch: 40 | Epoch Time: 12.82 s
-INFO:root:	Train: loss = 6.139800071716309 | f1 = 0.700866 | dcg = 7.472419
-
-Test after epoch_40:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_40: 100%|██████████| 1/1 [00:02<00:00,  2.08s/it]Test after epoch_40: 100%|██████████| 1/1 [00:02<00:00,  2.13s/it]
-INFO:root:	Test: loss = 6.282108306884766 | f1 = 0.739547 | dcg = 10.453088
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_41:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_41:  25%|██▌       | 1/4 [00:04<00:14,  4.87s/it]Training for epoch_41:  50%|█████     | 2/4 [00:08<00:09,  4.58s/it]Training for epoch_41:  75%|███████▌  | 3/4 [00:13<00:04,  4.63s/it]Training for epoch_41: 100%|██████████| 4/4 [00:13<00:00,  3.37s/it]Training for epoch_41: 100%|██████████| 4/4 [00:13<00:00,  3.50s/it]
-INFO:root:
-Epoch: 41 | Epoch Time: 14.07 s
-INFO:root:	Train: loss = 6.1449843645095825 | f1 = 0.644106 | dcg = 6.212726
-
-Test after epoch_41:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_41: 100%|██████████| 1/1 [00:01<00:00,  1.90s/it]Test after epoch_41: 100%|██████████| 1/1 [00:01<00:00,  1.93s/it]
-INFO:root:	Test: loss = 6.279895782470703 | f1 = 0.752187 | dcg = 10.838320
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_42:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_42:  25%|██▌       | 1/4 [00:04<00:13,  4.54s/it]Training for epoch_42:  50%|█████     | 2/4 [00:09<00:09,  4.57s/it]Training for epoch_42:  75%|███████▌  | 3/4 [00:13<00:04,  4.40s/it]Training for epoch_42: 100%|██████████| 4/4 [00:13<00:00,  3.21s/it]Training for epoch_42: 100%|██████████| 4/4 [00:13<00:00,  3.41s/it]
-INFO:root:
-Epoch: 42 | Epoch Time: 13.73 s
-INFO:root:	Train: loss = 6.143028974533081 | f1 = 0.690784 | dcg = 7.984353
-
-Test after epoch_42:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_42: 100%|██████████| 1/1 [00:01<00:00,  1.61s/it]Test after epoch_42: 100%|██████████| 1/1 [00:01<00:00,  1.64s/it]
-INFO:root:	Test: loss = 6.265077114105225 | f1 = 0.747271 | dcg = 10.622549
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_43:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_43:  25%|██▌       | 1/4 [00:04<00:13,  4.36s/it]Training for epoch_43:  50%|█████     | 2/4 [00:08<00:08,  4.22s/it]Training for epoch_43:  75%|███████▌  | 3/4 [00:12<00:04,  4.13s/it]Training for epoch_43: 100%|██████████| 4/4 [00:12<00:00,  3.00s/it]Training for epoch_43: 100%|██████████| 4/4 [00:12<00:00,  3.14s/it]
-INFO:root:
-Epoch: 43 | Epoch Time: 12.62 s
-INFO:root:	Train: loss = 6.128143072128296 | f1 = 0.732405 | dcg = 8.533218
-
-Test after epoch_43:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_43: 100%|██████████| 1/1 [00:02<00:00,  2.12s/it]Test after epoch_43: 100%|██████████| 1/1 [00:02<00:00,  2.14s/it]
-INFO:root:	Test: loss = 6.261977195739746 | f1 = 0.733520 | dcg = 10.431524
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_44:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_44:  25%|██▌       | 1/4 [00:03<00:11,  3.86s/it]Training for epoch_44:  50%|█████     | 2/4 [00:08<00:08,  4.11s/it]Training for epoch_44:  75%|███████▌  | 3/4 [00:13<00:04,  4.25s/it]Training for epoch_44: 100%|██████████| 4/4 [00:13<00:00,  3.12s/it]Training for epoch_44: 100%|██████████| 4/4 [00:13<00:00,  3.41s/it]
-INFO:root:
-Epoch: 44 | Epoch Time: 13.73 s
-INFO:root:	Train: loss = 6.134888291358948 | f1 = 0.704209 | dcg = 8.540138
-
-Test after epoch_44:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_44: 100%|██████████| 1/1 [00:02<00:00,  2.15s/it]Test after epoch_44: 100%|██████████| 1/1 [00:02<00:00,  2.18s/it]
-INFO:root:	Test: loss = 6.254629611968994 | f1 = 0.752664 | dcg = 10.495079
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_45:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_45:  25%|██▌       | 1/4 [00:04<00:14,  4.68s/it]Training for epoch_45:  50%|█████     | 2/4 [00:09<00:09,  4.66s/it]Training for epoch_45:  75%|███████▌  | 3/4 [00:13<00:04,  4.46s/it]Training for epoch_45: 100%|██████████| 4/4 [00:13<00:00,  3.27s/it]Training for epoch_45: 100%|██████████| 4/4 [00:13<00:00,  3.45s/it]
-INFO:root:
-Epoch: 45 | Epoch Time: 13.90 s
-INFO:root:	Train: loss = 6.149443745613098 | f1 = 0.700073 | dcg = 9.386852
-
-Test after epoch_45:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_45: 100%|██████████| 1/1 [00:01<00:00,  1.58s/it]Test after epoch_45: 100%|██████████| 1/1 [00:01<00:00,  1.61s/it]
-INFO:root:	Test: loss = 6.252117156982422 | f1 = 0.737092 | dcg = 10.071058
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_46:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_46:  25%|██▌       | 1/4 [00:04<00:12,  4.31s/it]Training for epoch_46:  50%|█████     | 2/4 [00:08<00:08,  4.19s/it]Training for epoch_46:  75%|███████▌  | 3/4 [00:12<00:04,  4.14s/it]Training for epoch_46: 100%|██████████| 4/4 [00:12<00:00,  3.02s/it]Training for epoch_46: 100%|██████████| 4/4 [00:12<00:00,  3.17s/it]
-INFO:root:
-Epoch: 46 | Epoch Time: 12.76 s
-INFO:root:	Train: loss = 6.120290160179138 | f1 = 0.675229 | dcg = 6.722564
-
-Test after epoch_46:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_46: 100%|██████████| 1/1 [00:02<00:00,  2.11s/it]Test after epoch_46: 100%|██████████| 1/1 [00:02<00:00,  2.13s/it]
-INFO:root:	Test: loss = 6.260197162628174 | f1 = 0.754490 | dcg = 10.642066
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_47:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_47:  25%|██▌       | 1/4 [00:04<00:13,  4.43s/it]Training for epoch_47:  50%|█████     | 2/4 [00:08<00:08,  4.44s/it]Training for epoch_47:  75%|███████▌  | 3/4 [00:13<00:04,  4.55s/it]Training for epoch_47: 100%|██████████| 4/4 [00:14<00:00,  3.31s/it]Training for epoch_47: 100%|██████████| 4/4 [00:14<00:00,  3.54s/it]
-INFO:root:
-Epoch: 47 | Epoch Time: 14.24 s
-INFO:root:	Train: loss = 6.1274577379226685 | f1 = 0.718003 | dcg = 8.473568
-
-Test after epoch_47:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_47: 100%|██████████| 1/1 [00:01<00:00,  1.54s/it]Test after epoch_47: 100%|██████████| 1/1 [00:01<00:00,  1.60s/it]
-INFO:root:	Test: loss = 6.246999740600586 | f1 = 0.745786 | dcg = 10.359635
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_48:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_48:  25%|██▌       | 1/4 [00:03<00:11,  3.96s/it]Training for epoch_48:  50%|█████     | 2/4 [00:07<00:07,  3.96s/it]Training for epoch_48:  75%|███████▌  | 3/4 [00:12<00:04,  4.12s/it]Training for epoch_48: 100%|██████████| 4/4 [00:12<00:00,  2.99s/it]Training for epoch_48: 100%|██████████| 4/4 [00:12<00:00,  3.20s/it]
-INFO:root:
-Epoch: 48 | Epoch Time: 12.92 s
-INFO:root:	Train: loss = 6.144717574119568 | f1 = 0.667752 | dcg = 7.508536
-
-Test after epoch_48:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_48: 100%|██████████| 1/1 [00:01<00:00,  1.53s/it]Test after epoch_48: 100%|██████████| 1/1 [00:01<00:00,  1.55s/it]
-INFO:root:	Test: loss = 6.249231338500977 | f1 = 0.760399 | dcg = 10.835775
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_49:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_49:  25%|██▌       | 1/4 [00:03<00:11,  3.99s/it]Training for epoch_49:  50%|█████     | 2/4 [00:08<00:08,  4.20s/it]Training for epoch_49:  75%|███████▌  | 3/4 [00:13<00:04,  4.28s/it]Training for epoch_49: 100%|██████████| 4/4 [00:13<00:00,  3.11s/it]Training for epoch_49: 100%|██████████| 4/4 [00:13<00:00,  3.39s/it]
-INFO:root:
-Epoch: 49 | Epoch Time: 13.65 s
-INFO:root:	Train: loss = 6.11422860622406 | f1 = 0.723217 | dcg = 8.039278
-
-Test after epoch_49:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_49: 100%|██████████| 1/1 [00:02<00:00,  2.12s/it]Test after epoch_49: 100%|██████████| 1/1 [00:02<00:00,  2.14s/it]
-INFO:root:	Test: loss = 6.249411106109619 | f1 = 0.757306 | dcg = 10.896402
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_50:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_50:  25%|██▌       | 1/4 [00:04<00:12,  4.07s/it]Training for epoch_50:  50%|█████     | 2/4 [00:07<00:07,  3.99s/it]Training for epoch_50:  75%|███████▌  | 3/4 [00:11<00:03,  3.99s/it]Training for epoch_50: 100%|██████████| 4/4 [00:12<00:00,  2.91s/it]Training for epoch_50: 100%|██████████| 4/4 [00:12<00:00,  3.10s/it]
-INFO:root:
-Epoch: 50 | Epoch Time: 12.54 s
-INFO:root:	Train: loss = 6.13458788394928 | f1 = 0.672977 | dcg = 7.482882
-
-Test after epoch_50:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_50: 100%|██████████| 1/1 [00:01<00:00,  1.52s/it]Test after epoch_50: 100%|██████████| 1/1 [00:01<00:00,  1.55s/it]
-INFO:root:	Test: loss = 6.246921062469482 | f1 = 0.746998 | dcg = 10.324708
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_51:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_51:  25%|██▌       | 1/4 [00:03<00:11,  3.82s/it]Training for epoch_51:  50%|█████     | 2/4 [00:07<00:07,  3.86s/it]Training for epoch_51:  75%|███████▌  | 3/4 [00:12<00:04,  4.10s/it]Training for epoch_51: 100%|██████████| 4/4 [00:12<00:00,  2.97s/it]Training for epoch_51: 100%|██████████| 4/4 [00:12<00:00,  3.20s/it]
-INFO:root:
-Epoch: 51 | Epoch Time: 12.88 s
-INFO:root:	Train: loss = 6.144438624382019 | f1 = 0.705860 | dcg = 9.637549
-
-Test after epoch_51:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_51: 100%|██████████| 1/1 [00:01<00:00,  1.54s/it]Test after epoch_51: 100%|██████████| 1/1 [00:01<00:00,  1.57s/it]
-INFO:root:	Test: loss = 6.252719402313232 | f1 = 0.751909 | dcg = 10.775224
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_52:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_52:  25%|██▌       | 1/4 [00:04<00:14,  4.70s/it]Training for epoch_52:  50%|█████     | 2/4 [00:08<00:08,  4.48s/it]Training for epoch_52:  75%|███████▌  | 3/4 [00:12<00:04,  4.36s/it]Training for epoch_52: 100%|██████████| 4/4 [00:13<00:00,  3.17s/it]Training for epoch_52: 100%|██████████| 4/4 [00:13<00:00,  3.29s/it]
-INFO:root:
-Epoch: 52 | Epoch Time: 13.28 s
-INFO:root:	Train: loss = 6.155920028686523 | f1 = 0.677995 | dcg = 6.881849
-
-Test after epoch_52:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_52: 100%|██████████| 1/1 [00:02<00:00,  2.12s/it]Test after epoch_52: 100%|██████████| 1/1 [00:02<00:00,  2.15s/it]
-INFO:root:	Test: loss = 6.247490882873535 | f1 = 0.742908 | dcg = 10.441251
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_53:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_53:  25%|██▌       | 1/4 [00:04<00:14,  4.80s/it]Training for epoch_53:  50%|█████     | 2/4 [00:08<00:09,  4.53s/it]Training for epoch_53:  75%|███████▌  | 3/4 [00:12<00:04,  4.38s/it]Training for epoch_53: 100%|██████████| 4/4 [00:13<00:00,  3.19s/it]Training for epoch_53: 100%|██████████| 4/4 [00:13<00:00,  3.29s/it]
-INFO:root:
-Epoch: 53 | Epoch Time: 13.24 s
-INFO:root:	Train: loss = 6.098978638648987 | f1 = 0.695330 | dcg = 8.113204
-
-Test after epoch_53:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_53: 100%|██████████| 1/1 [00:01<00:00,  1.54s/it]Test after epoch_53: 100%|██████████| 1/1 [00:01<00:00,  1.57s/it]
-INFO:root:	Test: loss = 6.232970714569092 | f1 = 0.745546 | dcg = 10.585555
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_54:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_54:  25%|██▌       | 1/4 [00:04<00:12,  4.13s/it]Training for epoch_54:  50%|█████     | 2/4 [00:08<00:08,  4.32s/it]Training for epoch_54:  75%|███████▌  | 3/4 [00:13<00:04,  4.32s/it]Training for epoch_54: 100%|██████████| 4/4 [00:13<00:00,  3.13s/it]Training for epoch_54: 100%|██████████| 4/4 [00:13<00:00,  3.39s/it]
-INFO:root:
-Epoch: 54 | Epoch Time: 13.68 s
-INFO:root:	Train: loss = 6.114397764205933 | f1 = 0.703185 | dcg = 8.519571
-
-Test after epoch_54:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_54: 100%|██████████| 1/1 [00:02<00:00,  2.11s/it]Test after epoch_54: 100%|██████████| 1/1 [00:02<00:00,  2.13s/it]
-INFO:root:	Test: loss = 6.2227888107299805 | f1 = 0.753243 | dcg = 10.648735
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_55:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_55:  25%|██▌       | 1/4 [00:04<00:12,  4.25s/it]Training for epoch_55:  50%|█████     | 2/4 [00:08<00:08,  4.14s/it]Training for epoch_55:  75%|███████▌  | 3/4 [00:12<00:04,  4.09s/it]Training for epoch_55: 100%|██████████| 4/4 [00:12<00:00,  2.99s/it]Training for epoch_55: 100%|██████████| 4/4 [00:12<00:00,  3.14s/it]
-INFO:root:
-Epoch: 55 | Epoch Time: 12.67 s
-INFO:root:	Train: loss = 6.116892576217651 | f1 = 0.703277 | dcg = 8.652653
-
-Test after epoch_55:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_55: 100%|██████████| 1/1 [00:01<00:00,  1.52s/it]Test after epoch_55: 100%|██████████| 1/1 [00:01<00:00,  1.55s/it]
-INFO:root:	Test: loss = 6.221992015838623 | f1 = 0.748847 | dcg = 10.423731
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_56:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_56:  25%|██▌       | 1/4 [00:04<00:12,  4.03s/it]Training for epoch_56:  50%|█████     | 2/4 [00:08<00:08,  4.21s/it]Training for epoch_56:  75%|███████▌  | 3/4 [00:12<00:04,  4.18s/it]Training for epoch_56: 100%|██████████| 4/4 [00:13<00:00,  3.04s/it]Training for epoch_56: 100%|██████████| 4/4 [00:13<00:00,  3.30s/it]
-INFO:root:
-Epoch: 56 | Epoch Time: 13.27 s
-INFO:root:	Train: loss = 6.1058818101882935 | f1 = 0.721551 | dcg = 9.015109
-
-Test after epoch_56:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_56: 100%|██████████| 1/1 [00:01<00:00,  1.55s/it]Test after epoch_56: 100%|██████████| 1/1 [00:01<00:00,  1.60s/it]
-INFO:root:	Test: loss = 6.232240200042725 | f1 = 0.757305 | dcg = 10.730052
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_57:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_57:  25%|██▌       | 1/4 [00:03<00:11,  3.97s/it]Training for epoch_57:  50%|█████     | 2/4 [00:07<00:07,  3.95s/it]Training for epoch_57:  75%|███████▌  | 3/4 [00:12<00:04,  4.12s/it]Training for epoch_57: 100%|██████████| 4/4 [00:12<00:00,  2.99s/it]Training for epoch_57: 100%|██████████| 4/4 [00:12<00:00,  3.19s/it]
-INFO:root:
-Epoch: 57 | Epoch Time: 12.88 s
-INFO:root:	Train: loss = 6.122371196746826 | f1 = 0.719541 | dcg = 10.022445
-
-Test after epoch_57:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_57: 100%|██████████| 1/1 [00:01<00:00,  1.56s/it]Test after epoch_57: 100%|██████████| 1/1 [00:01<00:00,  1.59s/it]
-INFO:root:	Test: loss = 6.234156608581543 | f1 = 0.748675 | dcg = 10.462897
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_58:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_58:  25%|██▌       | 1/4 [00:03<00:11,  3.97s/it]Training for epoch_58:  50%|█████     | 2/4 [00:08<00:08,  4.16s/it]Training for epoch_58:  75%|███████▌  | 3/4 [00:13<00:04,  4.27s/it]Training for epoch_58: 100%|██████████| 4/4 [00:13<00:00,  3.12s/it]Training for epoch_58: 100%|██████████| 4/4 [00:13<00:00,  3.39s/it]
-INFO:root:
-Epoch: 58 | Epoch Time: 13.65 s
-INFO:root:	Train: loss = 6.12336003780365 | f1 = 0.688032 | dcg = 8.225067
-
-Test after epoch_58:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_58: 100%|██████████| 1/1 [00:02<00:00,  2.18s/it]Test after epoch_58: 100%|██████████| 1/1 [00:02<00:00,  2.21s/it]
-INFO:root:	Test: loss = 6.241117477416992 | f1 = 0.757560 | dcg = 10.836095
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_59:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_59:  25%|██▌       | 1/4 [00:03<00:11,  3.97s/it]Training for epoch_59:  50%|█████     | 2/4 [00:07<00:07,  3.96s/it]Training for epoch_59:  75%|███████▌  | 3/4 [00:11<00:03,  3.96s/it]Training for epoch_59: 100%|██████████| 4/4 [00:12<00:00,  2.90s/it]Training for epoch_59: 100%|██████████| 4/4 [00:12<00:00,  3.08s/it]
-INFO:root:
-Epoch: 59 | Epoch Time: 12.41 s
-INFO:root:	Train: loss = 6.1232417821884155 | f1 = 0.677347 | dcg = 8.265072
-
-Test after epoch_59:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_59: 100%|██████████| 1/1 [00:02<00:00,  2.08s/it]Test after epoch_59: 100%|██████████| 1/1 [00:02<00:00,  2.10s/it]
-INFO:root:	Test: loss = 6.2208571434021 | f1 = 0.756304 | dcg = 10.641133
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_60:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_60:  25%|██▌       | 1/4 [00:04<00:13,  4.50s/it]Training for epoch_60:  50%|█████     | 2/4 [00:09<00:09,  4.56s/it]Training for epoch_60:  75%|███████▌  | 3/4 [00:13<00:04,  4.37s/it]Training for epoch_60: 100%|██████████| 4/4 [00:13<00:00,  3.17s/it]Training for epoch_60: 100%|██████████| 4/4 [00:13<00:00,  3.39s/it]
-INFO:root:
-Epoch: 60 | Epoch Time: 13.64 s
-INFO:root:	Train: loss = 6.087019562721252 | f1 = 0.681338 | dcg = 6.615053
-
-Test after epoch_60:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_60: 100%|██████████| 1/1 [00:01<00:00,  1.50s/it]Test after epoch_60: 100%|██████████| 1/1 [00:01<00:00,  1.53s/it]
-INFO:root:	Test: loss = 6.22103214263916 | f1 = 0.754481 | dcg = 10.883341
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_61:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_61:  25%|██▌       | 1/4 [00:03<00:11,  3.91s/it]Training for epoch_61:  50%|█████     | 2/4 [00:07<00:07,  3.93s/it]Training for epoch_61:  75%|███████▌  | 3/4 [00:11<00:03,  3.93s/it]Training for epoch_61: 100%|██████████| 4/4 [00:12<00:00,  2.86s/it]Training for epoch_61: 100%|██████████| 4/4 [00:12<00:00,  3.05s/it]
-INFO:root:
-Epoch: 61 | Epoch Time: 12.28 s
-INFO:root:	Train: loss = 6.098185658454895 | f1 = 0.706503 | dcg = 8.752878
-
-Test after epoch_61:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_61: 100%|██████████| 1/1 [00:01<00:00,  1.53s/it]Test after epoch_61: 100%|██████████| 1/1 [00:01<00:00,  1.56s/it]
-INFO:root:	Test: loss = 6.224806308746338 | f1 = 0.762775 | dcg = 11.048851
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_62:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_62:  25%|██▌       | 1/4 [00:03<00:11,  3.96s/it]Training for epoch_62:  50%|█████     | 2/4 [00:07<00:07,  3.93s/it]Training for epoch_62:  75%|███████▌  | 3/4 [00:12<00:04,  4.16s/it]Training for epoch_62: 100%|██████████| 4/4 [00:12<00:00,  3.05s/it]Training for epoch_62: 100%|██████████| 4/4 [00:13<00:00,  3.25s/it]
-INFO:root:
-Epoch: 62 | Epoch Time: 13.08 s
-INFO:root:	Train: loss = 6.103073835372925 | f1 = 0.729352 | dcg = 9.557018
-
-Test after epoch_62:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_62: 100%|██████████| 1/1 [00:01<00:00,  1.56s/it]Test after epoch_62: 100%|██████████| 1/1 [00:01<00:00,  1.60s/it]
-INFO:root:	Test: loss = 6.222267150878906 | f1 = 0.753108 | dcg = 10.535630
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_63:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_63:  25%|██▌       | 1/4 [00:04<00:14,  4.73s/it]Training for epoch_63:  50%|█████     | 2/4 [00:09<00:09,  4.69s/it]Training for epoch_63:  75%|███████▌  | 3/4 [00:13<00:04,  4.68s/it]Training for epoch_63: 100%|██████████| 4/4 [00:14<00:00,  3.38s/it]Training for epoch_63: 100%|██████████| 4/4 [00:14<00:00,  3.59s/it]
-INFO:root:
-Epoch: 63 | Epoch Time: 14.55 s
-INFO:root:	Train: loss = 6.110517382621765 | f1 = 0.712242 | dcg = 9.336069
-
-Test after epoch_63:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_63: 100%|██████████| 1/1 [00:01<00:00,  1.52s/it]Test after epoch_63: 100%|██████████| 1/1 [00:01<00:00,  1.55s/it]
-INFO:root:	Test: loss = 6.228128433227539 | f1 = 0.758054 | dcg = 10.647597
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_64:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_64:  25%|██▌       | 1/4 [00:04<00:13,  4.62s/it]Training for epoch_64:  50%|█████     | 2/4 [00:08<00:08,  4.42s/it]Training for epoch_64:  75%|███████▌  | 3/4 [00:13<00:04,  4.52s/it]Training for epoch_64: 100%|██████████| 4/4 [00:13<00:00,  3.30s/it]Training for epoch_64: 100%|██████████| 4/4 [00:13<00:00,  3.45s/it]
-INFO:root:
-Epoch: 64 | Epoch Time: 13.88 s
-INFO:root:	Train: loss = 6.09163761138916 | f1 = 0.710729 | dcg = 8.128153
-
-Test after epoch_64:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_64: 100%|██████████| 1/1 [00:02<00:00,  2.13s/it]Test after epoch_64: 100%|██████████| 1/1 [00:02<00:00,  2.16s/it]
-INFO:root:	Test: loss = 6.2048773765563965 | f1 = 0.762083 | dcg = 10.774163
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_65:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_65:  25%|██▌       | 1/4 [00:04<00:13,  4.65s/it]Training for epoch_65:  50%|█████     | 2/4 [00:09<00:09,  4.61s/it]Training for epoch_65:  75%|███████▌  | 3/4 [00:13<00:04,  4.41s/it]Training for epoch_65: 100%|██████████| 4/4 [00:13<00:00,  3.20s/it]Training for epoch_65: 100%|██████████| 4/4 [00:13<00:00,  3.38s/it]
-INFO:root:
-Epoch: 65 | Epoch Time: 13.63 s
-INFO:root:	Train: loss = 6.09219491481781 | f1 = 0.723048 | dcg = 8.561530
-
-Test after epoch_65:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_65: 100%|██████████| 1/1 [00:01<00:00,  1.55s/it]Test after epoch_65: 100%|██████████| 1/1 [00:01<00:00,  1.58s/it]
-INFO:root:	Test: loss = 6.207369327545166 | f1 = 0.764526 | dcg = 11.134188
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_66:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_66:  25%|██▌       | 1/4 [00:04<00:14,  4.70s/it]Training for epoch_66:  50%|█████     | 2/4 [00:08<00:08,  4.44s/it]Training for epoch_66:  75%|███████▌  | 3/4 [00:13<00:04,  4.50s/it]Training for epoch_66: 100%|██████████| 4/4 [00:13<00:00,  3.27s/it]Training for epoch_66: 100%|██████████| 4/4 [00:13<00:00,  3.40s/it]
-INFO:root:
-Epoch: 66 | Epoch Time: 13.72 s
-INFO:root:	Train: loss = 6.085637211799622 | f1 = 0.707080 | dcg = 8.275627
-
-Test after epoch_66:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_66: 100%|██████████| 1/1 [00:01<00:00,  1.51s/it]Test after epoch_66: 100%|██████████| 1/1 [00:01<00:00,  1.55s/it]
-INFO:root:	Test: loss = 6.204839706420898 | f1 = 0.757776 | dcg = 10.696026
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_67:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_67:  25%|██▌       | 1/4 [00:03<00:11,  3.91s/it]Training for epoch_67:  50%|█████     | 2/4 [00:07<00:07,  3.90s/it]Training for epoch_67:  75%|███████▌  | 3/4 [00:11<00:03,  3.92s/it]Training for epoch_67: 100%|██████████| 4/4 [00:12<00:00,  2.85s/it]Training for epoch_67: 100%|██████████| 4/4 [00:12<00:00,  3.03s/it]
-INFO:root:
-Epoch: 67 | Epoch Time: 12.21 s
-INFO:root:	Train: loss = 6.100295424461365 | f1 = 0.686536 | dcg = 8.129361
-
-Test after epoch_67:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_67: 100%|██████████| 1/1 [00:01<00:00,  1.52s/it]Test after epoch_67: 100%|██████████| 1/1 [00:01<00:00,  1.55s/it]
-INFO:root:	Test: loss = 6.205904006958008 | f1 = 0.764013 | dcg = 10.942352
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_68:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_68:  25%|██▌       | 1/4 [00:04<00:13,  4.64s/it]Training for epoch_68:  50%|█████     | 2/4 [00:08<00:08,  4.43s/it]Training for epoch_68:  75%|███████▌  | 3/4 [00:12<00:04,  4.43s/it]Training for epoch_68: 100%|██████████| 4/4 [00:13<00:00,  3.23s/it]Training for epoch_68: 100%|██████████| 4/4 [00:13<00:00,  3.36s/it]
-INFO:root:
-Epoch: 68 | Epoch Time: 13.55 s
-INFO:root:	Train: loss = 6.087733864784241 | f1 = 0.677265 | dcg = 7.340514
-
-Test after epoch_68:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_68: 100%|██████████| 1/1 [00:01<00:00,  1.53s/it]Test after epoch_68: 100%|██████████| 1/1 [00:01<00:00,  1.55s/it]
-INFO:root:	Test: loss = 6.194014072418213 | f1 = 0.752652 | dcg = 10.813370
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_69:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_69:  25%|██▌       | 1/4 [00:03<00:11,  3.89s/it]Training for epoch_69:  50%|█████     | 2/4 [00:08<00:08,  4.11s/it]Training for epoch_69:  75%|███████▌  | 3/4 [00:13<00:04,  4.31s/it]Training for epoch_69: 100%|██████████| 4/4 [00:13<00:00,  3.14s/it]Training for epoch_69: 100%|██████████| 4/4 [00:13<00:00,  3.45s/it]
-INFO:root:
-Epoch: 69 | Epoch Time: 13.92 s
-INFO:root:	Train: loss = 6.0935434103012085 | f1 = 0.706692 | dcg = 8.902237
-
-Test after epoch_69:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_69: 100%|██████████| 1/1 [00:01<00:00,  1.54s/it]Test after epoch_69: 100%|██████████| 1/1 [00:01<00:00,  1.57s/it]
-INFO:root:	Test: loss = 6.176844596862793 | f1 = 0.745018 | dcg = 10.609439
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_70:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_70:  25%|██▌       | 1/4 [00:03<00:11,  3.92s/it]Training for epoch_70:  50%|█████     | 2/4 [00:08<00:08,  4.08s/it]Training for epoch_70:  75%|███████▌  | 3/4 [00:12<00:04,  4.09s/it]Training for epoch_70: 100%|██████████| 4/4 [00:12<00:00,  2.97s/it]Training for epoch_70: 100%|██████████| 4/4 [00:12<00:00,  3.22s/it]
-INFO:root:
-Epoch: 70 | Epoch Time: 12.99 s
-INFO:root:	Train: loss = 6.061016798019409 | f1 = 0.682800 | dcg = 7.851424
-
-Test after epoch_70:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_70: 100%|██████████| 1/1 [00:01<00:00,  1.51s/it]Test after epoch_70: 100%|██████████| 1/1 [00:01<00:00,  1.54s/it]
-INFO:root:	Test: loss = 6.175388813018799 | f1 = 0.755680 | dcg = 11.173913
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_71:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_71:  25%|██▌       | 1/4 [00:04<00:13,  4.49s/it]Training for epoch_71:  50%|█████     | 2/4 [00:08<00:08,  4.31s/it]Training for epoch_71:  75%|███████▌  | 3/4 [00:12<00:04,  4.29s/it]Training for epoch_71: 100%|██████████| 4/4 [00:12<00:00,  3.10s/it]Training for epoch_71: 100%|██████████| 4/4 [00:12<00:00,  3.25s/it]
-INFO:root:
-Epoch: 71 | Epoch Time: 13.09 s
-INFO:root:	Train: loss = 6.082773804664612 | f1 = 0.685052 | dcg = 7.995561
-
-Test after epoch_71:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_71: 100%|██████████| 1/1 [00:02<00:00,  2.09s/it]Test after epoch_71: 100%|██████████| 1/1 [00:02<00:00,  2.13s/it]
-INFO:root:	Test: loss = 6.1700263023376465 | f1 = 0.771902 | dcg = 11.155532
-
-INFO:root:The best model has beed updated and saved in /home/LAB/wangd/graduation_project/ranked list truncation/best_model/
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_72:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_72:  25%|██▌       | 1/4 [00:04<00:12,  4.01s/it]Training for epoch_72:  50%|█████     | 2/4 [00:07<00:07,  3.99s/it]Training for epoch_72:  75%|███████▌  | 3/4 [00:11<00:03,  3.98s/it]Training for epoch_72: 100%|██████████| 4/4 [00:12<00:00,  2.91s/it]Training for epoch_72: 100%|██████████| 4/4 [00:12<00:00,  3.08s/it]
-INFO:root:
-Epoch: 72 | Epoch Time: 12.42 s
-INFO:root:	Train: loss = 6.083654880523682 | f1 = 0.698486 | dcg = 9.523697
-
-Test after epoch_72:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_72: 100%|██████████| 1/1 [00:01<00:00,  1.52s/it]Test after epoch_72: 100%|██████████| 1/1 [00:01<00:00,  1.54s/it]
-INFO:root:	Test: loss = 6.165773391723633 | f1 = 0.760696 | dcg = 10.849794
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_73:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_73:  25%|██▌       | 1/4 [00:03<00:11,  3.81s/it]Training for epoch_73:  50%|█████     | 2/4 [00:07<00:07,  3.84s/it]Training for epoch_73:  75%|███████▌  | 3/4 [00:12<00:04,  4.01s/it]Training for epoch_73: 100%|██████████| 4/4 [00:12<00:00,  2.91s/it]Training for epoch_73: 100%|██████████| 4/4 [00:12<00:00,  3.12s/it]
-INFO:root:
-Epoch: 73 | Epoch Time: 12.57 s
-INFO:root:	Train: loss = 6.058695435523987 | f1 = 0.707045 | dcg = 8.817370
-
-Test after epoch_73:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_73: 100%|██████████| 1/1 [00:02<00:00,  2.18s/it]Test after epoch_73: 100%|██████████| 1/1 [00:02<00:00,  2.22s/it]
-INFO:root:	Test: loss = 6.167990207672119 | f1 = 0.753370 | dcg = 10.724679
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_74:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_74:  25%|██▌       | 1/4 [00:03<00:11,  3.75s/it]Training for epoch_74:  50%|█████     | 2/4 [00:07<00:07,  3.85s/it]Training for epoch_74:  75%|███████▌  | 3/4 [00:11<00:03,  3.92s/it]Training for epoch_74: 100%|██████████| 4/4 [00:12<00:00,  2.87s/it]Training for epoch_74: 100%|██████████| 4/4 [00:12<00:00,  3.10s/it]
-INFO:root:
-Epoch: 74 | Epoch Time: 12.52 s
-INFO:root:	Train: loss = 6.057243704795837 | f1 = 0.688659 | dcg = 7.647233
-
-Test after epoch_74:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_74: 100%|██████████| 1/1 [00:02<00:00,  2.12s/it]Test after epoch_74: 100%|██████████| 1/1 [00:02<00:00,  2.15s/it]
-INFO:root:	Test: loss = 6.164437294006348 | f1 = 0.746714 | dcg = 10.300529
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_75:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_75:  25%|██▌       | 1/4 [00:04<00:14,  4.68s/it]Training for epoch_75:  50%|█████     | 2/4 [00:08<00:08,  4.47s/it]Training for epoch_75:  75%|███████▌  | 3/4 [00:13<00:04,  4.52s/it]Training for epoch_75: 100%|██████████| 4/4 [00:13<00:00,  3.30s/it]Training for epoch_75: 100%|██████████| 4/4 [00:13<00:00,  3.44s/it]
-INFO:root:
-Epoch: 75 | Epoch Time: 13.85 s
-INFO:root:	Train: loss = 6.038093566894531 | f1 = 0.711058 | dcg = 7.609400
-
-Test after epoch_75:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_75: 100%|██████████| 1/1 [00:01<00:00,  1.51s/it]Test after epoch_75: 100%|██████████| 1/1 [00:01<00:00,  1.54s/it]
-INFO:root:	Test: loss = 6.168957710266113 | f1 = 0.765218 | dcg = 10.911167
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_76:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_76:  25%|██▌       | 1/4 [00:03<00:11,  3.71s/it]Training for epoch_76:  50%|█████     | 2/4 [00:08<00:07,  3.98s/it]Training for epoch_76:  75%|███████▌  | 3/4 [00:13<00:04,  4.20s/it]Training for epoch_76: 100%|██████████| 4/4 [00:13<00:00,  3.04s/it]Training for epoch_76: 100%|██████████| 4/4 [00:13<00:00,  3.35s/it]
-INFO:root:
-Epoch: 76 | Epoch Time: 13.50 s
-INFO:root:	Train: loss = 6.074385285377502 | f1 = 0.690177 | dcg = 8.565118
-
-Test after epoch_76:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_76: 100%|██████████| 1/1 [00:01<00:00,  1.59s/it]Test after epoch_76: 100%|██████████| 1/1 [00:01<00:00,  1.62s/it]
-INFO:root:	Test: loss = 6.176522731781006 | f1 = 0.768863 | dcg = 11.078185
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_77:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_77:  25%|██▌       | 1/4 [00:04<00:14,  4.79s/it]Training for epoch_77:  50%|█████     | 2/4 [00:08<00:09,  4.54s/it]Training for epoch_77:  75%|███████▌  | 3/4 [00:13<00:04,  4.60s/it]Training for epoch_77: 100%|██████████| 4/4 [00:13<00:00,  3.35s/it]Training for epoch_77: 100%|██████████| 4/4 [00:13<00:00,  3.49s/it]
-INFO:root:
-Epoch: 77 | Epoch Time: 14.05 s
-INFO:root:	Train: loss = 6.072536945343018 | f1 = 0.709531 | dcg = 8.502803
-
-Test after epoch_77:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_77: 100%|██████████| 1/1 [00:02<00:00,  2.11s/it]Test after epoch_77: 100%|██████████| 1/1 [00:02<00:00,  2.14s/it]
-INFO:root:	Test: loss = 6.179929256439209 | f1 = 0.774435 | dcg = 11.255364
-
-INFO:root:The best model has beed updated and saved in /home/LAB/wangd/graduation_project/ranked list truncation/best_model/
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_78:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_78:  25%|██▌       | 1/4 [00:04<00:14,  4.71s/it]Training for epoch_78:  50%|█████     | 2/4 [00:09<00:09,  4.70s/it]Training for epoch_78:  75%|███████▌  | 3/4 [00:14<00:04,  4.87s/it]Training for epoch_78: 100%|██████████| 4/4 [00:15<00:00,  3.53s/it]Training for epoch_78: 100%|██████████| 4/4 [00:15<00:00,  3.77s/it]
-INFO:root:
-Epoch: 78 | Epoch Time: 15.23 s
-INFO:root:	Train: loss = 6.0651386976242065 | f1 = 0.716706 | dcg = 8.065826
-
-Test after epoch_78:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_78: 100%|██████████| 1/1 [00:01<00:00,  1.51s/it]Test after epoch_78: 100%|██████████| 1/1 [00:01<00:00,  1.54s/it]
-INFO:root:	Test: loss = 6.180227756500244 | f1 = 0.774953 | dcg = 11.310970
-
-INFO:root:The best model has beed updated and saved in /home/LAB/wangd/graduation_project/ranked list truncation/best_model/
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_79:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_79:  25%|██▌       | 1/4 [00:04<00:12,  4.21s/it]Training for epoch_79:  50%|█████     | 2/4 [00:08<00:08,  4.13s/it]Training for epoch_79:  75%|███████▌  | 3/4 [00:12<00:04,  4.33s/it]Training for epoch_79: 100%|██████████| 4/4 [00:13<00:00,  3.17s/it]Training for epoch_79: 100%|██████████| 4/4 [00:13<00:00,  3.36s/it]
-INFO:root:
-Epoch: 79 | Epoch Time: 13.55 s
-INFO:root:	Train: loss = 6.075090646743774 | f1 = 0.678985 | dcg = 7.500387
-
-Test after epoch_79:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_79: 100%|██████████| 1/1 [00:01<00:00,  1.52s/it]Test after epoch_79: 100%|██████████| 1/1 [00:01<00:00,  1.55s/it]
-INFO:root:	Test: loss = 6.164659023284912 | f1 = 0.774552 | dcg = 11.211832
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_80:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_80:  25%|██▌       | 1/4 [00:03<00:11,  3.95s/it]Training for epoch_80:  50%|█████     | 2/4 [00:08<00:07,  4.00s/it]Training for epoch_80:  75%|███████▌  | 3/4 [00:12<00:04,  4.03s/it]Training for epoch_80: 100%|██████████| 4/4 [00:12<00:00,  2.94s/it]Training for epoch_80: 100%|██████████| 4/4 [00:12<00:00,  3.14s/it]
-INFO:root:
-Epoch: 80 | Epoch Time: 12.71 s
-INFO:root:	Train: loss = 6.0903953313827515 | f1 = 0.702159 | dcg = 9.321316
-
-Test after epoch_80:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_80: 100%|██████████| 1/1 [00:02<00:00,  2.13s/it]Test after epoch_80: 100%|██████████| 1/1 [00:02<00:00,  2.16s/it]
-INFO:root:	Test: loss = 6.150084495544434 | f1 = 0.764242 | dcg = 11.010442
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_81:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_81:  25%|██▌       | 1/4 [00:04<00:12,  4.33s/it]Training for epoch_81:  50%|█████     | 2/4 [00:08<00:08,  4.27s/it]Training for epoch_81:  75%|███████▌  | 3/4 [00:13<00:04,  4.40s/it]Training for epoch_81: 100%|██████████| 4/4 [00:13<00:00,  3.22s/it]Training for epoch_81: 100%|██████████| 4/4 [00:13<00:00,  3.41s/it]
-INFO:root:
-Epoch: 81 | Epoch Time: 13.76 s
-INFO:root:	Train: loss = 6.056806564331055 | f1 = 0.709505 | dcg = 10.445997
-
-Test after epoch_81:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_81: 100%|██████████| 1/1 [00:01<00:00,  1.55s/it]Test after epoch_81: 100%|██████████| 1/1 [00:01<00:00,  1.59s/it]
-INFO:root:	Test: loss = 6.127189636230469 | f1 = 0.756317 | dcg = 10.660667
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_82:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_82:  25%|██▌       | 1/4 [00:04<00:12,  4.31s/it]Training for epoch_82:  50%|█████     | 2/4 [00:08<00:08,  4.18s/it]Training for epoch_82:  75%|███████▌  | 3/4 [00:12<00:04,  4.12s/it]Training for epoch_82: 100%|██████████| 4/4 [00:12<00:00,  3.00s/it]Training for epoch_82: 100%|██████████| 4/4 [00:12<00:00,  3.15s/it]
-INFO:root:
-Epoch: 82 | Epoch Time: 12.67 s
-INFO:root:	Train: loss = 6.036882996559143 | f1 = 0.645596 | dcg = 7.381646
-
-Test after epoch_82:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_82: 100%|██████████| 1/1 [00:02<00:00,  2.15s/it]Test after epoch_82: 100%|██████████| 1/1 [00:02<00:00,  2.21s/it]
-INFO:root:	Test: loss = 6.138597011566162 | f1 = 0.753231 | dcg = 10.574785
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_83:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_83:  25%|██▌       | 1/4 [00:03<00:11,  3.95s/it]Training for epoch_83:  50%|█████     | 2/4 [00:07<00:07,  3.96s/it]Training for epoch_83:  75%|███████▌  | 3/4 [00:12<00:04,  4.14s/it]Training for epoch_83: 100%|██████████| 4/4 [00:12<00:00,  3.02s/it]Training for epoch_83: 100%|██████████| 4/4 [00:12<00:00,  3.23s/it]
-INFO:root:
-Epoch: 83 | Epoch Time: 13.12 s
-INFO:root:	Train: loss = 6.027280807495117 | f1 = 0.656248 | dcg = 6.263521
-
-Test after epoch_83:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_83: 100%|██████████| 1/1 [00:01<00:00,  2.00s/it]Test after epoch_83: 100%|██████████| 1/1 [00:02<00:00,  2.03s/it]
-INFO:root:	Test: loss = 6.148568153381348 | f1 = 0.761447 | dcg = 10.758025
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_84:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_84:  25%|██▌       | 1/4 [00:03<00:11,  3.87s/it]Training for epoch_84:  50%|█████     | 2/4 [00:07<00:07,  3.91s/it]Training for epoch_84:  75%|███████▌  | 3/4 [00:12<00:04,  4.27s/it]Training for epoch_84: 100%|██████████| 4/4 [00:13<00:00,  3.10s/it]Training for epoch_84: 100%|██████████| 4/4 [00:13<00:00,  3.35s/it]
-INFO:root:
-Epoch: 84 | Epoch Time: 13.49 s
-INFO:root:	Train: loss = 6.076618075370789 | f1 = 0.704579 | dcg = 10.578205
-
-Test after epoch_84:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_84: 100%|██████████| 1/1 [00:01<00:00,  1.58s/it]Test after epoch_84: 100%|██████████| 1/1 [00:01<00:00,  1.62s/it]
-INFO:root:	Test: loss = 6.148484706878662 | f1 = 0.758824 | dcg = 10.730731
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_85:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_85:  25%|██▌       | 1/4 [00:03<00:11,  3.84s/it]Training for epoch_85:  50%|█████     | 2/4 [00:08<00:08,  4.12s/it]Training for epoch_85:  75%|███████▌  | 3/4 [00:12<00:04,  4.06s/it]Training for epoch_85: 100%|██████████| 4/4 [00:12<00:00,  2.96s/it]Training for epoch_85: 100%|██████████| 4/4 [00:12<00:00,  3.24s/it]
-INFO:root:
-Epoch: 85 | Epoch Time: 13.03 s
-INFO:root:	Train: loss = 6.043050050735474 | f1 = 0.659366 | dcg = 6.502413
-
-Test after epoch_85:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_85: 100%|██████████| 1/1 [00:02<00:00,  2.14s/it]Test after epoch_85: 100%|██████████| 1/1 [00:02<00:00,  2.17s/it]
-INFO:root:	Test: loss = 6.164218425750732 | f1 = 0.761413 | dcg = 11.049965
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_86:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_86:  25%|██▌       | 1/4 [00:03<00:11,  3.92s/it]Training for epoch_86:  50%|█████     | 2/4 [00:08<00:08,  4.14s/it]Training for epoch_86:  75%|███████▌  | 3/4 [00:12<00:04,  4.11s/it]Training for epoch_86: 100%|██████████| 4/4 [00:12<00:00,  2.99s/it]Training for epoch_86: 100%|██████████| 4/4 [00:13<00:00,  3.25s/it]
-INFO:root:
-Epoch: 86 | Epoch Time: 13.09 s
-INFO:root:	Train: loss = 6.048754930496216 | f1 = 0.694700 | dcg = 7.936703
-
-Test after epoch_86:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_86: 100%|██████████| 1/1 [00:01<00:00,  1.62s/it]Test after epoch_86: 100%|██████████| 1/1 [00:01<00:00,  1.65s/it]
-INFO:root:	Test: loss = 6.140393257141113 | f1 = 0.758561 | dcg = 10.860287
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_87:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_87:  25%|██▌       | 1/4 [00:03<00:11,  3.86s/it]Training for epoch_87:  50%|█████     | 2/4 [00:07<00:07,  3.88s/it]Training for epoch_87:  75%|███████▌  | 3/4 [00:11<00:03,  3.98s/it]Training for epoch_87: 100%|██████████| 4/4 [00:12<00:00,  2.90s/it]Training for epoch_87: 100%|██████████| 4/4 [00:12<00:00,  3.10s/it]
-INFO:root:
-Epoch: 87 | Epoch Time: 12.48 s
-INFO:root:	Train: loss = 6.0312583446502686 | f1 = 0.653872 | dcg = 6.813174
-
-Test after epoch_87:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_87: 100%|██████████| 1/1 [00:01<00:00,  1.55s/it]Test after epoch_87: 100%|██████████| 1/1 [00:01<00:00,  1.58s/it]
-INFO:root:	Test: loss = 6.1394524574279785 | f1 = 0.752684 | dcg = 10.827319
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_88:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_88:  25%|██▌       | 1/4 [00:04<00:14,  4.74s/it]Training for epoch_88:  50%|█████     | 2/4 [00:08<00:09,  4.52s/it]Training for epoch_88:  75%|███████▌  | 3/4 [00:12<00:04,  4.35s/it]Training for epoch_88: 100%|██████████| 4/4 [00:13<00:00,  3.16s/it]Training for epoch_88: 100%|██████████| 4/4 [00:13<00:00,  3.28s/it]
-INFO:root:
-Epoch: 88 | Epoch Time: 13.24 s
-INFO:root:	Train: loss = 6.050780892372131 | f1 = 0.705200 | dcg = 7.265919
-
-Test after epoch_88:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_88: 100%|██████████| 1/1 [00:02<00:00,  2.03s/it]Test after epoch_88: 100%|██████████| 1/1 [00:02<00:00,  2.07s/it]
-INFO:root:	Test: loss = 6.162557601928711 | f1 = 0.758234 | dcg = 11.190478
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_89:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_89:  25%|██▌       | 1/4 [00:04<00:12,  4.09s/it]Training for epoch_89:  50%|█████     | 2/4 [00:08<00:08,  4.12s/it]Training for epoch_89:  75%|███████▌  | 3/4 [00:13<00:04,  4.32s/it]Training for epoch_89: 100%|██████████| 4/4 [00:13<00:00,  3.16s/it]Training for epoch_89: 100%|██████████| 4/4 [00:13<00:00,  3.39s/it]
-INFO:root:
-Epoch: 89 | Epoch Time: 13.65 s
-INFO:root:	Train: loss = 6.068747043609619 | f1 = 0.721888 | dcg = 9.903404
-
-Test after epoch_89:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_89: 100%|██████████| 1/1 [00:01<00:00,  1.55s/it]Test after epoch_89: 100%|██████████| 1/1 [00:01<00:00,  1.58s/it]
-INFO:root:	Test: loss = 6.140256404876709 | f1 = 0.757721 | dcg = 10.703667
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_90:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_90:  25%|██▌       | 1/4 [00:03<00:11,  3.85s/it]Training for epoch_90:  50%|█████     | 2/4 [00:07<00:07,  3.90s/it]Training for epoch_90:  75%|███████▌  | 3/4 [00:12<00:04,  4.15s/it]Training for epoch_90: 100%|██████████| 4/4 [00:13<00:00,  3.03s/it]Training for epoch_90: 100%|██████████| 4/4 [00:13<00:00,  3.26s/it]
-INFO:root:
-Epoch: 90 | Epoch Time: 13.16 s
-INFO:root:	Train: loss = 6.043962478637695 | f1 = 0.650939 | dcg = 6.547760
-
-Test after epoch_90:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_90: 100%|██████████| 1/1 [00:01<00:00,  1.61s/it]Test after epoch_90: 100%|██████████| 1/1 [00:01<00:00,  1.69s/it]
-INFO:root:	Test: loss = 6.1539530754089355 | f1 = 0.756342 | dcg = 10.556277
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_91:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_91:  25%|██▌       | 1/4 [00:04<00:14,  4.91s/it]Training for epoch_91:  50%|█████     | 2/4 [00:08<00:09,  4.63s/it]Training for epoch_91:  75%|███████▌  | 3/4 [00:13<00:04,  4.67s/it]Training for epoch_91: 100%|██████████| 4/4 [00:13<00:00,  3.37s/it]Training for epoch_91: 100%|██████████| 4/4 [00:14<00:00,  3.51s/it]
-INFO:root:
-Epoch: 91 | Epoch Time: 14.10 s
-INFO:root:	Train: loss = 6.052096843719482 | f1 = 0.688110 | dcg = 7.696775
-
-Test after epoch_91:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_91: 100%|██████████| 1/1 [00:02<00:00,  2.15s/it]Test after epoch_91: 100%|██████████| 1/1 [00:02<00:00,  2.28s/it]
-INFO:root:	Test: loss = 6.14517068862915 | f1 = 0.750963 | dcg = 10.312408
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_92:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_92:  25%|██▌       | 1/4 [00:03<00:11,  3.82s/it]Training for epoch_92:  50%|█████     | 2/4 [00:07<00:07,  3.81s/it]Training for epoch_92:  75%|███████▌  | 3/4 [00:12<00:04,  4.28s/it]Training for epoch_92: 100%|██████████| 4/4 [00:13<00:00,  3.12s/it]Training for epoch_92: 100%|██████████| 4/4 [00:13<00:00,  3.35s/it]
-INFO:root:
-Epoch: 92 | Epoch Time: 13.50 s
-INFO:root:	Train: loss = 6.043005108833313 | f1 = 0.702701 | dcg = 9.509355
-
-Test after epoch_92:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_92: 100%|██████████| 1/1 [00:02<00:00,  2.09s/it]Test after epoch_92: 100%|██████████| 1/1 [00:02<00:00,  2.12s/it]
-INFO:root:	Test: loss = 6.121292591094971 | f1 = 0.740701 | dcg = 9.729323
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_93:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_93:  25%|██▌       | 1/4 [00:04<00:13,  4.47s/it]Training for epoch_93:  50%|█████     | 2/4 [00:08<00:08,  4.29s/it]Training for epoch_93:  75%|███████▌  | 3/4 [00:12<00:04,  4.20s/it]Training for epoch_93: 100%|██████████| 4/4 [00:12<00:00,  3.06s/it]Training for epoch_93: 100%|██████████| 4/4 [00:12<00:00,  3.19s/it]
-INFO:root:
-Epoch: 93 | Epoch Time: 12.84 s
-INFO:root:	Train: loss = 6.022876024246216 | f1 = 0.690407 | dcg = 7.130863
-
-Test after epoch_93:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_93: 100%|██████████| 1/1 [00:02<00:00,  2.11s/it]Test after epoch_93: 100%|██████████| 1/1 [00:02<00:00,  2.14s/it]
-INFO:root:	Test: loss = 6.144374847412109 | f1 = 0.758196 | dcg = 10.962494
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_94:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_94:  25%|██▌       | 1/4 [00:04<00:14,  4.67s/it]Training for epoch_94:  50%|█████     | 2/4 [00:08<00:08,  4.45s/it]Training for epoch_94:  75%|███████▌  | 3/4 [00:13<00:04,  4.44s/it]Training for epoch_94: 100%|██████████| 4/4 [00:13<00:00,  3.23s/it]Training for epoch_94: 100%|██████████| 4/4 [00:13<00:00,  3.37s/it]
-INFO:root:
-Epoch: 94 | Epoch Time: 13.55 s
-INFO:root:	Train: loss = 6.062214493751526 | f1 = 0.709970 | dcg = 8.705134
-
-Test after epoch_94:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_94: 100%|██████████| 1/1 [00:01<00:00,  1.53s/it]Test after epoch_94: 100%|██████████| 1/1 [00:01<00:00,  1.55s/it]
-INFO:root:	Test: loss = 6.149969100952148 | f1 = 0.762488 | dcg = 11.104917
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_95:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_95:  25%|██▌       | 1/4 [00:04<00:13,  4.48s/it]Training for epoch_95:  50%|█████     | 2/4 [00:09<00:09,  4.57s/it]Training for epoch_95:  75%|███████▌  | 3/4 [00:13<00:04,  4.51s/it]Training for epoch_95: 100%|██████████| 4/4 [00:14<00:00,  3.29s/it]Training for epoch_95: 100%|██████████| 4/4 [00:14<00:00,  3.53s/it]
-INFO:root:
-Epoch: 95 | Epoch Time: 14.28 s
-INFO:root:	Train: loss = 6.036546587944031 | f1 = 0.679019 | dcg = 7.527965
-
-Test after epoch_95:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_95: 100%|██████████| 1/1 [00:01<00:00,  1.53s/it]Test after epoch_95: 100%|██████████| 1/1 [00:01<00:00,  1.56s/it]
-INFO:root:	Test: loss = 6.129214763641357 | f1 = 0.755170 | dcg = 10.507002
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_96:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_96:  25%|██▌       | 1/4 [00:04<00:14,  4.91s/it]Training for epoch_96:  50%|█████     | 2/4 [00:10<00:09,  4.99s/it]Training for epoch_96:  75%|███████▌  | 3/4 [00:14<00:04,  4.92s/it]Training for epoch_96: 100%|██████████| 4/4 [00:15<00:00,  3.58s/it]Training for epoch_96: 100%|██████████| 4/4 [00:15<00:00,  3.84s/it]
-INFO:root:
-Epoch: 96 | Epoch Time: 15.54 s
-INFO:root:	Train: loss = 6.024171233177185 | f1 = 0.694086 | dcg = 7.627779
-
-Test after epoch_96:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_96: 100%|██████████| 1/1 [00:01<00:00,  1.54s/it]Test after epoch_96: 100%|██████████| 1/1 [00:01<00:00,  1.57s/it]
-INFO:root:	Test: loss = 6.146917343139648 | f1 = 0.760625 | dcg = 11.057529
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_97:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_97:  25%|██▌       | 1/4 [00:03<00:11,  3.88s/it]Training for epoch_97:  50%|█████     | 2/4 [00:08<00:08,  4.19s/it]Training for epoch_97:  75%|███████▌  | 3/4 [00:13<00:04,  4.36s/it]Training for epoch_97: 100%|██████████| 4/4 [00:14<00:00,  3.19s/it]Training for epoch_97: 100%|██████████| 4/4 [00:14<00:00,  3.52s/it]
-INFO:root:
-Epoch: 97 | Epoch Time: 14.17 s
-INFO:root:	Train: loss = 6.042927980422974 | f1 = 0.699562 | dcg = 7.976633
-
-Test after epoch_97:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_97: 100%|██████████| 1/1 [00:01<00:00,  1.62s/it]Test after epoch_97: 100%|██████████| 1/1 [00:01<00:00,  1.65s/it]
-INFO:root:	Test: loss = 6.139693260192871 | f1 = 0.760902 | dcg = 10.986703
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_98:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_98:  25%|██▌       | 1/4 [00:03<00:11,  3.95s/it]Training for epoch_98:  50%|█████     | 2/4 [00:08<00:08,  4.17s/it]Training for epoch_98:  75%|███████▌  | 3/4 [00:13<00:04,  4.34s/it]Training for epoch_98: 100%|██████████| 4/4 [00:13<00:00,  3.18s/it]Training for epoch_98: 100%|██████████| 4/4 [00:13<00:00,  3.47s/it]
-INFO:root:
-Epoch: 98 | Epoch Time: 13.95 s
-INFO:root:	Train: loss = 6.041762113571167 | f1 = 0.695883 | dcg = 7.879422
-
-Test after epoch_98:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_98: 100%|██████████| 1/1 [00:01<00:00,  1.51s/it]Test after epoch_98: 100%|██████████| 1/1 [00:01<00:00,  1.54s/it]
-INFO:root:	Test: loss = 6.1159772872924805 | f1 = 0.756127 | dcg = 10.668795
-
-INFO:root:----------------------------------------------------------------------------------------------------
-Training for epoch_99:   0%|          | 0/4 [00:00<?, ?it/s]Training for epoch_99:  25%|██▌       | 1/4 [00:03<00:11,  3.72s/it]Training for epoch_99:  50%|█████     | 2/4 [00:07<00:07,  3.80s/it]Training for epoch_99:  75%|███████▌  | 3/4 [00:11<00:03,  3.83s/it]Training for epoch_99: 100%|██████████| 4/4 [00:11<00:00,  2.78s/it]Training for epoch_99: 100%|██████████| 4/4 [00:11<00:00,  2.99s/it]
-INFO:root:
-Epoch: 99 | Epoch Time: 12.07 s
-INFO:root:	Train: loss = 6.019774675369263 | f1 = 0.709586 | dcg = 9.059770
-
-Test after epoch_99:   0%|          | 0/1 [00:00<?, ?it/s]Test after epoch_99: 100%|██████████| 1/1 [00:02<00:00,  2.13s/it]Test after epoch_99: 100%|██████████| 1/1 [00:02<00:00,  2.16s/it]
-INFO:root:	Test: loss = 6.108911514282227 | f1 = 0.763544 | dcg = 10.838917
-
-INFO:root:the best F1 of this model: 0.7749528069763647
-INFO:root:the best-5 F1 of this model: 0.7729410236156943
