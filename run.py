@@ -1,5 +1,4 @@
 import os
-from pickle import TRUE
 import time
 import argparse
 import numpy as np
@@ -218,7 +217,7 @@ def main():
     parser.add_argument('--model-path', type=str, default=None)
     parser.add_argument('--ft', type=bool, default=False)
     parser.add_argument('--save-path', type=str, default='{}/best_model/'.format(RUNNING_PATH))
-    parser.add_argument('--epochs', type=int, default=60)
+    parser.add_argument('--epochs', type=int, default=80)
     parser.add_argument('--lr', type=float, default=1e-5)
     parser.add_argument('--weight-decay', type=float, default=0.005)
     parser.add_argument('--dropout', type=float, default=0.1)
@@ -226,7 +225,7 @@ def main():
     parser.add_argument('--parameter-search', type=bool, default=False)
     parser.add_argument('--regularizer-search', type=bool, default=False)
     parser.add_argument('--mt-search', type=bool, default=False)
-    parser.add_argument('--search-times', type=int, default=100)
+    parser.add_argument('--search-times', type=int, default=80)
     parser.add_argument('--num-tasks', type=float, default=3)  # 2.1:classification + truncation | 2.2: rerank + truncation
     parser.add_argument('--rerank-weight', type=float, default=0.5)
     parser.add_argument('--class-weight', type=float, default=0.5)
@@ -256,16 +255,17 @@ def main():
             if args.regularizer_search:
                 args.dropout, args.weight_decay = random.uniform(0.1, 0.6), random.uniform(0.001, 0.02)
             elif args.mt_search:
-                args.task_weight = random.uniform(0.01, 10) if i >= 50 else task_weight_range[i]
+                args.rerank_weight = random.uniform(0.01, 10) if i >= 50 else task_weight_range[i]
+                args.class_weight = random.uniform(0.01, 10) if i >= 50 else task_weight_range[i]
             logging.info('{}'.format(vars(args)))
             trainer = Trainer(args)
             trainer.run()
             trainer.writer.close()
     else:
-            logging.info('{}'.format(vars(args)))
-            trainer = Trainer(args)
-            trainer.run()
-            trainer.writer.close()
+        logging.info('{}'.format(vars(args)))
+        trainer = Trainer(args)
+        trainer.run()
+        trainer.writer.close()
 
 if __name__ == '__main__':
     main()
