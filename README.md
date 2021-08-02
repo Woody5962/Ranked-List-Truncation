@@ -1,6 +1,6 @@
 # Ranked-List-Truncation 
 
-We propose a Ranked list truncation framework,including the implementation of multiple existing deep models and the multi-task model modified on these models. We also propose MMOECut for this problem, which achieves the SOTA results, 3.58% higher than the existing SOTA (Attncut).
+We propose a Ranked list truncation framework, including the implementation of multiple existing deep models and the multi-task model modified on these models. We also propose MMOECut for this problem, which achieves the SOTA results, 3.58% higher than the existing SOTA (Attncut).
 
 Since there is still no open source work in this field, we start from the data preprocessing stage and make the whole process code open-source, hoping to avoid researchers from recreating wheels.
 
@@ -20,31 +20,31 @@ The multi-task model we proposed:
 
 ## Dataset Preprocessing
 
-In this project, we provide a complete processing flow for the robust04 dataset, including word segmentation, cleaning, statistical feature extraction, etc.,and complete the production of the dataset for truncated task in data_prep/data_review.ipynb.
+In this project, we provide a complete processing flow for the robust04 dataset, including word segmentation, cleaning, statistical feature extraction, etc., and complete the production of the dataset for the truncated task in data_prep/data_review.ipynb.
 
-We also complete the training of the retrieval model DRMM-TKS and doc2vec model in another project, which will be gradually open sourced in the future.
+We also complete the training of the retrieval model DRMM-TKS and doc2vec model in another project, which will be gradually open-sourced in the future.
 
-Aiming at the DCG-invalidity of the dataset used by BiCut, Choopy, AttnCut and other models, we optimized the upstream recall process and used the DRMM-TKS model to obtain a ranked list that is more in line with the modern retrieval model. This dataset has been used in this project.
+Aiming at the DCG-invalidity of the dataset used by BiCut, Choopy, AttnCut, and other models, we optimized the upstream recall process and used the DRMM-TKS model to obtain a ranked list that is more in line with the modern retrieval model. This dataset has been used in this project.
 
 ## Dataset
 
-In dataset/, we show the three datasets used by the framework, that is, the ranked list obtained by using three IR schemes on the robust04 dataset, namely BM25, DRMM, and DRMM-TKS.
+In dataset/, we show the three datasets used by the framework: the ranked list obtained by using three IR schemes on the robust04 dataset, namely BM25, DRMM, and DRMM-TKS.
 
 Among them, the features used by AttnCut and BiCut are listed separately in the folder, and the .pkl files in the root directory of the dataset/ only contain the relevance scores obtained by the retrieval model.
 
 ## Implementation of some deep models
 
-We first reproduced the three existing models of BiCut, Choopy and Attncut according to the settings of those papers.
+We first reproduced the three existing models of BiCut, Choopy, and Attncut according to the settings of those papers.
 
-In response to the truncation mechanism hypothesis we proposed, we decided to use multi-task learning to achieve this task. First of all, we transformed Choopy and Attncut into a multi-task model according to the shared bottom architecture. Because this architecture avoids the damage to the original model structure to the greatest extent, it only has more branches for auxiliary tasks, so the results can be compared more fairly. 
+In response to the truncation mechanism hypothesis we proposed, we decided to use multi-task learning to achieve this task. First of all, we transformed Choopy and Attncut into a multi-task model according to the shared bottom architecture. Because this architecture avoids the damage to the original model structure to the greatest extent, it only has more branches for auxiliary tasks so that the results can be compared more fairly. 
 
 Finally, we adopted the MMOE architecture proposed by Google and designed the MMOECut model to achieve the SOTA results of this problem.
 
 ## Free to add your models、losses and so on
 
-In order to make it easier for researchers to design their own models, loss functions and metrics, we decouple to the greatest extent:
+In order to make it easier for researchers to design their own models, loss functions, and metrics, we decouple to the greatest extent:
 
-* You can easily add new models in Models/;
+* One can easily add new models in Models/;
 * Add new loss in utils/losses.py;
 * Add new metrics in utils/metrics.py.
 

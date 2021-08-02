@@ -2,9 +2,9 @@ import pickle
 import torch as t
 from torch.utils import data
 
-import sys
-sys.path.append('../')
-from utils.batchnorm import batch_norm
+# import sys
+# sys.path.append('../')
+# from utils.batchnorm import batch_norm
 
 
 DATASET_BASE = '/home/LAB/wangd/graduation_project/ranked list truncation/dataset'
@@ -13,9 +13,9 @@ DATASET_BASE = '/home/LAB/wangd/graduation_project/ranked list truncation/datase
 class Rank_Dataset(data.Dataset):
     def __init__(self, dataset_name: str):
         self.X_train, self.X_test, self.y_train, self.y_test = self.data_prepare(dataset_name)
-        self.X, train_size = t.cat((self.X_train, self.X_test), dim=0), self.X_train.shape[0]
-        self.X_norm = batch_norm(self.X)
-        self.X_train_norm, self.X_test_norm = self.X_norm[:train_size], self.X_norm[train_size:]
+        # self.X, train_size = t.cat((self.X_train, self.X_test), dim=0), self.X_train.shape[0]
+        # self.X_norm = batch_norm(self.X)
+        # self.X_train_norm, self.X_test_norm = self.X_norm[:train_size], self.X_norm[train_size:]
 
     def data_prepare(self, dataset_name: str):
         with open('{}/{}_train.pkl'.format(DATASET_BASE, dataset_name), 'rb') as f:
@@ -40,12 +40,6 @@ class Rank_Dataset(data.Dataset):
 
         X_train, X_test = t.unsqueeze(t.Tensor(X_train), dim=1).permute(0, 2, 1), t.unsqueeze(t.Tensor(X_test), dim=1).permute(0, 2, 1)
         y_train, y_test = t.Tensor(y_train), t.Tensor(y_test)
-        
-        d00, d01, _ = X_train.shape
-        d10, d11, _ = X_test.shape
-        position_embedding_train, position_embedding_test = t.randn(d00, d01, 127), t.randn(d10, d11, 127)
-        X_train = t.cat((X_train, position_embedding_train), dim=2)
-        X_test = t.cat((X_test, position_embedding_test), dim=2)
 
         return X_train, X_test, y_train, y_test
 
@@ -85,6 +79,6 @@ if __name__ == '__main__':
     a, b, c = dataloader('drmm_tks', 32)
     xtr = c.getX_train()
     xte = c.getX_test()
-    ytr = c.getX_train()
+    ytr = c.gety_train()
     yte = c.gety_test()
     pass

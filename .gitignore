@@ -6,7 +6,7 @@ data_prep/wc_results
 
 Tensorboard_summary
 
-best_model/bicut.pkl
+best_model/*.pkl
 
 dataset/bicut
 
@@ -25,3 +25,9 @@ data_prep/.*
 .ipynb*
 
 *pyc*
+
+*_params.log
+
+*_search.log
+
+logs/*.log

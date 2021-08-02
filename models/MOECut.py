@@ -4,9 +4,9 @@ import torch.nn as nn
 
 
 class Expert(nn.Module):
-    def __init__(self, d_model, n_head, num_layers):
+    def __init__(self, d_model, n_head, num_layers, dropout: float=0.2):
         super(Expert, self).__init__()
-        encoder_layer = nn.TransformerEncoderLayer(d_model=d_model, nhead=n_head)
+        encoder_layer = nn.TransformerEncoderLayer(d_model=d_model, nhead=n_head, dropout=dropout)
         self.attention_layer = nn.TransformerEncoder(encoder_layer, num_layers=num_layers)
 
     def forward(self, x):
@@ -51,35 +51,29 @@ class TowerRerank(nn.Module):
 
 
 class MOECut(torch.nn.Module): 
-    def __init__(self, num_experts=3, num_tasks=3, input_size=3, encoding_size=128, d_model=256, n_head=4, num_layers=1):
+    def __init__(self, num_experts=3, num_tasks=3, input_size=3, encoding_size=128, d_model=256, n_head=4, num_layers=1, dropout=0.2):
         super(MOECut, self).__init__()
         # params
-        self.input_size = input_size
-        self.encoding_size = encoding_size
-        self.num_experts = num_experts
         self.expert_hidden = d_model
-        self.expert_head = n_head
-        self.expert_layers = num_layers
-        self.tasks = num_tasks
         # the first embedding layer
-        self.pre_encoding = nn.LSTM(input_size=input_size, hidden_size=self.encoding_size, num_layers=2, batch_first=True, bidirectional=True)
+        self.pre_encoding = nn.LSTM(input_size=input_size, hidden_size=encoding_size, num_layers=2, batch_first=True, bidirectional=True)
         # row by row
         self.softmax = nn.Softmax(dim=1)
         # model
-        self.experts = nn.ModuleList([Expert(self.expert_hidden, self.expert_head, self.expert_layers) for _ in range(self.num_experts)])
-        self.w_gates = nn.Parameter(torch.randn(self.encoding_size * 300 * 2, self.num_experts), requires_grad=True)
-        if self.tasks == 3:
+        self.experts = nn.ModuleList([Expert(self.expert_hidden, n_head, num_layers, dropout) for _ in range(num_experts)])
+        self.w_gates = nn.Parameter(torch.randn(encoding_size * 300 * 2, num_experts), requires_grad=True)
+        if num_tasks == 3:
             self.towers = nn.ModuleList([
                 TowerClass(self.expert_hidden),
                 TowerRerank(self.expert_hidden),
                 TowerCut(self.expert_hidden)
             ])
-        elif self.tasks == 2.1:
+        elif num_tasks == 2.1:
             self.towers = nn.ModuleList([
                 TowerClass(self.expert_hidden),
                 TowerCut(self.expert_hidden)
             ])
-        elif self.tasks == 2.2:
+        elif num_tasks == 2.2:
             self.towers = nn.ModuleList([
                 TowerRerank(self.expert_hidden),
                 TowerCut(self.expert_hidden)

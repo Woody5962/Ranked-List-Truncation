@@ -3,9 +3,9 @@ import torch as t
 import numpy as np
 from torch.utils import data
 
-import sys
-sys.path.append('../')
-from utils.batchnorm import batch_norm
+# import sys
+# sys.path.append('../')
+# from utils.batchnorm import batch_norm
 
 DATASET_BASE = '/home/LAB/wangd/graduation_project/ranked list truncation/dataset'
 
@@ -13,9 +13,9 @@ DATASET_BASE = '/home/LAB/wangd/graduation_project/ranked list truncation/datase
 class Rank_Dataset(data.Dataset):
     def __init__(self, dataset_name: str):
         self.X_train, self.X_test, self.y_train, self.y_test = self.data_prepare(dataset_name)
-        self.X, train_size = t.cat((self.X_train, self.X_test), dim=0), self.X_train.shape[0]
-        self.X_norm = batch_norm(self.X)
-        self.X_train_norm, self.X_test_norm = self.X_norm[:train_size], self.X_norm[train_size:]
+        # self.X, train_size = t.cat((self.X_train, self.X_test), dim=0), self.X_train.shape[0]
+        # self.X_norm = batch_norm(self.X)
+        # self.X_train_norm, self.X_test_norm = self.X_norm[:train_size], self.X_norm[train_size:]
 
     def data_prepare(self, dataset_name: str):
         """根据dataset name制作数据集
@@ -93,6 +93,6 @@ if __name__ == '__main__':
     a, b, c = dataloader('bm25')
     xtr = c.getX_train()
     xte = c.getX_test()
-    ytr = c.getX_train()
+    ytr = c.gety_train()
     yte = c.gety_test()
     pass

@@ -28,50 +28,57 @@ class Trainer:
         Args:
             args: args for training
         """
+        # params for training
         self.model_name = args.model_name
         self.model_path = args.model_path
         self.save_path = args.save_path
         self.epochs = args.epochs
         self.lr = args.lr
         self.cuda = args.cuda
+        self.dropout = args.dropout
         self.weight_decay = args.weight_decay
+        # params for search
         self.parameter_record = args.parameter_record
         self.parameter_search = args.parameter_search
         self.regularizer_search = args.regularizer_search
         self.mt_search = args.mt_search
-        self.metric_record = []
+        # params for evaluation
+        self.best_test_f1 = -float('inf')
+        self.best_test_dcg = -float('inf')
+        self.f1_record = []
+        self.dcg_record = []
 
         if self.model_name == 'bicut':
-            self.train_loader, self.test_loader = bc_dataloader(args.dataset_name, args.batch_size, args.num_workers)
-            self.model = BiCut()
+            # self.train_loader, self.test_loader = bc_dataloader(args.dataset_name, args.batch_size, args.num_workers)
+            self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
+            self.model = BiCut(input_size=3, dropout=self.dropout)
             self.criterion = losses.BiCutLoss(metric=args.criterion)
         elif self.model_name == 'choopy':
             self.train_loader, self.test_loader, _ = cp_dataloader(args.dataset_name, args.batch_size)
-            self.model = Choopy()
+            self.model = Choopy(dropout=self.dropout)
             self.criterion = losses.ChoopyLoss(metric=args.criterion)
         elif self.model_name == 'attncut':
             self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
-            self.model = AttnCut()
+            self.model = AttnCut(dropout=self.dropout)
             self.criterion = losses.AttnCutLoss(metric=args.criterion)
         elif self.model_name == 'mtchoopy':
             self.train_loader, self.test_loader, _ = cp_dataloader(args.dataset_name, args.batch_size)
-            self.model = MtChoopy(num_tasks=args.num_tasks)
+            self.model = MtChoopy(num_tasks=args.num_tasks, dropout=self.dropout)
             self.criterion = losses.MtCutLoss(metric=args.criterion, rerank_weight=args.rerank_weight, classi_weight=args.class_weight, num_tasks=args.num_tasks)
         elif self.model_name == 'mtattncut':
             self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
-            self.model = MtAttnCut(num_tasks=args.num_tasks)
+            self.model = MtAttnCut(num_tasks=args.num_tasks, dropout=self.dropout)
             self.criterion = losses.MtCutLoss(metric=args.criterion, rerank_weight=args.rerank_weight, classi_weight=args.class_weight, num_tasks=args.num_tasks)
         elif self.model_name == 'mmoecut':
             self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
-            self.model = MMOECut(num_tasks=args.num_tasks)
+            self.model = MMOECut(num_tasks=args.num_tasks, dropout=self.dropout)
             self.criterion = losses.MtCutLoss(metric=args.criterion, num_tasks=args.num_tasks)
         elif self.model_name == 'moecut':
             self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
-            self.model = MOECut(num_tasks=args.num_tasks)
+            self.model = MOECut(num_tasks=args.num_tasks, dropout=self.dropout)
             self.criterion = losses.MtCutLoss(metric=args.criterion, num_tasks=args.num_tasks)
         
         self.optimizer = optim.Adam(self.model.parameters(), lr=args.lr, weight_decay=self.weight_decay)
-        self.best_test_metric = -float('inf')
         
         if self.cuda: 
             self.model = self.model.cuda()
@@ -103,13 +110,13 @@ class Trainer:
                 k_s = []
                 for results in predictions:
                     if np.sum(results) == 300: k_s.append(300)
-                    else: k_s.append(np.argmin(results))
+                    else: k_s.append(np.argmin(results)+1)
             elif 'm' in self.model_name:
                 predictions = output[-1].detach().cpu().squeeze().numpy()
-                k_s = np.argmax(predictions, axis=1)
+                k_s = np.argmax(predictions, axis=1) + 1
             else: 
                 predictions = output.detach().cpu().squeeze().numpy()
-                k_s = np.argmax(predictions, axis=1)
+                k_s = np.argmax(predictions, axis=1) + 1
             y_train = y_train.data.cpu().numpy()
             f1 = Metric.f1(y_train, k_s)
             dcg = Metric.dcg(y_train, k_s)
@@ -144,13 +151,13 @@ class Trainer:
                     k_s = []
                     for results in predictions:
                         if np.sum(results) == 300: k_s.append(300)
-                        else: k_s.append(np.argmin(results))
+                        else: k_s.append(np.argmin(results) + 1)
                 elif 'm' in self.model_name:
                     predictions = output[-1].detach().cpu().squeeze().numpy()
-                    k_s = np.argmax(predictions, axis=1)
+                    k_s = np.argmax(predictions, axis=1) + 1
                 else: 
                     predictions = output.detach().cpu().squeeze().numpy()
-                    k_s = np.argmax(predictions, axis=1)
+                    k_s = np.argmax(predictions, axis=1) + 1
                 y_test = y_test.data.cpu().numpy()
                 f1 = Metric.f1(y_test, k_s)
                 dcg = Metric.dcg(y_test, k_s)
@@ -164,12 +171,14 @@ class Trainer:
         self.writer.add_scalar('test/loss_epoch', test_loss, epoch)
         self.writer.add_scalar('test/F1_epoch', test_f1, epoch)
         self.writer.add_scalar('test/DCG_epoch', test_dcg, epoch)
-        self.metric_record.append(test_f1)
+        self.f1_record.append(test_f1)
+        self.dcg_record.append(test_dcg)
         logging.info('\tTest: loss = {} | f1 = {:.6f} | dcg = {:.6f}\n'.format(test_loss, test_f1, test_dcg))
         
-        if test_f1 > self.best_test_metric:
-            self.best_test_metric = test_f1
+        if test_f1 > self.best_test_f1:
+            self.best_test_f1 = test_f1
             self.save_model()
+        if test_dcg > self.best_test_dcg: self.best_test_dcg = test_dcg
 
     def save_model(self):
         """save the best model
@@ -192,15 +201,16 @@ class Trainer:
         for epoch in range(self.epochs):
             self.train_epoch(epoch)
             self.test(epoch)
-        best_metric = sum(sorted(self.metric_record, reverse=True)[:5]) / 5
-        logging.info('the best F1 of this model: {}'.format(self.best_test_metric))
-        logging.info('the best-5 F1 of this model: {}'.format(best_metric))
+        best5_f1 = sum(sorted(self.f1_record, reverse=True)[:5]) / 5
+        best5_dcg = sum(sorted(self.dcg_record, reverse=True)[:5]) / 5
+        logging.info('the best metric of this model: f1: {} | dcg: {}'.format(self.best_test_f1, self.best_test_dcg))
+        logging.info('the best-5 metric of this model: f1: {} | dcg: {}'.format(best5_f1, best5_dcg))
         
         if self.parameter_search:
             if self.regularizer_search:
-                search_log = 'dropout: {}, L2_weight: {}, best_f1: {}'.format(self.dropout, self.weight_decay, self.best_test_metric)
+                search_log = 'dropout: {}, L2_weight: {}, best_f1: {}, best_dcg: {}'.format(self.dropout, self.weight_decay, self.best_test_f1, self.best_test_dcg)
             elif self.mt_search:
-                search_log = 'dropout: {}, L2_weight: {}, task_weight: {}, best_f1: {}'.format(self.dropout, self.weight_decay, self.task_weight, self.best_test_metric)
+                search_log = 'dropout: {}, L2_weight: {}, task_weight: {}, best_f1: {}, best_dcg: {}'.format(self.dropout, self.weight_decay, self.task_weight, self.best_test_f1, self.best_test_dcg)
             with open(self.parameter_record, 'a+') as f:
                 f.write('\n' + search_log)
 
@@ -222,9 +232,9 @@ def main():
     parser.add_argument('--weight-decay', type=float, default=0.005)
     parser.add_argument('--dropout', type=float, default=0.1)
     parser.add_argument('--parameter-record', type=str, default='{}/parameters.log'.format(RUNNING_PATH))
-    parser.add_argument('--parameter-search', type=bool, default=False)
-    parser.add_argument('--regularizer-search', type=bool, default=False)
-    parser.add_argument('--mt-search', type=bool, default=False)
+    parser.add_argument('--parameter-search', type=int, default=0)
+    parser.add_argument('--regularizer-search', type=int, default=0)
+    parser.add_argument('--mt-search', type=int, default=0)
     parser.add_argument('--search-times', type=int, default=80)
     parser.add_argument('--num-tasks', type=float, default=3)  # 2.1:classification + truncation | 2.2: rerank + truncation
     parser.add_argument('--rerank-weight', type=float, default=0.5)
@@ -239,7 +249,7 @@ def main():
         os.mkdir(args.Tensorboard_dir)
     
     config = configparser.ConfigParser()
-    config.read('{}/hyper_parameter.conf'.format(RUNNING_PATH))
+    config.read('{}/hyper_parameter_{}.conf'.format(RUNNING_PATH, args.dataset_name))
     args.lr = config.getfloat('{}_conf'.format(args.model_name), 'lr')
     args.batch_size = config.getint('{}_conf'.format(args.model_name), 'batch_size')
     args.dropout = config.getfloat('{}_conf'.format(args.model_name), 'dropout')
@@ -249,11 +259,13 @@ def main():
         args.class_weight = config.getfloat('{}_conf'.format(args.model_name), 'class_weight')
 
     if args.parameter_search:
-        args.parameter_record = '{}/{}_params.log'.format(RUNNING_PATH, args.model_name)
+        args.parameter_record = '{}/{}_{}_params.log'.format(RUNNING_PATH, args.model_name, args.dataset_name)
         task_weight_range = np.logspace(-2, 1, num=50, base=10)
+        weight_decay_range = np.logspace(-3, -1, num=50, base=10)
         for i in range(args.search_times):
             if args.regularizer_search:
-                args.dropout, args.weight_decay = random.uniform(0.1, 0.6), random.uniform(0.001, 0.02)
+                args.dropout = random.uniform(0.1, 0.6)
+                args.weight_decay = random.uniform(0.001, 0.02) if i >= 50 else weight_decay_range[i]
             elif args.mt_search:
                 args.rerank_weight = random.uniform(0.01, 10) if i >= 50 else task_weight_range[i]
                 args.class_weight = random.uniform(0.01, 10) if i >= 50 else task_weight_range[i]

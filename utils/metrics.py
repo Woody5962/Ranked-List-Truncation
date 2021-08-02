@@ -4,6 +4,8 @@ import torch as t
 
 
 class Metric:
+    """通过前k个doc进行metric计算，k应该已经是数目了，而非坐标
+    """
     def __init__(self):
         pass
     
@@ -13,10 +15,10 @@ class Metric:
         p_k, r_k, results = [], [], []
         for i in range(len(labels)): 
             count = np.sum(labels[i, :k_s[i]])
-            p_k.append((count / k_s[i]) if k_s[i] != 0 else 0)
+            p_k.append((count / k_s[i]))
             r_k.append((count / N_D[i]) if N_D[i] != 0 else 0)
             results.append((2 * p_k[-1] * r_k[-1] / (p_k[-1] + r_k[-1])) if p_k[-1] + r_k[-1] != 0 else 0)
-        return sum(results) / len(results)
+        return np.mean(results)
     
     @classmethod
     def dcg(cls, labels: np.array, k_s: list, penalty=-1):
@@ -28,10 +30,12 @@ class Metric:
         results = []
         for i in range(len(labels)):
             results.append(dcg_line(labels[i], k_s[i]))
-        return sum(results) / len(results)
+        return np.mean(results)
 
 
 class Metric_for_Loss:
+    """通过前k个doc进行metric计算，k应该已经是数目了，而非坐标
+    """
     def __init__(self) -> None:
         pass
     
@@ -39,15 +43,15 @@ class Metric_for_Loss:
     def f1(cls, label: t.Tensor, k: int):
         N_D = t.sum(label)
         count = t.sum(label[:k])
-        p_k = t.div(count, k) if k != 0 else t.tensor(0)
-        r_k = t.div(count, N_D) if N_D != 0 else t.tensor(0)
-        return t.div(t.mul(p_k, r_k).mul(2), t.add(p_k, r_k)) if t.add(p_k, r_k) != 0 else t.tensor(0)
+        p_k = count.div(k)
+        r_k = count.div(N_D) if N_D != 0 else t.tensor(0)
+        return p_k.mul(r_k).mul(2).div(p_k.add(r_k)) if p_k.add(r_k) != 0 else t.tensor(0)
     
     @classmethod
     def dcg(cls, label: t.Tensor, k: int, penalty: int=-1):
         value = t.tensor(0)
         for i in range(k):
-            value = t.add(value, (1 / math.log(i+2, 2)) if label[i] == 1 else (penalty / math.log(i+2, 2)))
+            value = value.add(1 / math.log(i+2, 2)) if label[i] == 1 else value.add(penalty / math.log(i+2, 2))
         return value
 
 

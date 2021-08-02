@@ -29,7 +29,7 @@ class BiCutLoss(nn.Module):
     def forward(self, output, labels):
         mask = t.ones_like(output)
         for i in range(mask.shape[0]):
-            mask[i][self.slice_index(output[i]):] = 0
+            mask[i][self.slice_index(output[i]) + 1:] = 0
         r = t.ones_like(output)
         for i in range(labels.shape[0]):
             for j in range(labels.shape[1]):
@@ -56,11 +56,11 @@ class ChoopyLoss(nn.Module):
         if self.metric == 'f1':
             for i in range(r.shape[0]):
                 for j in range(r.shape[1]):
-                    r[i][j] = Metric_for_Loss.f1(labels[i], j)
+                    r[i][j] = Metric_for_Loss.f1(labels[i], j+1)
         else:
             for i in range(r.shape[0]):
                 for j in range(r.shape[1]):
-                    r[i][j] = Metric_for_Loss.dcg(labels[i], j)
+                    r[i][j] = Metric_for_Loss.dcg(labels[i], j+1)
         
         loss_matrix = output.squeeze().mul(r)
         return -t.sum(loss_matrix).div(output.shape[0])
@@ -80,11 +80,11 @@ class AttnCutLoss(nn.Module):
         if self.metric == 'f1':
             for i in range(r.shape[0]):
                 for j in range(r.shape[1]):
-                    r[i][j] = Metric_for_Loss.f1(labels[i], j)
+                    r[i][j] = Metric_for_Loss.f1(labels[i], j+1)
         else:
             for i in range(r.shape[0]):
                 for j in range(r.shape[1]):
-                    r[i][j] = Metric_for_Loss.dcg(labels[i], j)
+                    r[i][j] = Metric_for_Loss.dcg(labels[i], j+1)
         q = t.exp(r.div(self.tau))
         norm_factor = t.sum(q, axis=1).unsqueeze(dim=1)
         q = q.div(norm_factor)
