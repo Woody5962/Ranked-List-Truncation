@@ -22,14 +22,12 @@ class Metric:
     
     @classmethod
     def dcg(cls, labels: np.array, k_s: list, penalty=-1):
-        def dcg_line(x, k):
-            value = 0
-            for i in range(k): 
-                value += (1 / math.log(i+2, 2)) if x[i] else (penalty / math.log(i+2, 2))
-            return value
         results = []
         for i in range(len(labels)):
-            results.append(dcg_line(labels[i], k_s[i]))
+            value, x = 0, labels[i]
+            for j in range(k_s[i]): 
+                value += (1 / math.log(j+2, 2)) if x[j] else (penalty / math.log(j+2, 2))
+            results.append(value)
         return np.mean(results)
 
 
