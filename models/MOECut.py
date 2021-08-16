@@ -43,7 +43,10 @@ class TowerClass(nn.Module):
 class TowerRerank(nn.Module):
     def __init__(self, d_model):
         super(TowerRerank, self).__init__()
-        self.rerank_layer = nn.Linear(in_features=d_model, out_features=1)
+        self.rerank_layer = nn.Sequential(
+            nn.Linear(in_features=d_model, out_features=1),
+            nn.Softmax(dim=1)
+        )
     
     def forward(self, x):
         out = self.rerank_layer(x)
@@ -51,9 +54,10 @@ class TowerRerank(nn.Module):
 
 
 class MOECut(torch.nn.Module): 
-    def __init__(self, num_experts=3, num_tasks=3, input_size=3, encoding_size=128, d_model=256, n_head=4, num_layers=1, dropout=0.2):
+    def __init__(self, seq_len: int=300, num_experts=3, num_tasks=3, input_size=3, encoding_size=128, d_model=256, n_head=4, num_layers=1, dropout=0.2):
         super(MOECut, self).__init__()
         # params
+        self.seq_len = seq_len
         self.expert_hidden = d_model
         # the first embedding layer
         self.pre_encoding = nn.LSTM(input_size=input_size, hidden_size=encoding_size, num_layers=2, batch_first=True, bidirectional=True)
@@ -61,7 +65,7 @@ class MOECut(torch.nn.Module):
         self.softmax = nn.Softmax(dim=1)
         # model
         self.experts = nn.ModuleList([Expert(self.expert_hidden, n_head, num_layers, dropout) for _ in range(num_experts)])
-        self.w_gates = nn.Parameter(torch.randn(encoding_size * 300 * 2, num_experts), requires_grad=True)
+        self.w_gates = nn.Parameter(torch.randn(encoding_size * self.seq_len * 2, num_experts), requires_grad=True)
         if num_tasks == 3:
             self.towers = nn.ModuleList([
                 TowerClass(self.expert_hidden),
@@ -92,8 +96,8 @@ class MOECut(torch.nn.Module):
         # multiply the output of the experts with the corresponding gates output
         # res = gates_o[0].t().unsqueeze(2).expand(-1, -1, self.experts_out) * expers_o_tensor
         # https://discuss.pytorch.org/t/element-wise-multiplication-of-the-last-dimension/79534
-        # 每条输入数据（300 * hidden）都对应一组权重
-        towers_input = gates_o.t().unsqueeze(2).expand(-1, -1, 300).unsqueeze(3).expand(-1, -1, -1, self.expert_hidden) * experts_o_tensor
+        # 每条输入数据（self.seq_len * hidden）都对应一组权重
+        towers_input = gates_o.t().unsqueeze(2).expand(-1, -1, self.seq_len).unsqueeze(3).expand(-1, -1, -1, self.expert_hidden) * experts_o_tensor
         towers_input = torch.sum(towers_input, dim=0)
 
         # get the final output from the towers
@@ -105,8 +109,8 @@ class MOECut(torch.nn.Module):
         return final_output
     
 if __name__ == '__main__':
-    input = torch.randn(5, 300, 3)
-    model = MOECut()
+    input = torch.randn(5, 40, 3)
+    model = MOECut(seq_len=40)
     result = model(input)
     print(result[0].shape)  # (5, 300, 1)
     print(result[1][:2])

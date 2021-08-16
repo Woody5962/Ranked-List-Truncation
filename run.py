@@ -29,6 +29,7 @@ class Trainer:
             args: args for training
         """
         # params for training
+        self.seq_len = 300 if args.retrieve_data == 'robust04' else 40
         self.model_name = args.model_name
         self.model_path = args.model_path
         self.save_path = args.save_path
@@ -49,33 +50,40 @@ class Trainer:
         self.dcg_record = []
 
         if self.model_name == 'bicut':
+            bicut_input = 3 if args.retrieve_data == 'robust04' else 25
             # self.train_loader, self.test_loader = bc_dataloader(args.dataset_name, args.batch_size, args.num_workers)
-            self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
-            self.model = BiCut(input_size=3, dropout=self.dropout)
+            self.train_loader, self.test_loader, _ = at_dataloader(args.retrieve_data, args.dataset_name, args.batch_size)
+            self.model = BiCut(input_size=bicut_input, dropout=self.dropout)
             self.criterion = losses.BiCutLoss(metric=args.criterion)
         elif self.model_name == 'choopy':
-            self.train_loader, self.test_loader, _ = cp_dataloader(args.dataset_name, args.batch_size)
-            self.model = Choopy(dropout=self.dropout)
+            self.train_loader, self.test_loader, _ = cp_dataloader(args.retrieve_data, args.dataset_name, args.batch_size)
+            self.model = Choopy(seq_len=self.seq_len, dropout=self.dropout)
             self.criterion = losses.ChoopyLoss(metric=args.criterion)
         elif self.model_name == 'attncut':
-            self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
-            self.model = AttnCut(dropout=self.dropout)
+            attncut_input = 3 if args.retrieve_data == 'robust04' else 25
+            self.train_loader, self.test_loader, _ = at_dataloader(args.retrieve_data, args.dataset_name, args.batch_size)
+            self.model = AttnCut(input_size=attncut_input, dropout=self.dropout)
             self.criterion = losses.AttnCutLoss(metric=args.criterion)
         elif self.model_name == 'mtchoopy':
-            self.train_loader, self.test_loader, _ = cp_dataloader(args.dataset_name, args.batch_size)
-            self.model = MtChoopy(num_tasks=args.num_tasks, dropout=self.dropout)
+            self.train_loader, self.test_loader, _ = cp_dataloader(args.retrieve_data, args.dataset_name, args.batch_size)
+            self.model = MtChoopy(seq_len=self.seq_len, num_tasks=args.num_tasks, dropout=self.dropout)
             self.criterion = losses.MtCutLoss(metric=args.criterion, rerank_weight=args.rerank_weight, classi_weight=args.class_weight, num_tasks=args.num_tasks)
         elif self.model_name == 'mtattncut':
-            self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
-            self.model = MtAttnCut(num_tasks=args.num_tasks, dropout=self.dropout)
+            mtattncut_input = 3 if args.retrieve_data == 'robust04' else 25
+            self.train_loader, self.test_loader, _ = at_dataloader(args.retrieve_data, args.dataset_name, args.batch_size)
+            self.model = MtAttnCut(input_size=mtattncut_input, num_tasks=args.num_tasks, dropout=self.dropout)
             self.criterion = losses.MtCutLoss(metric=args.criterion, rerank_weight=args.rerank_weight, classi_weight=args.class_weight, num_tasks=args.num_tasks)
         elif self.model_name == 'mmoecut':
-            self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
-            self.model = MMOECut(num_tasks=args.num_tasks, dropout=self.dropout)
+            mmoe_input = 3 if args.retrieve_data == 'robust04' else 47
+            self.train_loader, self.test_loader, _ = at_dataloader(args.retrieve_data, args.dataset_name, args.batch_size) if args.retrieve_data == 'robust04' else \
+                mc_dataloader(args.retrieve_data, args.dataset_name, args.batch_size)
+            self.model = MMOECut(seq_len=self.seq_len, num_tasks=args.num_tasks, input_size=mmoe_input, dropout=self.dropout, num_experts=2)
             self.criterion = losses.MtCutLoss(metric=args.criterion, num_tasks=args.num_tasks)
         elif self.model_name == 'moecut':
-            self.train_loader, self.test_loader, _ = at_dataloader(args.dataset_name, args.batch_size)
-            self.model = MOECut(num_tasks=args.num_tasks, dropout=self.dropout)
+            moe_input = 3 if args.retrieve_data == 'robust04' else 47
+            self.train_loader, self.test_loader, _ = at_dataloader(args.retrieve_data, args.dataset_name, args.batch_size) if args.retrieve_data == 'robust04' else \
+                mc_dataloader(args.retrieve_data, args.dataset_name, args.batch_size)
+            self.model = MOECut(seq_len=self.seq_len, num_tasks=args.num_tasks, input_size=moe_input, dropout=self.dropout)
             self.criterion = losses.MtCutLoss(metric=args.criterion, num_tasks=args.num_tasks)
         
         self.optimizer = optim.Adam(self.model.parameters(), lr=args.lr, weight_decay=self.weight_decay)
@@ -109,7 +117,7 @@ class Trainer:
                 predictions = np.argmax(output.detach().cpu().numpy(), axis=2)
                 k_s = []
                 for results in predictions:
-                    if np.sum(results) == 300: k_s.append(300)
+                    if np.sum(results) == self.seq_len: k_s.append(self.seq_len)
                     else: k_s.append(np.argmin(results)+1)
             elif 'm' in self.model_name:
                 predictions = output[-1].detach().cpu().squeeze().numpy()
@@ -150,7 +158,7 @@ class Trainer:
                     predictions = np.argmax(output.detach().cpu().numpy(), axis=2)
                     k_s = []
                     for results in predictions:
-                        if np.sum(results) == 300: k_s.append(300)
+                        if np.sum(results) == self.seq_len: k_s.append(self.seq_len)
                         else: k_s.append(np.argmin(results) + 1)
                 elif 'm' in self.model_name:
                     predictions = output[-1].detach().cpu().squeeze().numpy()
@@ -219,10 +227,11 @@ def main():
     """训练过程的主函数，用于接收训练参数等
     """
     parser = argparse.ArgumentParser(description="Truncation Model Trainer Args")
+    parser.add_argument('--retrieve-data', type=str, default='mq2007')
     parser.add_argument('--dataset-name', type=str, default='drmm_tks')
     parser.add_argument('--batch-size', type=int, default=20)
     parser.add_argument('--num-workers', type=int, default=8)
-    parser.add_argument('--model-name', type=str, default='attncut')
+    parser.add_argument('--model-name', type=str, default='mmoecut')
     parser.add_argument('--criterion', type=str, default='f1')
     parser.add_argument('--model-path', type=str, default=None)
     parser.add_argument('--ft', type=bool, default=False)
@@ -238,7 +247,7 @@ def main():
     parser.add_argument('--search-times', type=int, default=80)
     parser.add_argument('--num-tasks', type=float, default=3)  # 2.1:classification + truncation | 2.2: rerank + truncation
     parser.add_argument('--rerank-weight', type=float, default=0.5)
-    parser.add_argument('--class-weight', type=float, default=0.5)
+    parser.add_argument('--class-weight', type=float, default=0.8)
 
     args = parser.parse_args()
     args.cuda = t.cuda.is_available()
@@ -251,7 +260,7 @@ def main():
     config = configparser.ConfigParser()
     config.read('{}/hyper_parameter_{}.conf'.format(RUNNING_PATH, args.dataset_name))
     args.lr = config.getfloat('{}_conf'.format(args.model_name), 'lr')
-    args.batch_size = config.getint('{}_conf'.format(args.model_name), 'batch_size')
+    if args.retrieve_data == 'robust04': args.batch_size = config.getint('{}_conf'.format(args.model_name), 'batch_size')
     args.dropout = config.getfloat('{}_conf'.format(args.model_name), 'dropout')
     args.weight_decay = config.getfloat('{}_conf'.format(args.model_name), 'weight_decay')
     if 'm' in args.model_name:

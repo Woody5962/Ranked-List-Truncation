@@ -8,7 +8,9 @@ Tensorboard_summary
 
 best_model/*.pkl
 
-dataset/bicut
+dataset/mq2007/
+
+dataset/robust04
 
 utils/__pycache__
 
