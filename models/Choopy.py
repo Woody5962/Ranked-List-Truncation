@@ -9,16 +9,17 @@ class Choopy(nn.Module):
         self.seq_len = seq_len
         self.position_encoding = nn.Parameter(t.randn(self.seq_len, 127), requires_grad=True)
         encoder_layer = nn.TransformerEncoderLayer(d_model=d_model, nhead=n_head, dropout=dropout)
-        self.model = nn.Sequential(OrderedDict([
-            ('transformer', nn.TransformerEncoder(encoder_layer, num_layers=num_layers)),
-            ('fc', nn.Linear(in_features=d_model, out_features=1)),
-            ('softmax', nn.Softmax(dim=1))
-        ]))
+        self.attention_layer = nn.TransformerEncoder(encoder_layer, num_layers=num_layers)
+        self.decison_layer = nn.Sequential(
+            nn.Linear(in_features=d_model, out_features=1),
+            nn.Softmax(dim=1)
+        )
         
     def forward(self, x):
         pe = self.position_encoding.expand(x.shape[0], self.seq_len, 127)
         x = t.cat((x, pe), dim=2)
-        x = self.model(x)
+        x = self.attention_layer(x)
+        x = self.decison_layer(x)
         return x
 
 
