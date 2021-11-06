@@ -4,7 +4,7 @@ import torch.nn as nn
 
 
 class Expert(nn.Module):
-    def __init__(self, d_model, n_head, num_layers, dropout: float=0.2):
+    def __init__(self, d_model, n_head, num_layers, dropout: float=0.1):
         super(Expert, self).__init__()
         encoder_layer = nn.TransformerEncoderLayer(d_model=d_model, nhead=n_head, dropout=dropout)
         self.attention_layer = nn.TransformerEncoder(encoder_layer, num_layers=num_layers)
@@ -53,9 +53,9 @@ class TowerRerank(nn.Module):
         return out
 
 
-class MMOECut(torch.nn.Module): 
-    def __init__(self, seq_len: int=300, num_experts=3, num_tasks=3, input_size=3, encoding_size=128, d_model=256, n_head=4, num_layers=1, dropout=0.2):
-        super(MMOECut, self).__init__()
+class PLECut(torch.nn.Module): 
+    def __init__(self, seq_len: int=300, num_experts=3, input_size=3, encoding_size=128, d_model=256, n_head=2, num_layers=1, dropout=0.1):
+        super(PLECut, self).__init__()
         # params
         self.seq_len = seq_len
         self.expert_hidden = d_model
@@ -65,40 +65,34 @@ class MMOECut(torch.nn.Module):
         self.softmax = nn.Softmax(dim=1)
         # model
         self.experts = nn.ModuleList([Expert(self.expert_hidden, n_head, num_layers, dropout) for _ in range(num_experts)])
-        self.w_gates = nn.ParameterList([nn.Parameter(torch.randn(encoding_size * self.seq_len * 2, num_experts), requires_grad=True) for _ in range(int(num_tasks))])
-        if num_tasks == 3:
-            self.towers = nn.ModuleList([
-                TowerClass(self.expert_hidden),
-                TowerRerank(self.expert_hidden),
-                TowerCut(self.expert_hidden)
-            ])
-        elif num_tasks == 2.1:
-            self.towers = nn.ModuleList([
-                TowerClass(self.expert_hidden),
-                TowerCut(self.expert_hidden)
-            ])
-        elif num_tasks == 2.2:
-            self.towers = nn.ModuleList([
-                TowerRerank(self.expert_hidden),
-                TowerCut(self.expert_hidden)
-            ])
+        self.w_gates = nn.ParameterList([nn.Parameter(torch.randn(encoding_size * self.seq_len * 2, 2), requires_grad=True),
+                                         nn.Parameter(torch.randn(encoding_size * self.seq_len * 2, 2), requires_grad=True),
+                                         nn.Parameter(torch.randn(encoding_size * self.seq_len * 2, 3), requires_grad=True)])
+        self.towers = nn.ModuleList([
+            TowerClass(self.expert_hidden),
+            TowerRerank(self.expert_hidden),
+            TowerCut(self.expert_hidden)
+        ])
 
     def forward(self, x):
         # get the experts output
         experts_in = self.pre_encoding(x)[0]
         experts_o = [e(experts_in) for e in self.experts]
-        experts_o_tensor = torch.stack(experts_o)
+        experts_o1 = torch.stack(experts_o[:2])
+        experts_o2 = torch.stack(experts_o[1:])
+        experts_o3 = torch.stack(experts_o)
 
         # get the gates output
         batch_size = experts_in.shape[0]
         gates_o = [self.softmax(experts_in.reshape(batch_size, -1) @ g) for g in self.w_gates]
-        if len(gates_o) == 3: print(gates_o[0][-1], gates_o[1][-1], gates_o[2][-1])
+        # if len(gates_o) == 3: print(gates_o[0][-1], gates_o[1][-1], gates_o[2][-1])
 
         # multiply the output of the experts with the corresponding gates output
         # res = gates_o[0].t().unsqueeze(2).expand(-1, -1, self.experts_out) * expers_o_tensor
         # https://discuss.pytorch.org/t/element-wise-multiplication-of-the-last-dimension/79534
         # 每条输入数据（self.seq_len * hidden）都对应一组权重
-        towers_input = [g.t().unsqueeze(2).expand(-1, -1, self.seq_len).unsqueeze(3).expand(-1, -1, -1, self.expert_hidden) * experts_o_tensor for g in gates_o]
+        towers_input = [g.t().unsqueeze(2).expand(-1, -1, self.seq_len).unsqueeze(3).expand(-1, -1, -1, self.expert_hidden) * experts_o_tensor 
+                        for g, experts_o_tensor in zip(gates_o, [experts_o1, experts_o2, experts_o3])]
         towers_input = [torch.sum(ti, dim=0) for ti in towers_input]
 
         # get the final output from the towers
@@ -111,7 +105,7 @@ class MMOECut(torch.nn.Module):
     
 if __name__ == '__main__':
     input = torch.randn(5, 40, 3)
-    model = MMOECut(seq_len=40)
+    model = PLECut(seq_len=40)
     result = model(input)
     print(result[0].shape)  # (5, 40, 1)
     print(result[1][:2])

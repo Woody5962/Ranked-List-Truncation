@@ -106,7 +106,7 @@ class RerankLoss(nn.Module):
     .. math::
         loss_{x, y} = max(0, -y * (x1 - x2) + margin)
     """
-    def __init__(self, margin: float = 0.4, reduction: str = 'mean'):
+    def __init__(self, margin: float = 5e-4, reduction: str = 'mean'):
         """
         :class:`RankHingeLoss` constructor.
         :param margin: Margin between positive and negative scores.
@@ -129,28 +129,34 @@ class RerankLoss(nn.Module):
         :param y_true: Label.
         :return: Hinge loss computed by user-defined margin.
         """
-        loss = []
-        for sample_pred, sample_label in zip(output, labels):
-            total_rele = t.sum(sample_label)
-            if total_rele == 0 or total_rele == len(sample_label): return t.tensor(0.)
-            y_pos, y_neg = [], []
-            n_pos, n_neg = 0, 0
-            for i, label in enumerate(sample_label):
-                if label: 
-                    y_pos.append(sample_pred[i])
-                    n_pos += 1
-                else: 
-                    y_neg.append(sample_pred[i])
-                    n_neg += 1
-            y_pos_1D = t.tensor(y_pos).unsqueeze(-1).expand(-1, n_neg).flatten().float()
-            y_neg_1D = t.tensor(y_neg).repeat(n_pos).float()
-            y_true = t.ones_like(y_pos_1D).float()
-            loss.append(F.margin_ranking_loss(
-                y_pos_1D, y_neg_1D, y_true,
-                margin=self.margin,
-                reduction=self.reduction
-            ))
-        return t.sum(t.tensor(loss)).div(output.shape[0])
+        y_rele = labels == 1.
+        y_irre = labels == 0.
+        total_rele = y_rele.sum().item()
+        total_irre = y_irre.sum().item()
+        if total_rele == 0 or total_irre == 0: return t.tensor(0, requires_grad=True)
+        y_pos_mean = y_rele.mul(output.squeeze()).sum().div(total_rele)
+        y_neg_mean = y_irre.mul(output.squeeze()).sum().div(total_irre)
+        return max(t.tensor(0., requires_grad=True), y_neg_mean - y_pos_mean + self.margin)
+        # y_pos, y_neg = [], []
+        # n_pos, n_neg = 0, 0
+        # for sample_pred, sample_label in zip(output, labels):
+        #     for i, label in enumerate(sample_label):
+        #         if label: 
+        #             y_pos.append(sample_pred[i])
+        #             n_pos += 1
+        #         else: 
+        #             y_neg.append(sample_pred[i])
+        #             n_neg += 1
+        # total_rele = sum(y_pos)
+        # if total_rele == 0 or total_rele == len(y_pos): return t.tensor(0., requires_grad=True)
+        # y_pos_1D = t.tensor(y_pos, requires_grad=True).unsqueeze(-1).expand(-1, n_neg).flatten()
+        # y_neg_1D = t.tensor(y_neg, requires_grad=True).repeat(n_pos)
+        # y_true = t.ones_like(y_pos_1D)
+        # return F.margin_ranking_loss(
+        #     y_pos_1D, y_neg_1D, y_true,
+        #     margin=self.margin,
+        #     reduction=self.reduction
+        # )
 
         
 class MtCutLoss(nn.Module):

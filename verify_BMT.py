@@ -1,4 +1,3 @@
-import os
 import time
 import argparse
 import numpy as np
@@ -7,12 +6,13 @@ import torch as t
 import torch.optim as optim
 import logging
 import configparser
-import random
 
 from sklearn import metrics
 
 from dataloader import *
 from models import *
+from utils import Metric
+from utils import losses
 
 
 RUNNING_PATH = '/home/LAB/wangd/graduation_project/ranked list truncation'
@@ -27,6 +27,7 @@ class Trainer:
             args: args for training
         """
         # params for training
+        self.verify_type = args.verify_type
         self.seq_len = 300 if args.retrieve_data == 'robust04' else 40
         self.model_name = args.model_name
         self.model_path = args.model_path
@@ -35,28 +36,31 @@ class Trainer:
         self.dropout = args.dropout
         self.weight_decay = args.weight_decay
         self.ft = args.ft
-        self.auc = []
+        self.metric = []
+        self.metric_name = 'auc' if self.verify_type == 'c' else 'DCG'
 
         input_size = 3 if args.retrieve_data == 'robust04' else 25
         if self.model_name == 'choopy':
             self.train_loader, self.test_loader, _ = cp_dataloader(args.retrieve_data, args.dataset_name, args.batch_size)
             self.cut_model = Choopy(seq_len=self.seq_len, dropout=self.dropout)
-            self.model = TaskC(d_model=128) if self.ft == 1 else TaskC(d_model=input_size)
+            if args.verify_type == 'c': self.model = TaskC(d_model=128) if self.ft == 1 else TaskC(d_model=input_size)
+            else: self.model = TaskR(d_model=128) if self.ft == 1 else TaskR(d_model=input_size)
         elif self.model_name == 'attncut':
             attncut_input = 3 if args.retrieve_data == 'robust04' else 25
             self.train_loader, self.test_loader, _ = at_dataloader(args.retrieve_data, args.dataset_name, args.batch_size)
             self.cut_model = AttnCut(input_size=attncut_input, dropout=self.dropout)
-            self.model = TaskC(d_model=256) if self.ft == 1 else TaskC(d_model=input_size)
+            if args.verify_type == 'c': self.model = TaskC(d_model=256) if self.ft == 1 else TaskC(d_model=input_size)
+            else: self.model = TaskR(d_model=256) if self.ft == 1 else TaskR(d_model=input_size)
         
         if self.ft: self.load_model()
-        self.criterion = t.nn.BCELoss()
+        self.criterion = t.nn.BCELoss() if args.verify_type == 'c' else losses.RerankLoss()
         self.optimizer = optim.Adam(self.model.parameters(), lr=args.lr, weight_decay=self.weight_decay)
             
     def train_epoch(self, epoch):
         """train stage for every epoch
         """
         start_time = time.time()
-        epoch_loss, epoch_auc = 0, 0
+        epoch_loss, epoch_metric = 0, 0
         step = 0
         logging.info('-' * 100)
         for X_train, y_train in tqdm(self.train_loader, desc='Training for epoch_{}'.format(epoch)):
@@ -64,7 +68,7 @@ class Trainer:
                 with t.no_grad():
                     if self.model_name == 'attncut': 
                         X_train = self.cut_model.encoding_layer(X_train)[0]
-                        X_train = self.cut_model.attention_layer(X_train)
+                        X_train = self.cut_model.attention_layer(X_train) 
                     elif self.model_name == 'choopy':
                         pe = self.cut_model.position_encoding.expand(X_train.shape[0], self.seq_len, 127)
                         X_train = t.cat((X_train, pe), dim=2)
@@ -78,29 +82,25 @@ class Trainer:
             loss.backward()
             self.optimizer.step()
             
-            
             y_train = y_train.detach().numpy()
-            output = output.detach().numpy()
-            tmp_auc, count_auc = 0, 0
-            for i in range(X_train.shape[0]):
-                if sum(y_train[i]) == 0 or sum(y_train[i]) == len(y_train[i]): continue
-                tmp_auc += metrics.roc_auc_score(y_true=y_train[i], y_score=output.squeeze()[i])
-                count_auc += 1
-            auc = tmp_auc / count_auc
+            output = output.detach().numpy().squeeze()
+            
+            if self.verify_type == 'c': step_metric = Metric.taskc_metric(y_train, output)
+            else: step_metric = Metric.taskr_metric(y_train, output)
 
             epoch_loss += loss.item()
-            epoch_auc += auc
+            epoch_metric += step_metric
             step += 1
-            if len(self.auc) < 100: self.auc.append(auc)
+            if len(self.metric) < 100: self.metric.append(step_metric)
 
-        train_loss, train_auc = epoch_loss / step, epoch_auc / step
+        train_loss, train_metric = epoch_loss / step, epoch_metric / step
         logging.info('\nEpoch: {} | Epoch Time: {:.2f} s'.format(epoch, time.time() - start_time))
-        logging.info('\tTrain: loss = {} | auc = {:.6f}\n'.format(train_loss, train_auc))
+        logging.info('\tTrain: loss = {} | {} = {:.6f}\n'.format(train_loss, self.metric_name, train_metric))
 
     def test(self, epoch):
         """test stage for every epoch
         """
-        epoch_loss, epoch_auc = 0, 0
+        epoch_loss, epoch_metric = 0, 0
         step = 0
         for X_test, y_test in tqdm(self.test_loader, desc='Test after epoch_{}'.format(epoch)):
             self.model.eval()
@@ -117,22 +117,18 @@ class Trainer:
                 loss = self.criterion(output.squeeze(), y_test)
                 
                 y_test = y_test.detach().numpy()
-                output = output.detach().numpy()
-                tmp_auc = count_auc = 0
-                for i in range(X_test.shape[0]):
-                    if sum(y_test[i]) == 0 or sum(y_test[i]) == len(y_test[i]): continue
-                    tmp_auc += metrics.roc_auc_score(y_true=y_test[i], y_score=output.squeeze()[i])
-                    count_auc += 1
-                auc = tmp_auc / count_auc
+                output = output.detach().numpy().squeeze()
+                
+                if self.verify_type == 'c': step_metric = Metric.taskc_metric(y_test, output)
+                else: step_metric = Metric.taskr_metric(y_test, output)
 
                 epoch_loss += loss.item()
-                epoch_auc += auc
+                epoch_metric += step_metric
                 step += 1
         
-        test_loss, test_auc = epoch_loss / step, epoch_auc / step
-        logging.info('\tTest: loss = {} | auc = {:.6f}\n'.format(test_loss, test_auc))
+        test_loss, test_metric = epoch_loss / step, epoch_metric / step
+        logging.info('\tTest: loss = {} | {} = {:.6f}\n'.format(test_loss, self.metric_name, test_metric))
         
-
 
     def load_model(self):
         """load the saved model
@@ -146,7 +142,7 @@ class Trainer:
         for epoch in range(self.epochs):
             self.train_epoch(epoch)
             self.test(epoch)
-        print(self.auc)
+        print(self.metric)
         
 
 
@@ -159,10 +155,11 @@ def main():
     parser.add_argument('--batch-size', type=int, default=20)
     parser.add_argument('--num-workers', type=int, default=8)
     parser.add_argument('--model-name', type=str, default='attncut')
+    parser.add_argument('--verify-type', type=str, default='r')  # c: classification, r: rerank
     parser.add_argument('--model-path', type=str, default=None)
     parser.add_argument('--save-path', type=str, default='{}/best_model/'.format(RUNNING_PATH))
-    parser.add_argument('--ft', type=int, default=1)
-    parser.add_argument('--epochs', type=int, default=20)
+    parser.add_argument('--ft', type=int, default=0)
+    parser.add_argument('--epochs', type=int, default=50)
     parser.add_argument('--lr', type=float, default=3e-5)
     parser.add_argument('--weight-decay', type=float, default=0.0015)
     parser.add_argument('--dropout', type=float, default=0.1)

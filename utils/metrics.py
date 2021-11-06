@@ -1,6 +1,7 @@
 import numpy as np
 import math
 import torch as t
+from sklearn import metrics
 
 
 class Metric:
@@ -29,6 +30,44 @@ class Metric:
                 value += (1 / math.log(j+2, 2)) if x[j] else (penalty / math.log(j+2, 2))
             results.append(value)
         return np.mean(results)
+    
+    @classmethod
+    def taskr_metric(cls, labels: np.array, predictions: np.array):
+        """计算重排任务的metric，使用排序学习中常用的DCG（F1在全序列场景下无意义）
+
+        Args:
+            labels (np.array): labels
+            predictions (np.array): 模型输出
+
+        Returns:
+            float: DCG
+        """
+        DCG_batch = []
+        for sample_pred, sample_label in zip(predictions, labels):
+            DCG_sample = 0
+            sort_index = np.argsort(-sample_pred)
+            for i, origin_index in enumerate(sort_index):
+                DCG_sample += ((1 / math.log2(i+2)) if sample_label[origin_index] else (-1 / math.log2(i+2)))
+            DCG_batch.append(DCG_sample)
+        return np.mean(DCG_batch)
+    
+    @classmethod
+    def taskc_metric(cls, labels: np.array, predictions: np.array):
+        """计算分类任务的metric，使用AUC
+
+        Args:
+            labels (np.array): labels
+            predictions (np.array): 模型输出
+
+        Returns:
+            float: 整个batch docs的AUC
+        """
+        tmp_auc, count_auc = 0, 0
+        for i in range(labels.shape[0]):
+            if sum(labels[i]) == 0 or sum(labels[i]) == len(labels[i]): continue
+            tmp_auc += metrics.roc_auc_score(y_true=labels[i], y_score=predictions[i])
+            count_auc += 1
+        return tmp_auc / count_auc
 
 
 class Metric_for_Loss:

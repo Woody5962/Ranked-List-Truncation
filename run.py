@@ -8,6 +8,7 @@ import torch.optim as optim
 import logging
 import configparser
 import random
+import shutil
 
 from dataloader import *
 from models import *
@@ -24,7 +25,7 @@ logging.basicConfig(level=logging.INFO)
 class Trainer:
     def __init__(self, args):
         """trainer for the truncation model
-
+        
         Args:
             args: args for training
         """
@@ -84,6 +85,12 @@ class Trainer:
             self.train_loader, self.test_loader, _ = at_dataloader(args.retrieve_data, args.dataset_name, args.batch_size) if args.retrieve_data == 'robust04' else \
                 mc_dataloader(args.retrieve_data, args.dataset_name, args.batch_size)
             self.model = MOECut(seq_len=self.seq_len, num_tasks=args.num_tasks, input_size=moe_input, dropout=self.dropout)
+            self.criterion = losses.MtCutLoss(metric=args.criterion, num_tasks=args.num_tasks)
+        elif self.model_name == 'mtple':
+            ple_input = 3 if args.retrieve_data == 'robust04' else 47
+            self.train_loader, self.test_loader, _ = at_dataloader(args.retrieve_data, args.dataset_name, args.batch_size) if args.retrieve_data == 'robust04' else \
+                mc_dataloader(args.retrieve_data, args.dataset_name, args.batch_size)
+            self.model = PLECut(seq_len=self.seq_len, input_size=ple_input, dropout=self.dropout, num_experts=3)
             self.criterion = losses.MtCutLoss(metric=args.criterion, num_tasks=args.num_tasks)
         
         self.optimizer = optim.Adam(self.model.parameters(), lr=args.lr, weight_decay=self.weight_decay)
@@ -227,14 +234,14 @@ def main():
     """训练过程的主函数，用于接收训练参数等
     """
     parser = argparse.ArgumentParser(description="Truncation Model Trainer Args")
-    parser.add_argument('--retrieve-data', type=str, default='mq2007')
+    parser.add_argument('--retrieve-data', type=str, default='robust04')
     parser.add_argument('--dataset-name', type=str, default='drmm_tks')
     parser.add_argument('--batch-size', type=int, default=20)
     parser.add_argument('--num-workers', type=int, default=8)
-    parser.add_argument('--model-name', type=str, default='mmoecut')
+    parser.add_argument('--model-name', type=str, default='mtple')
     parser.add_argument('--criterion', type=str, default='f1')
     parser.add_argument('--model-path', type=str, default=None)
-    parser.add_argument('--ft', type=bool, default=False)
+    parser.add_argument('--ft', type=int, default=0)
     parser.add_argument('--save-path', type=str, default='{}/best_model/'.format(RUNNING_PATH))
     parser.add_argument('--epochs', type=int, default=80)
     parser.add_argument('--lr', type=float, default=1e-5)
@@ -251,11 +258,11 @@ def main():
 
     args = parser.parse_args()
     args.cuda = t.cuda.is_available()
-    args.Tensorboard_dir = '{}/Tensorboard_summary/'.format(RUNNING_PATH)
+    args.Tensorboard_dir = '{}/Tensorboard_summary/Truncation'.format(RUNNING_PATH)
     args.model_path = args.save_path + '{}.pkl'.format(args.model_name)
     
-    if not os.path.exists(args.Tensorboard_dir):
-        os.mkdir(args.Tensorboard_dir)
+    if os.path.exists(args.Tensorboard_dir): shutil.rmtree(args.Tensorboard_dir)
+    os.makedirs(args.Tensorboard_dir)
     
     config = configparser.ConfigParser()
     config.read('{}/hyper_parameter_{}.conf'.format(RUNNING_PATH, args.dataset_name))
