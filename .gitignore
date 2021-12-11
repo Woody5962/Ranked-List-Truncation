@@ -33,3 +33,5 @@ data_prep/.*
 *_search.log
 
 logs/*.log
+
+figs

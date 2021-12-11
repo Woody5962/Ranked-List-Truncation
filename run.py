@@ -9,11 +9,12 @@ import logging
 import configparser
 import random
 import shutil
+import matplotlib.pyplot as plt
 
 from dataloader import *
 from models import *
 from utils import losses
-from utils.metrics import Metric
+from utils.metrics import Metric, Metric_for_Loss
 
 from tensorboardX import SummaryWriter
 
@@ -35,6 +36,9 @@ class Trainer:
         self.model_path = args.model_path
         self.save_path = args.save_path
         self.epochs = args.epochs
+        self.batch_size = args.batch_size
+        self.div_type = args.div_type
+        self.aug_reward = args.augmented_reward
         self.lr = args.lr
         self.cuda = args.cuda
         self.dropout = args.dropout
@@ -64,7 +68,9 @@ class Trainer:
             attncut_input = 3 if args.retrieve_data == 'robust04' else 25
             self.train_loader, self.test_loader, _ = at_dataloader(args.retrieve_data, args.dataset_name, args.batch_size)
             self.model = AttnCut(input_size=attncut_input, dropout=self.dropout)
-            self.criterion = losses.AttnCutLoss(metric=args.criterion)
+            # self.criterion = losses.AttnCutLoss(metric=args.criterion)
+            self.criterion = losses.DivLoss(metric=args.criterion, div_type=self.div_type, augmented=self.aug_reward)
+            # self.criterion = losses.WassDistLoss(1e-2, 100)
         elif self.model_name == 'mtchoopy':
             self.train_loader, self.test_loader, _ = cp_dataloader(args.retrieve_data, args.dataset_name, args.batch_size)
             self.model = MtChoopy(seq_len=self.seq_len, num_tasks=args.num_tasks, dropout=self.dropout)
@@ -173,9 +179,11 @@ class Trainer:
                 else: 
                     predictions = output.detach().cpu().squeeze().numpy()
                     k_s = np.argmax(predictions, axis=1) + 1
-                y_test = y_test.data.cpu().numpy()
-                f1 = Metric.f1(y_test, k_s)
-                dcg = Metric.dcg(y_test, k_s)
+                y_test_np = y_test.data.cpu().numpy()
+                f1 = Metric.f1(y_test_np, k_s)
+                dcg = Metric.dcg(y_test_np, k_s)
+                
+                if epoch % 2 == 0 and len(X_test) > 40: self.plot(y_test.data.cpu(), t.from_numpy(predictions), epoch, tau=0.9, single_sample=False)
                 
                 epoch_loss += loss.item()
                 epoch_f1 += f1
@@ -228,6 +236,64 @@ class Trainer:
                 search_log = 'dropout: {}, L2_weight: {}, task_weight: {}, best_f1: {}, best_dcg: {}'.format(self.dropout, self.weight_decay, self.task_weight, self.best_test_f1, self.best_test_dcg)
             with open(self.parameter_record, 'a+') as f:
                 f.write('\n' + search_log)
+    
+    def plot(self, labels: t.Tensor, output: t.Tensor, epoch: int, tau: float=1., single_sample: bool=False):
+        if single_sample:
+            sample_index = random.randint(0, 45)
+            r = t.tensor([0] * self.seq_len)
+            if self.criterion == 'f1':
+                for i in range(self.seq_len):
+                    r[i] = Metric_for_Loss.f1(labels[sample_index], i+1)
+            else:
+                for i in range(self.seq_len):
+                    r[i]= Metric_for_Loss.dcg(labels[sample_index], i+1)
+            r = r.div(tau).exp()
+            norm_r = r.div(r.sum())
+            
+            # s = output[sample_index]
+            s = output[sample_index].div(tau * 2e-4).exp()
+            norm_s = s.div(s.sum())
+            
+            rs = norm_r.mul(s)
+            norm_rs = rs.div(rs.sum())
+        
+        else:
+            r = t.zeros_like(output)
+            if self.criterion == 'f1':
+                for i in range(r.shape[0]):
+                    for j in range(r.shape[1]):
+                        r[i][j] = Metric_for_Loss.f1(labels[i], j+1)
+            else:
+                for i in range(r.shape[0]):
+                    for j in range(r.shape[1]):
+                        r[i][j] = Metric_for_Loss.dcg(labels[i], j+1)
+            r = r.div(tau).exp()
+            norm_factor = t.sum(r, axis=1).unsqueeze(dim=1)
+            norm_r_0 = r.div(norm_factor)
+            norm_r = t.sum(norm_r_0, axis=0).div(r.shape[0])
+            
+            # s1, s2, s3, s4 = output[:21], output[24:31], output[32:47], output[48:]
+            # s = t.cat((s1, s2, s3, s4), dim=0).div(tau).exp()
+            s = output.div(tau * 1e-3).exp()
+            norm_factor = t.sum(s, axis=1).unsqueeze(dim=1)
+            norm_s_0 = s.div(norm_factor)
+            norm_s = t.sum(norm_s_0, axis=0).div(s.shape[0])
+            norm_s[-3:] = norm_s[-4]
+        
+        if not os.path.exists('./figs/'): os.makedirs('./figs/')
+        plt.cla()
+        x = list(range(1, 301))
+        plt.figure(figsize=(10,5), dpi=120)
+        plt.grid(linestyle = "--")
+
+        plt.plot(x, norm_r, color="limegreen", linewidth=3., label='Truncation Reward')
+        plt.plot(x, norm_s, color="mediumslateblue", linewidth=3., label='Truncation Probabilily')
+        if single_sample: plt.plot(x, norm_rs, color="mediumaquamarine", linewidth=3., label='Reward Expectation')
+        plt.legend(fontsize=15)
+
+        plt.title('Distribution of Truncation reward and Model prediction', fontsize=18,fontweight='bold')
+        plt.xlabel('position', fontsize=18,fontweight='bold')
+        plt.savefig('./figs/{}_{}_{}_{}.png'.format(self.model_name, self.div_type, 'ar' if self.aug_reward else 'dr', epoch))
 
 
 def main():
@@ -236,9 +302,11 @@ def main():
     parser = argparse.ArgumentParser(description="Truncation Model Trainer Args")
     parser.add_argument('--retrieve-data', type=str, default='robust04')
     parser.add_argument('--dataset-name', type=str, default='drmm_tks')
-    parser.add_argument('--batch-size', type=int, default=20)
+    parser.add_argument('--batch-size', type=int, default=63)
     parser.add_argument('--num-workers', type=int, default=8)
-    parser.add_argument('--model-name', type=str, default='mtple')
+    parser.add_argument('--model-name', type=str, default='attncut')
+    parser.add_argument('--augmented-reward', type=int, default=1)
+    parser.add_argument('--div-type', type=str, default='js')
     parser.add_argument('--criterion', type=str, default='f1')
     parser.add_argument('--model-path', type=str, default=None)
     parser.add_argument('--ft', type=int, default=0)
