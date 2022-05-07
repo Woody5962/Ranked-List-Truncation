@@ -1,8 +1,10 @@
 import numpy as np
 import math
+from numpy.lib.financial import irr
 import torch as t
 from sklearn import metrics
 
+DCG_coef_300 = [math.log(j+2, 2) for j in range(300)]
 
 class Metric:
     """通过前k个doc进行metric计算，k应该已经是数目了，而非坐标
@@ -25,9 +27,13 @@ class Metric:
     def dcg(cls, labels: np.array, k_s: list, penalty=-1):
         results = []
         for i in range(len(labels)):
-            value, x = 0, labels[i]
-            for j in range(k_s[i]): 
-                value += (1 / math.log(j+2, 2)) if x[j] else (penalty / math.log(j+2, 2))
+            label = labels[i, :k_s[i]]
+            dcg_coef = DCG_coef_300[:k_s[i]]
+            rele = (label == 1).astype(float)
+            irre = (label != 1).astype(float)
+            value = (rele / dcg_coef + penalty * irre / dcg_coef).sum()
+            # for j in range(k_s[i]): 
+            #     value += (1 / math.log(j+2, 2)) if x[j] else (penalty / math.log(j+2, 2))
             results.append(value)
         return np.mean(results)
     
@@ -86,9 +92,12 @@ class Metric_for_Loss:
     
     @classmethod
     def dcg(cls, label: t.Tensor, k: int, penalty: int=-1):
-        value = t.tensor(0)
-        for i in range(k):
-            value = value.add(1 / math.log(i+2, 2)) if label[i] == 1 else value.add(penalty / math.log(i+2, 2))
+        rele = (label[:k] == 1.).float()
+        irre = (label[:k] != 1.).float()
+        dcg_coef = t.tensor(DCG_coef_300[:k])
+        value = rele.div(dcg_coef).add(irre.div(dcg_coef).mul(penalty)).sum()
+        # for i in range(k):
+        #     value = value.add(1 / math.log(i+2, 2)) if label[i] == 1 else value.add(penalty / math.log(i+2, 2))
         return value
 
 

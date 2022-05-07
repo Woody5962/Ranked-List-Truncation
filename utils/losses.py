@@ -171,8 +171,8 @@ class MtCutLoss(nn.Module):
         super(MtCutLoss, self).__init__()
         self.rerank_weight, self.classi_weight = rerank_weight, classi_weight
         self.weights = nn.Parameter(t.randn(int(num_tasks)), requires_grad=True)
-        self.cutloss = AttnCutLoss(metric=metric)
-        # self.cutloss = ChoopyLoss(metric=metric)
+        # self.cutloss = AttnCutLoss(metric=metric)
+        self.cutloss = DivLoss(metric=metric, div_type='js', augmented=True)
         self.rerankloss = RerankLoss()
         self.classiloss = nn.BCELoss()
         self.num_tasks = num_tasks
@@ -197,7 +197,7 @@ class DivLoss(nn.Module):
     Args:
         nn ([type]): [description]
     """
-    def __init__(self, metric: str='f1', tau: float=0.65, div_type: str='kl', augmented: bool=True):
+    def __init__(self, metric: str='f1', tau: float=0.85, div_type: str='kl', augmented: bool=True):
         """初始化分布损失函数
 
         Args:

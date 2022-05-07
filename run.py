@@ -34,6 +34,7 @@ class Trainer:
         self.seq_len = 300 if args.retrieve_data == 'robust04' else 40
         self.model_name = args.model_name
         self.model_path = args.model_path
+        self.model_persist = args.model_persist
         self.save_path = args.save_path
         self.epochs = args.epochs
         self.batch_size = args.batch_size
@@ -43,6 +44,7 @@ class Trainer:
         self.cuda = args.cuda
         self.dropout = args.dropout
         self.weight_decay = args.weight_decay
+        self.draw = args.draw
         # params for search
         self.parameter_record = args.parameter_record
         self.parameter_search = args.parameter_search
@@ -84,7 +86,7 @@ class Trainer:
             mmoe_input = 3 if args.retrieve_data == 'robust04' else 47
             self.train_loader, self.test_loader, _ = at_dataloader(args.retrieve_data, args.dataset_name, args.batch_size) if args.retrieve_data == 'robust04' else \
                 mc_dataloader(args.retrieve_data, args.dataset_name, args.batch_size)
-            self.model = MMOECut(seq_len=self.seq_len, num_tasks=args.num_tasks, input_size=mmoe_input, dropout=self.dropout, num_experts=2)
+            self.model = MMOECut(seq_len=self.seq_len, num_tasks=args.num_tasks, input_size=mmoe_input, dropout=self.dropout, num_experts=3)
             self.criterion = losses.MtCutLoss(metric=args.criterion, num_tasks=args.num_tasks)
         elif self.model_name == 'moecut':
             moe_input = 3 if args.retrieve_data == 'robust04' else 47
@@ -183,7 +185,7 @@ class Trainer:
                 f1 = Metric.f1(y_test_np, k_s)
                 dcg = Metric.dcg(y_test_np, k_s)
                 
-                if epoch % 2 == 0 and len(X_test) > 40: self.plot(y_test.data.cpu(), t.from_numpy(predictions), epoch, tau=0.9, single_sample=False)
+                if self.draw and epoch % 2 == 0 and len(X_test) > 40: self.plot(y_test.data.cpu(), t.from_numpy(predictions), epoch, tau=0.9, single_sample=False)
                 
                 epoch_loss += loss.item()
                 epoch_f1 += f1
@@ -200,7 +202,7 @@ class Trainer:
         
         if test_f1 > self.best_test_f1:
             self.best_test_f1 = test_f1
-            self.save_model()
+            if self.model_persist: self.save_model()
         if test_dcg > self.best_test_dcg: self.best_test_dcg = test_dcg
 
     def save_model(self):
@@ -304,25 +306,27 @@ def main():
     parser.add_argument('--dataset-name', type=str, default='drmm_tks')
     parser.add_argument('--batch-size', type=int, default=63)
     parser.add_argument('--num-workers', type=int, default=8)
-    parser.add_argument('--model-name', type=str, default='attncut')
+    parser.add_argument('--model-name', type=str, default='mmoecut')
     parser.add_argument('--augmented-reward', type=int, default=1)
     parser.add_argument('--div-type', type=str, default='js')
-    parser.add_argument('--criterion', type=str, default='f1')
+    parser.add_argument('--criterion', type=str, default='dcg')
     parser.add_argument('--model-path', type=str, default=None)
     parser.add_argument('--ft', type=int, default=0)
+    parser.add_argument('--model-persist', type=int, default=0)
     parser.add_argument('--save-path', type=str, default='{}/best_model/'.format(RUNNING_PATH))
     parser.add_argument('--epochs', type=int, default=80)
-    parser.add_argument('--lr', type=float, default=1e-5)
+    parser.add_argument('--lr', type=float, default=3e-5)
+    parser.add_argument('--draw', type=int, default=0)
     parser.add_argument('--weight-decay', type=float, default=0.005)
     parser.add_argument('--dropout', type=float, default=0.1)
     parser.add_argument('--parameter-record', type=str, default='{}/parameters.log'.format(RUNNING_PATH))
     parser.add_argument('--parameter-search', type=int, default=0)
     parser.add_argument('--regularizer-search', type=int, default=0)
     parser.add_argument('--mt-search', type=int, default=0)
-    parser.add_argument('--search-times', type=int, default=80)
+    parser.add_argument('--search-times', type=int, default=300)
     parser.add_argument('--num-tasks', type=float, default=3)  # 2.1:classification + truncation | 2.2: rerank + truncation
-    parser.add_argument('--rerank-weight', type=float, default=0.5)
-    parser.add_argument('--class-weight', type=float, default=0.8)
+    parser.add_argument('--rerank-weight', type=float, default=0.3)
+    parser.add_argument('--class-weight', type=float, default=0.4)
 
     args = parser.parse_args()
     args.cuda = t.cuda.is_available()
@@ -343,13 +347,14 @@ def main():
         args.class_weight = config.getfloat('{}_conf'.format(args.model_name), 'class_weight')
 
     if args.parameter_search:
-        args.parameter_record = '{}/{}_{}_params.log'.format(RUNNING_PATH, args.model_name, args.dataset_name)
-        task_weight_range = np.logspace(-2, 1, num=50, base=10)
-        weight_decay_range = np.logspace(-3, -1, num=50, base=10)
+        args.parameter_record = '{}/{}_{}_{}_{}_params.log'.format(RUNNING_PATH, args.model_name, args.retrieve_data, args.dataset_name, args.criterion)
+        task_weight_range = np.logspace(-2, 1, num=250, base=10)
+        weight_decay_range = np.logspace(-3, -1, num=250, base=10)
         for i in range(args.search_times):
             if args.regularizer_search:
-                args.dropout = random.uniform(0.1, 0.6)
-                args.weight_decay = random.uniform(0.001, 0.02) if i >= 50 else weight_decay_range[i]
+                args.dropout = random.uniform(0.05, 0.5)
+                # args.weight_decay = random.uniform(0.001, 0.02) if i >= 50 else weight_decay_range[i]
+                args.weight_decay = random.uniform(0.001, 0.02)
             elif args.mt_search:
                 args.rerank_weight = random.uniform(0.01, 10) if i >= 50 else task_weight_range[i]
                 args.class_weight = random.uniform(0.01, 10) if i >= 50 else task_weight_range[i]

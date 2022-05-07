@@ -92,7 +92,7 @@ class MMOECut(torch.nn.Module):
         # get the gates output
         batch_size = experts_in.shape[0]
         gates_o = [self.softmax(experts_in.reshape(batch_size, -1) @ g) for g in self.w_gates]
-        if len(gates_o) == 3: print(gates_o[0][-1], gates_o[1][-1], gates_o[2][-1])
+        # if len(gates_o) == 3: print(gates_o[0][-1], gates_o[1][-1], gates_o[2][-1])
 
         # multiply the output of the experts with the corresponding gates output
         # res = gates_o[0].t().unsqueeze(2).expand(-1, -1, self.experts_out) * expers_o_tensor
